@@ -50,8 +50,20 @@ const Navbar = () => {
       <nav className="fixed top-0 w-full z-50 bg-background/95 backdrop-blur-md border-b border-border">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
-            <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Level Up Store
+            <Link to="/" className="flex items-center gap-3">
+              <img 
+                src="/logo.png" 
+                alt="Level Up Store" 
+                className="h-10 w-10 object-contain"
+                onError={(e) => {
+                  // Fallback to text if image fails to load
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.nextElementSibling.style.display = 'block';
+                }}
+              />
+              <span className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent" style={{display: 'none'}}>
+                Level Up Store
+              </span>
             </Link>
 
             {/* Desktop Menu */}
