@@ -1,4 +1,31 @@
-export const products = [
+export interface Review {
+  id: number;
+  name: string;
+  rating: number;
+  comment: string;
+  date: string;
+  verified: boolean;
+}
+
+export interface Product {
+  id: number;
+  title: string;
+  shortDescription: string;
+  description: string;
+  fullDescription: string;
+  price: number;
+  image: string;
+  category: string;
+  features: string[];
+  pages: string;
+  readingTime: string;
+  rating: number;
+  reviewsCount: number;
+  purchaseCount: number;
+  reviews?: Review[];
+}
+
+export const products: Product[] = [
   {
     id: 1,
     title: "15 فكرة مشروع رقمي مربح",
@@ -32,7 +59,50 @@ export const products = [
     pages: "25 صفحة",
     readingTime: "30 دقيقة",
     rating: 4.8,
-    reviewsCount: 127
+    reviewsCount: 127,
+    purchaseCount: 89,
+    reviews: [
+      {
+        id: 1,
+        name: "سارة أحمد",
+        rating: 5,
+        comment: "كتاب رائع جداً! الأفكار عملية ومجربة. بدأت مشروعي الأول وحققت ربح 800 ريال في الشهر الأول. شكراً لكم!",
+        date: "منذ أسبوع",
+        verified: true
+      },
+      {
+        id: 2,
+        name: "محمد الغامدي",
+        rating: 5,
+        comment: "استثمار ممتاز! المحتوى واضح ومفصل. تعلمت كيف أسوق منتجاتي على انستغرام وتيك توك بطريقة احترافية.",
+        date: "منذ 3 أيام",
+        verified: true
+      },
+      {
+        id: 3,
+        name: "نورا العتيبي",
+        rating: 4,
+        comment: "كتاب مفيد للمبتدئين. الشرح واضح والأمثلة عملية. أنصح به لكل من يريد بدء مشروع رقمي.",
+        date: "منذ 5 أيام",
+        verified: false
+      },
+      {
+        id: 4,
+        name: "عبدالله السعيد",
+        rating: 5,
+        comment: "من أفضل الكتب اللي قريتها في هذا المجال. الأفكار جديدة ومبتكرة. حققت أول 1000 ريال بفضل الكتاب!",
+        date: "منذ أسبوعين",
+        verified: true
+      },
+      {
+        id: 5,
+        name: "ريم الشهري",
+        rating: 5,
+        comment: "كتاب شامل ومفيد جداً. تعلمت كيف أحول مهاراتي في التصميم إلى مصدر دخل. النتائج مذهلة!",
+        date: "منذ 4 أيام",
+        verified: true
+      }
+    ]
   },
   {
     id: 2,
@@ -68,7 +138,42 @@ export const products = [
     pages: "10 صفحات",
     readingTime: "20 دقيقة",
     rating: 4.6,
-    reviewsCount: 89
+    reviewsCount: 89,
+    purchaseCount: 67,
+    reviews: [
+      {
+        id: 1,
+        name: "أحمد الزهراني",
+        rating: 5,
+        comment: "دليل شامل ومفصل! تعلمت كيف أنشئ منتجات رقمية وأسوقها بطريقة احترافية. حققت 1200 ريال في الشهر الثاني!",
+        date: "منذ 6 أيام",
+        verified: true
+      },
+      {
+        id: 2,
+        name: "مريم القحطاني",
+        rating: 4,
+        comment: "كتاب مفيد جداً للمبتدئين. الشرح واضح والخطوات عملية. بدأت أول متجر رقمي لي بفضل هذا الكتاب.",
+        date: "منذ أسبوع",
+        verified: true
+      },
+      {
+        id: 3,
+        name: "فهد العنزي",
+        rating: 5,
+        comment: "من أفضل الاستثمارات اللي عملتها! المحتوى قيم والأمثلة واقعية. أنصح به كل شخص يبي يدخل عالم التجارة الرقمية.",
+        date: "منذ 4 أيام",
+        verified: true
+      },
+      {
+        id: 4,
+        name: "هند الدوسري",
+        rating: 5,
+        comment: "كتاب رائع! تعلمت كيف أحول خبرتي في الطبخ إلى كورسات رقمية. النتائج فاقت توقعاتي بكثير!",
+        date: "منذ 9 أيام",
+        verified: false
+      }
+    ]
   },
   {
     id: 3,
@@ -99,6 +204,33 @@ export const products = [
     pages: "5 صفحات",
     readingTime: "10 دقائق",
     rating: 4.3,
-    reviewsCount: 45
+    reviewsCount: 45,
+    purchaseCount: 34,
+    reviews: [
+      {
+        id: 1,
+        name: "خالد المطيري",
+        rating: 4,
+        comment: "دليل بسيط ومفيد للمبتدئين. ساعدني أفهم الأساسيات قبل ما أشتري الكتب الأكبر. سعر ممتاز مقابل المحتوى!",
+        date: "منذ 3 أيام",
+        verified: true
+      },
+      {
+        id: 2,
+        name: "لينا الحربي",
+        rating: 5,
+        comment: "بداية ممتازة! الكتاب قصير ومركز. فهمت الأساسيات وقررت أشتري الكتاب الكامل. شكراً لكم!",
+        date: "منذ أسبوع",
+        verified: false
+      },
+      {
+        id: 3,
+        name: "عمر الشمري",
+        rating: 4,
+        comment: "كتاب تمهيدي رائع. المعلومات واضحة والسعر مناسب جداً. أنصح به لكل مبتدئ في هذا المجال.",
+        date: "منذ 5 أيام",
+        verified: true
+      }
+    ]
   }
 ];
