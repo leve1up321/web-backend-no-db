@@ -23,6 +23,11 @@ export interface Product {
   reviewsCount: number;
   purchaseCount: number;
   reviews?: Review[];
+  brand?: string;
+  tags?: string[];
+  inStock?: boolean;
+  createdAt?: string;
+  popularity?: number;
 }
 
 export const products: Product[] = [
