@@ -3,22 +3,86 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Users, Eye, ShoppingBag } from 'lucide-react';
 
 const StoreStats = () => {
-  const [stats, setStats] = useState({
-    customers: 350,
-    visitors: 2500,
-    sales: 600
+  // تحميل الأرقام من localStorage أو استخدام القيم الافتراضية
+  const [stats, setStats] = useState(() => {
+    const savedStats = localStorage.getItem('levelup-store-stats');
+    if (savedStats) {
+      return JSON.parse(savedStats);
+    }
+    return {
+      customers: 350,
+      visitors: 2500,
+      sales: 600
+    };
+  });
+
+  const [lastUpdate, setLastUpdate] = useState(() => {
+    const saved = localStorage.getItem('levelup-store-last-update');
+    return saved ? parseInt(saved) : Date.now();
   });
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setStats(prevStats => ({
-        customers: prevStats.customers + Math.floor(Math.random() * 3) + 1, // زيادة 1-3
-        visitors: prevStats.visitors + Math.floor(Math.random() * 5) + 2, // زيادة 2-6
-        sales: prevStats.sales + Math.floor(Math.random() * 2) + 1 // زيادة 1-2
-      }));
-    }, 8000); // كل 8 ثواني
+    // حفظ الإحصائيات في localStorage عند تغييرها
+    localStorage.setItem('levelup-store-stats', JSON.stringify(stats));
+  }, [stats]);
 
-    return () => clearInterval(interval);
+  useEffect(() => {
+    let customersInterval: NodeJS.Timeout;
+    let visitorsInterval: NodeJS.Timeout;
+    let salesInterval: NodeJS.Timeout;
+
+    // زيادة العملاء كل 15-25 ثانية
+    const startCustomersInterval = () => {
+      customersInterval = setInterval(() => {
+        setStats(prevStats => {
+          const newStats = {
+            ...prevStats,
+            customers: prevStats.customers + 1
+          };
+          localStorage.setItem('levelup-store-stats', JSON.stringify(newStats));
+          return newStats;
+        });
+      }, Math.random() * 10000 + 15000); // 15-25 ثانية
+    };
+
+    // زيادة الزوار كل 5-10 ثواني
+    const startVisitorsInterval = () => {
+      visitorsInterval = setInterval(() => {
+        setStats(prevStats => {
+          const newStats = {
+            ...prevStats,
+            visitors: prevStats.visitors + Math.floor(Math.random() * 3) + 1 // زيادة 1-3
+          };
+          localStorage.setItem('levelup-store-stats', JSON.stringify(newStats));
+          return newStats;
+        });
+      }, Math.random() * 5000 + 5000); // 5-10 ثواني
+    };
+
+    // زيادة المبيعات كل 45-90 ثانية (بطيء جداً)
+    const startSalesInterval = () => {
+      salesInterval = setInterval(() => {
+        setStats(prevStats => {
+          const newStats = {
+            ...prevStats,
+            sales: prevStats.sales + 1
+          };
+          localStorage.setItem('levelup-store-stats', JSON.stringify(newStats));
+          return newStats;
+        });
+      }, Math.random() * 45000 + 45000); // 45-90 ثانية
+    };
+
+    // بدء التحديثات بتأخيرات مختلفة
+    setTimeout(startCustomersInterval, 5000); // يبدأ بعد 5 ثواني
+    setTimeout(startVisitorsInterval, 2000); // يبدأ بعد ثانيتين
+    setTimeout(startSalesInterval, 30000); // يبدأ بعد 30 ثانية
+
+    return () => {
+      clearInterval(customersInterval);
+      clearInterval(visitorsInterval);
+      clearInterval(salesInterval);
+    };
   }, []);
 
   const statsData = [
