@@ -9,28 +9,64 @@ const Reviews = () => {
 
   const reviews = [
     {
-      name: language === 'ar' ? 'أحمد محمد' : 'Ahmed Mohammed',
+      name: 'عبدالله الحربي',
       rating: 5,
-      comment: language === 'ar' 
-        ? 'منتجات رائعة وعملية! استفدت كثيراً من الأفكار المطروحة وبدأت مشروعي الأول بنجاح. شكراً لفريق لفل اب!'
-        : 'Great and practical products! I benefited a lot from the ideas presented and started my first project successfully. Thanks to the Level Up team!',
-      date: language === 'ar' ? 'منذ أسبوعين' : '2 weeks ago'
+      comment: 'كنت دايم أقول "المنتجات الرقمية مو لي"، بس بعد ما جربت الطريقة اللي بشرحها الكتاب فهمت السالفة، وبديت فعلاً أشتغل على أول منتج لي.',
+      date: 'منذ أسبوعين'
     },
     {
-      name: language === 'ar' ? 'فاطمة العلي' : 'Fatima Al Ali',
+      name: 'نورة الشهراني',
       rating: 5,
-      comment: language === 'ar'
-        ? 'كتب مفيدة جداً ومكتوبة بطريقة سهلة ومفهومة. الأفكار عملية ويمكن تطبيقها فوراً. أنصح بها بشدة!'
-        : 'Very useful books written in an easy and understandable way. The ideas are practical and can be applied immediately. Highly recommend!',
-      date: language === 'ar' ? 'منذ 3 أيام' : '3 days ago'
+      comment: 'أول مرة أشتري كتاب أونلاين وأطبّق منه فعليًا! الشرح بسيط كأنك تتعلم من أخوك الكبير اللي فاهم السوق.',
+      date: 'منذ 3 أيام'
     },
     {
-      name: language === 'ar' ? 'خالد السعيد' : 'Khaled Al Saeed',
+      name: 'فهد الغامدي',
       rating: 5,
-      comment: language === 'ar'
-        ? 'استثمار ممتاز! المحتوى قيم والأسعار معقولة. حققت أول ربح لي من الإنترنت بفضل هذه الكتب.'
-        : 'Excellent investment! Valuable content and reasonable prices. I made my first online profit thanks to these books.',
-      date: language === 'ar' ? 'منذ 5 أيام' : '5 days ago'
+      comment: 'ما راح أكذب، بالبداية شكّيت، بس والله المعلومات اللي فيه تستاهل كل ريال، فيها تفاصيل ما تحصلها في اليوتيوب أبد.',
+      date: 'منذ 5 أيام'
+    },
+    {
+      name: 'ريم القحطاني',
+      rating: 5,
+      comment: 'ما توقعت أستفيد لهالدرجة، صرت أعرف أبيع قوالب رقمية وسويتها فعلاً وبدأت أبيع كم نسخة.',
+      date: 'منذ أسبوع'
+    },
+    {
+      name: 'خالد الزهراني',
+      rating: 5,
+      comment: 'حبيت إن المحتوى مرتب، مو حوسة. كل شي خطوة بخطوة ومو معقد، حتى للي ما عنده خبرة.',
+      date: 'منذ 4 أيام'
+    },
+    {
+      name: 'مشاعل المطيري',
+      rating: 5,
+      comment: 'أكثر شي أعجبني إن كل فكرة قابلة للتطبيق، مو بس كلام تحفيزي فاضي، فعلاً تقدر تبدأ.',
+      date: 'منذ 6 أيام'
+    },
+    {
+      name: 'راكان العنزي',
+      rating: 5,
+      comment: 'كنت أحوس بين أفكار كثيرة، والكتاب هذا خلاني أحدد وش يناسبني فعلاً، اختصرت وقتي شهور.',
+      date: 'منذ 10 أيام'
+    },
+    {
+      name: 'دلال الدوسري',
+      rating: 5,
+      comment: 'حسّيت إنه يكلمني بلغة أفهمها، مو مصطلحات معقدة، حبيت الأسلوب مرة.',
+      date: 'منذ أسبوع'
+    },
+    {
+      name: 'ماجد اليامي',
+      rating: 5,
+      comment: 'من جد، هذا أول منتج رقمي أشتريه وأحس إني استفدت منه للآخر. كل صفحة فيها شي تطبقه.',
+      date: 'منذ 3 أيام'
+    },
+    {
+      name: 'لطيفة الهاجري',
+      rating: 5,
+      comment: 'كنت محتارة من وين أبدأ، الحين عندي فكرة واضحة وشكل ببدأ مشروعي خلال الأسبوع الجاي.',
+      date: 'منذ يومين'
     }
   ];
 
@@ -72,7 +108,7 @@ const Reviews = () => {
             </span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            {language === 'ar' ? 'ماذا يقول عملاؤنا' : 'What Our Customers Say'}
+            أكثر من 300 شخص جرّبوا الدليل وبدأوا مشاريعهم الرقمية 💡
           </p>
         </div>
 
