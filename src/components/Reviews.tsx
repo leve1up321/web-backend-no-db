@@ -1,9 +1,11 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Star } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 const Reviews = () => {
   const { t, language } = useLanguage();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const reviews = [
     {
@@ -32,6 +34,34 @@ const Reviews = () => {
     }
   ];
 
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    let scrollInterval: NodeJS.Timeout;
+    
+    const startAutoScroll = () => {
+      scrollInterval = setInterval(() => {
+        if (scrollContainer) {
+          const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+          const currentScroll = scrollContainer.scrollLeft;
+          
+          if (currentScroll >= maxScroll) {
+            scrollContainer.scrollTo({ left: 0, behavior: 'smooth' });
+          } else {
+            scrollContainer.scrollBy({ left: scrollContainer.clientWidth, behavior: 'smooth' });
+          }
+        }
+      }, 5000);
+    };
+
+    startAutoScroll();
+
+    return () => {
+      if (scrollInterval) clearInterval(scrollInterval);
+    };
+  }, []);
+
   return (
     <section id="reviews" className="py-20 px-4 bg-background/50">
       <div className="container mx-auto">
@@ -46,16 +76,23 @@ const Reviews = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {reviews.map((review, index) => (
-            <Card key={index} className="bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
+        <div 
+          ref={scrollRef}
+          className="flex gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory max-w-6xl mx-auto"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {[...reviews, ...reviews].map((review, index) => (
+            <Card 
+              key={index} 
+              className="min-w-[300px] md:min-w-[350px] snap-center bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20"
+            >
               <CardContent className="p-6">
                 <div className="flex items-center gap-1 mb-4">
                   {[...Array(review.rating)].map((_, i) => (
                     <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-foreground mb-4 leading-relaxed">
+                <p className="text-foreground mb-4 leading-relaxed min-h-[100px]">
                   "{review.comment}"
                 </p>
                 <div className="flex items-center justify-between">

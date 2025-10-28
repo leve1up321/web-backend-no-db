@@ -3,6 +3,7 @@ import { useCart } from '@/contexts/CartContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 import {
   Dialog,
   DialogContent,
@@ -18,7 +19,44 @@ interface CartModalProps {
 const CartModal = ({ isOpen, onClose }: CartModalProps) => {
   const { cart, removeFromCart, getCartTotal } = useCart();
   const { formatPrice } = useCurrency();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { toast } = useToast();
+
+  const handleCheckout = () => {
+    if (cart.length === 0) {
+      toast({
+        title: t('emptyCart'),
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Create order summary
+    const orderSummary = cart.map(item => 
+      `${item.title} x${item.quantity} - ${formatPrice(item.price * item.quantity)}`
+    ).join('\n');
+    
+    const totalAmount = getCartTotal();
+    const message = language === 'ar' 
+      ? `مرحباً! أريد شراء المنتجات التالية:\n\n${orderSummary}\n\nالمجموع الكلي: ${formatPrice(totalAmount)}`
+      : `Hello! I want to purchase the following products:\n\n${orderSummary}\n\nTotal: ${formatPrice(totalAmount)}`;
+    
+    // WhatsApp link
+    const whatsappNumber = '971503492848';
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    
+    toast({
+      title: language === 'ar' ? 'جاري تحويلك للواتساب...' : 'Redirecting to WhatsApp...',
+    });
+    
+    // Open WhatsApp in new tab
+    window.open(whatsappUrl, '_blank');
+    
+    // Close modal after a short delay
+    setTimeout(() => {
+      onClose();
+    }, 1000);
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -68,7 +106,11 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
                   {formatPrice(getCartTotal())}
                 </span>
               </div>
-              <Button className="w-full" size="lg">
+              <Button 
+                className="w-full" 
+                size="lg"
+                onClick={handleCheckout}
+              >
                 {t('checkout')}
               </Button>
             </div>

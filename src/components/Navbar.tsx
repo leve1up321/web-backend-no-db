@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingCart, Globe, DollarSign, Menu, X } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
@@ -21,6 +21,21 @@ const Navbar = () => {
   const { getCartCount } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = (href: string) => {
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.querySelector(href);
+        element?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      const element = document.querySelector(href);
+      element?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const navLinks = [
     { href: '#home', label: t('home') },
@@ -42,13 +57,13 @@ const Navbar = () => {
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
-                <a
+                <button
                   key={link.href}
-                  href={link.href}
-                  className="text-foreground/80 hover:text-primary transition-colors"
+                  onClick={() => handleNavClick(link.href)}
+                  className="text-foreground hover:text-primary transition-colors cursor-pointer"
                 >
                   {link.label}
-                </a>
+                </button>
               ))}
             </div>
 
@@ -110,14 +125,16 @@ const Navbar = () => {
                 <SheetContent>
                   <div className="flex flex-col gap-4 mt-8">
                     {navLinks.map((link) => (
-                      <a
+                      <button
                         key={link.href}
-                        href={link.href}
-                        className="text-lg hover:text-primary transition-colors"
-                        onClick={() => setIsMobileMenuOpen(false)}
+                        onClick={() => {
+                          handleNavClick(link.href);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="text-lg hover:text-primary transition-colors text-left"
                       >
                         {link.label}
-                      </a>
+                      </button>
                     ))}
                   </div>
                 </SheetContent>
