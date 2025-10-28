@@ -52,7 +52,7 @@ const Reviews = () => {
             scrollContainer.scrollBy({ left: scrollContainer.clientWidth, behavior: 'smooth' });
           }
         }
-      }, 5000);
+      }, 3000);
     };
 
     startAutoScroll();

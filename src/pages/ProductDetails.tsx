@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ShoppingCart, Star, CheckCircle } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Star, CheckCircle, Shield } from 'lucide-react';
 import { products } from '@/data/products';
 import { useCart } from '@/contexts/CartContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
@@ -138,6 +138,54 @@ const ProductDetails = () => {
               </CardContent>
             </Card>
           </div>
+
+          {/* Product Reviews */}
+          {product.reviews && product.reviews.length > 0 && (
+            <div className="mt-12">
+              <Card className="bg-card/50">
+                <CardContent className="p-8">
+                  <h2 className="text-3xl font-bold mb-6">
+                    تقييمات العملاء ({product.reviews.length})
+                  </h2>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {product.reviews.map((review) => (
+                      <Card key={review.id} className="bg-background/50 border-primary/20">
+                        <CardContent className="p-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold text-primary">{review.name}</span>
+                              {review.verified && (
+                                <Shield className="h-4 w-4 text-green-500" title="مشترٍ موثق" />
+                              )}
+                            </div>
+                            <span className="text-sm text-muted-foreground">{review.date}</span>
+                          </div>
+                          
+                          <div className="flex items-center gap-1 mb-3">
+                            {[...Array(5)].map((_, i) => (
+                              <Star 
+                                key={i} 
+                                className={`h-4 w-4 ${
+                                  i < review.rating 
+                                    ? 'fill-yellow-400 text-yellow-400' 
+                                    : 'text-gray-300'
+                                }`} 
+                              />
+                            ))}
+                          </div>
+                          
+                          <p className="text-foreground leading-relaxed">
+                            "{review.comment}"
+                          </p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
       </main>
 
