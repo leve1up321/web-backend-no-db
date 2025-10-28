@@ -1,7 +1,8 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ShoppingCart, Star, CheckCircle, Shield } from 'lucide-react';
+import { ArrowLeft, ShoppingCart, Star, CheckCircle, Shield, Heart, Users } from 'lucide-react';
 import { products } from '@/data/products';
 import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
@@ -14,6 +15,7 @@ const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { formatPrice } = useCurrency();
   const { t } = useLanguage();
 
@@ -34,6 +36,14 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     addToCart(product);
+  };
+
+  const handleWishlistToggle = () => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
   };
 
   return (
@@ -75,6 +85,10 @@ const ProductDetails = () => {
                   <span className="text-muted-foreground">
                     ({product.reviewsCount} {t('reviews')})
                   </span>
+                  <div className="flex items-center gap-1 text-muted-foreground">
+                    <Users className="h-4 w-4" />
+                    <span className="text-sm">{product.purchaseCount} مشترٍ</span>
+                  </div>
                 </div>
 
                 <p className="text-lg text-muted-foreground leading-relaxed">
@@ -89,14 +103,30 @@ const ProductDetails = () => {
               </div>
 
               <div className="space-y-3">
-                <Button
-                  size="lg"
-                  className="w-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-lg py-6"
-                  onClick={handleAddToCart}
-                >
-                  <ShoppingCart className="h-5 w-5 mr-2" />
-                  {t('addToCart')}
-                </Button>
+                <div className="flex gap-3">
+                  <Button
+                    size="lg"
+                    className="flex-1 bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-lg py-6"
+                    onClick={handleAddToCart}
+                  >
+                    <ShoppingCart className="h-5 w-5 mr-2" />
+                    {t('addToCart')}
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="px-6 py-6 border-primary/50 hover:bg-primary/10"
+                    onClick={handleWishlistToggle}
+                  >
+                    <Heart 
+                      className={`h-5 w-5 ${
+                        isInWishlist(product.id) 
+                          ? 'fill-red-500 text-red-500' 
+                          : 'text-muted-foreground'
+                      }`} 
+                    />
+                  </Button>
+                </div>
               </div>
 
               {/* Features */}
@@ -186,6 +216,60 @@ const ProductDetails = () => {
               </Card>
             </div>
           )}
+
+          {/* Similar Products */}
+          <div className="mt-12">
+            <Card className="bg-card/50">
+              <CardContent className="p-8">
+                <h2 className="text-3xl font-bold mb-6">
+                  منتجات مشابهة
+                </h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {products
+                    .filter(p => p.id !== product.id)
+                    .slice(0, 2)
+                    .map((similarProduct) => (
+                      <Card key={similarProduct.id} className="bg-background/50 border-primary/20 hover:border-primary/50 transition-all duration-300 hover:scale-105">
+                        <CardContent className="p-6">
+                          <div className="flex gap-4">
+                            <img
+                              src={similarProduct.image}
+                              alt={similarProduct.title}
+                              className="w-20 h-20 rounded-lg object-cover"
+                            />
+                            <div className="flex-1">
+                              <h3 className="font-bold text-lg mb-2 line-clamp-2">
+                                {similarProduct.title}
+                              </h3>
+                              <div className="flex items-center gap-2 mb-2">
+                                <div className="flex items-center gap-1">
+                                  <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                                  <span className="text-sm font-semibold">{similarProduct.rating}</span>
+                                </div>
+                                <span className="text-sm text-muted-foreground">
+                                  ({similarProduct.reviewsCount})
+                                </span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="text-xl font-bold text-primary">
+                                  {formatPrice(similarProduct.price)}
+                                </span>
+                                <Link to={`/product/${similarProduct.id}`}>
+                                  <Button size="sm" variant="outline">
+                                    عرض التفاصيل
+                                  </Button>
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </main>
 

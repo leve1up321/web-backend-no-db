@@ -1,6 +1,7 @@
-import { ShoppingCart, Star } from 'lucide-react';
+import { ShoppingCart, Star, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useCart, type Product } from '@/contexts/CartContext';
+import { useCart } from '@/contexts/CartContext';
+import { type Product } from '@/data/products';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
@@ -50,6 +51,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <span className="text-muted-foreground">
             ({product.reviewsCount} {t('reviews')})
           </span>
+        </div>
+        
+        <div className="flex items-center gap-1 text-sm text-muted-foreground">
+          <Users className="h-4 w-4" />
+          <span>{product.purchaseCount} مشترٍ</span>
         </div>
       </CardContent>
       

@@ -21,6 +21,7 @@ export interface Product {
   readingTime: string;
   rating: number;
   reviewsCount: number;
+  purchaseCount: number;
   reviews?: Review[];
 }
 
@@ -59,6 +60,7 @@ export const products: Product[] = [
     readingTime: "30 دقيقة",
     rating: 4.8,
     reviewsCount: 127,
+    purchaseCount: 89,
     reviews: [
       {
         id: 1,
@@ -137,6 +139,7 @@ export const products: Product[] = [
     readingTime: "20 دقيقة",
     rating: 4.6,
     reviewsCount: 89,
+    purchaseCount: 67,
     reviews: [
       {
         id: 1,
@@ -202,6 +205,7 @@ export const products: Product[] = [
     readingTime: "10 دقائق",
     rating: 4.3,
     reviewsCount: 45,
+    purchaseCount: 34,
     reviews: [
       {
         id: 1,
