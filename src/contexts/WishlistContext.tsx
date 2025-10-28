@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product } from '@/data/products';
 
 interface WishlistContextType {
@@ -24,7 +24,22 @@ interface WishlistProviderProps {
 }
 
 export const WishlistProvider: React.FC<WishlistProviderProps> = ({ children }) => {
-  const [wishlist, setWishlist] = useState<Product[]>([]);
+  const [wishlist, setWishlist] = useState<Product[]>(() => {
+    try {
+      const saved = localStorage.getItem('levelup-wishlist');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('levelup-wishlist', JSON.stringify(wishlist));
+    } catch (error) {
+      console.warn('Failed to save wishlist to localStorage:', error);
+    }
+  }, [wishlist]);
 
   const addToWishlist = (product: Product) => {
     setWishlist(prev => {
