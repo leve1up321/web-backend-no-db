@@ -4,6 +4,8 @@ import { useCurrency } from '@/contexts/CurrencyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { Separator } from '@/components/ui/separator';
+import ZiinaPayment from '@/components/ZiinaPayment';
 import {
   Dialog,
   DialogContent,
@@ -106,13 +108,36 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
                   {formatPrice(getCartTotal())}
                 </span>
               </div>
-              <Button 
-                className="w-full" 
-                size="lg"
-                onClick={handleCheckout}
-              >
-                {t('checkout')}
-              </Button>
+              
+              <div className="space-y-3">
+                {/* Ziina Payment Button */}
+                <ZiinaPayment 
+                  onSuccess={() => {
+                    setTimeout(() => onClose(), 1000);
+                  }}
+                />
+                
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <Separator className="w-full" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">
+                      {language === 'ar' ? 'أو' : 'or'}
+                    </span>
+                  </div>
+                </div>
+                
+                {/* WhatsApp Payment Button */}
+                <Button 
+                  variant="outline"
+                  className="w-full" 
+                  size="lg"
+                  onClick={handleCheckout}
+                >
+                  {t('checkout')} (WhatsApp)
+                </Button>
+              </div>
             </div>
           </>
         )}

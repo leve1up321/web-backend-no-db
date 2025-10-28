@@ -5,6 +5,7 @@ import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { sanitizeHtml } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -163,7 +164,7 @@ const ProductDetails = () => {
                 </h2>
                 <div
                   className="prose prose-invert max-w-none"
-                  dangerouslySetInnerHTML={{ __html: product.fullDescription }}
+                  dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.fullDescription) }}
                 />
               </CardContent>
             </Card>
