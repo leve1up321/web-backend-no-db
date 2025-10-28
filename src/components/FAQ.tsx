@@ -11,37 +11,45 @@ const FAQ = () => {
 
   const faqs = language === 'ar' ? [
     {
-      question: 'ما هي المنتجات الرقمية؟',
-      answer: 'المنتجات الرقمية هي منتجات يمكن تحميلها أو الوصول إليها عبر الإنترنت، مثل الكتب الإلكترونية، القوالب، الدورات التعليمية، والأدوات البرمجية.'
+      question: "كيف يمكنني شراء المنتجات؟",
+      answer: "يمكنك إضافة المنتجات لسلة التسوق والضغط على 'إتمام الشراء'. ستتم إعادة توجيهك لصفحة الدفع الآمنة."
     },
     {
-      question: 'كيف أستلم المنتج بعد الشراء؟',
-      answer: 'بعد إتمام عملية الدفع، ستتلقى رابط تحميل فوري عبر البريد الإلكتروني يمكنك من خلاله تحميل منتجك مباشرة.'
+      question: "كيف أحصل على المنتج بعد الشراء؟",
+      answer: "بعد إتمام عملية الدفع، ستحصل على رابط التحميل المباشر عبر البريد الإلكتروني فوراً."
     },
     {
-      question: 'هل يمكنني استرجاع المال؟',
-      answer: 'نعم، نوفر ضمان استرجاع المال خلال 30 يوماً إذا لم تكن راضياً عن المنتج.'
+      question: "هل المنتجات مضمونة الجودة؟",
+      answer: "نعم، جميع منتجاتنا مجربة ومختبرة. نقدم ضمان استرداد الأموال خلال 7 أيام إذا لم تكن راضياً."
     },
     {
-      question: 'هل المنتجات متوفرة بعدة لغات؟',
-      answer: 'نعم، معظم منتجاتنا متوفرة باللغة العربية والإنجليزية.'
+      question: "هل يوجد دعم فني؟",
+      answer: "نعم، فريق الدعم متاح 24/7 عبر واتساب والبريد الإلكتروني لمساعدتك في أي استفسار."
+    },
+    {
+      question: "هل يمكنني الدفع بعملات مختلفة؟",
+      answer: "نعم، الموقع يدعم 5 عملات مختلفة مع تحويل الأسعار تلقائياً."
     }
   ] : [
     {
-      question: 'What are digital products?',
-      answer: 'Digital products are products that can be downloaded or accessed online, such as e-books, templates, courses, and software tools.'
+      question: "How can I purchase products?",
+      answer: "You can add products to the cart and click 'Checkout'. You will be redirected to a secure payment page."
     },
     {
-      question: 'How do I receive the product after purchase?',
-      answer: 'After completing the payment, you will receive an instant download link via email to download your product directly.'
+      question: "How do I receive the product after purchase?",
+      answer: "After completing the payment, you will receive the download link directly via email immediately."
     },
     {
-      question: 'Can I get a refund?',
-      answer: 'Yes, we offer a 30-day money-back guarantee if you are not satisfied with the product.'
+      question: "Are the products guaranteed quality?",
+      answer: "Yes, all our products are tested and verified. We offer a 7-day money-back guarantee if you're not satisfied."
     },
     {
-      question: 'Are products available in multiple languages?',
-      answer: 'Yes, most of our products are available in Arabic and English.'
+      question: "Is there technical support?",
+      answer: "Yes, our support team is available 24/7 via WhatsApp and email to help you with any inquiries."
+    },
+    {
+      question: "Can I pay in different currencies?",
+      answer: "Yes, the site supports 5 different currencies with automatic price conversion."
     }
   ];
 
