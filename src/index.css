@@ -8,15 +8,15 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* الخلفية الأساسية - بنفسجي غامق مائل للأسود */
-    --background: 258 65% 9%;
+    /* الخلفية الأساسية - أسود غامق مثل الموقع المرجعي */
+    --background: 0 0% 4%;
     --foreground: 0 0% 100%;
 
-    /* البطاقات - لون فاتح */
-    --card: 258 50% 15%;
+    /* البطاقات - رمادي غامق */
+    --card: 0 0% 8%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 258 50% 15%;
+    --popover: 0 0% 8%;
     --popover-foreground: 0 0% 100%;
 
     /* الأزرار - تدرج من بنفسجي إلى أزرق فاتح */
@@ -27,8 +27,8 @@ All colors MUST be HSL.
     --secondary-foreground: 0 0% 100%;
 
     /* النصوص والعناصر المساعدة */
-    --muted: 258 40% 20%;
-    --muted-foreground: 258 20% 78%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 70%;
 
     --accent: 270 100% 55%;
     --accent-foreground: 0 0% 100%;
@@ -36,13 +36,13 @@ All colors MUST be HSL.
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 258 30% 25%;
-    --input: 258 30% 25%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
     --ring: 270 100% 55%;
 
     --radius: 1rem;
 
-    --sidebar-background: 258 50% 15%;
+    --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 0 0% 100%;
     --sidebar-primary: 270 100% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
