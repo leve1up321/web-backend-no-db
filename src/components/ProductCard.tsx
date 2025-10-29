@@ -7,6 +7,7 @@ import { useWishlist } from '@/contexts/WishlistContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import InteractiveRating from '@/components/InteractiveRating';
 import BuyNowButton from '@/components/BuyNowButton';
 
 interface ProductCardProps {
@@ -71,10 +72,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </p>
         
         <div className="flex items-center gap-2 text-sm">
-          <div className="flex items-center gap-1">
-            <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-            <span className="font-semibold">{product.rating}</span>
-          </div>
+          <InteractiveRating
+            initialRating={product.rating}
+            readonly={false}
+            size="sm"
+            showValue={false}
+            onRatingChange={(newRating) => {
+              console.log(`Product rating changed to: ${newRating} for ${product.title}`);
+            }}
+          />
           <span className="text-muted-foreground">
             ({product.reviewsCount} {t('reviews')})
           </span>
