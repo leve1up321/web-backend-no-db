@@ -8,89 +8,99 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 262 50% 8%;
+    --background: 0 0% 5%;
     --foreground: 0 0% 100%;
 
-    --card: 262 45% 12%;
+    --card: 0 0% 8%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 262 45% 12%;
+    --popover: 0 0% 8%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 262 83% 58%;
+    --primary: 270 100% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 270 67% 67%;
+    --secondary: 204 100% 50%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 262 30% 20%;
-    --muted-foreground: 262 67% 85%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 262 83% 58%;
+    --accent: 270 100% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 262 30% 25%;
-    --input: 262 30% 25%;
-    --ring: 262 83% 58%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 270 100% 50%;
 
     --radius: 1rem;
 
-    --sidebar-background: 0 0% 98%;
+    --sidebar-background: 0 0% 8%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-foreground: 0 0% 100%;
 
-    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary: 270 100% 50%;
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-primary-foreground: 0 0% 100%;
 
-    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent: 0 0% 15%;
 
-    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-accent-foreground: 0 0% 100%;
 
-    --sidebar-border: 220 13% 91%;
+    --sidebar-border: 0 0% 20%;
 
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 270 100% 50%;
+
+    /* Custom shadow variables */
+    --shadow-neon: 0 0 20px rgba(126, 0, 255, 0.3), 0 0 40px rgba(126, 0, 255, 0.2), 0 0 60px rgba(0, 150, 255, 0.1);
+    --shadow-primary: 0 4px 20px rgba(126, 0, 255, 0.4);
+    --shadow-secondary: 0 4px 20px rgba(0, 150, 255, 0.4);
   }
 
   .dark {
-    --background: 262 50% 8%;
+    --background: 0 0% 3%;
     --foreground: 0 0% 100%;
 
-    --card: 262 45% 12%;
+    --card: 0 0% 6%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 262 45% 12%;
+    --popover: 0 0% 6%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 262 83% 58%;
+    --primary: 270 100% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 270 67% 67%;
+    --secondary: 204 100% 50%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 262 30% 20%;
-    --muted-foreground: 262 67% 85%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 262 83% 58%;
+    --accent: 270 100% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 262 30% 20%;
-    --input: 262 30% 20%;
-    --ring: 262 83% 58%;
-    --sidebar-background: 262 45% 12%;
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: 270 100% 50%;
+    --sidebar-background: 0 0% 6%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 262 83% 58%;
+    --sidebar-primary: 270 100% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 262 30% 25%;
+    --sidebar-accent: 0 0% 12%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 262 30% 25%;
-    --sidebar-ring: 262 83% 58%;
+    --sidebar-border: 0 0% 18%;
+    --sidebar-ring: 270 100% 50%;
+
+    /* Custom shadow variables */
+    --shadow-neon: 0 0 20px rgba(126, 0, 255, 0.4), 0 0 40px rgba(126, 0, 255, 0.3), 0 0 60px rgba(0, 150, 255, 0.2);
+    --shadow-primary: 0 4px 20px rgba(126, 0, 255, 0.5);
+    --shadow-secondary: 0 4px 20px rgba(0, 150, 255, 0.5);
   }
 }
 
@@ -103,8 +113,8 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
     font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background-image: 
-      linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+      linear-gradient(rgba(126, 0, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 150, 255, 0.05) 1px, transparent 1px);
     background-size: 50px 50px;
     background-position: center center;
   }
@@ -125,9 +135,9 @@ All colors MUST be HSL.
 
 /* Neon Glow Effects */
 .neon-glow {
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5),
-              0 0 40px rgba(139, 92, 246, 0.3),
-              0 0 60px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 0 20px rgba(126, 0, 255, 0.6),
+              0 0 40px rgba(126, 0, 255, 0.4),
+              0 0 60px rgba(0, 150, 255, 0.3);
 }
 
 /* Gradient Text Animation */
@@ -141,7 +151,43 @@ All colors MUST be HSL.
 }
 
 .gradient-text {
-  background: linear-gradient(90deg, #8b5cf6, #ec4899, #8b5cf6);
+  background: linear-gradient(90deg, #7e00ff, #0096ff, #7e00ff);
   background-size: 200% auto;
   animation: gradient-shift 3s ease infinite;
+}
+
+/* Additional Gradient Classes */
+.gradient-bg {
+  background: linear-gradient(135deg, rgba(126, 0, 255, 0.1), rgba(0, 150, 255, 0.1));
+}
+
+.gradient-border {
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, #7e00ff, #0096ff) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.gradient-button {
+  background: linear-gradient(135deg, #7e00ff, #0096ff);
+  transition: all 0.3s ease;
+}
+
+.gradient-button:hover {
+  background: linear-gradient(135deg, #9d1aff, #1aa6ff);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(126, 0, 255, 0.3);
+}
+
+.gradient-card {
+  background: linear-gradient(135deg, rgba(126, 0, 255, 0.05), rgba(0, 150, 255, 0.05));
+  border: 1px solid rgba(126, 0, 255, 0.2);
+}
+
+.gradient-card:hover {
+  background: linear-gradient(135deg, rgba(126, 0, 255, 0.1), rgba(0, 150, 255, 0.1));
+  border: 1px solid rgba(126, 0, 255, 0.4);
+  box-shadow: 0 0 30px rgba(126, 0, 255, 0.2);
 }
