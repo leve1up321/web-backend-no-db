@@ -11,17 +11,22 @@ const Footer = () => {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <img 
-                src="/logo.png" 
-                alt="Level Up Store" 
-                className="h-12 w-12 object-contain"
+                src="/logo.svg" 
+                alt="لفل اب ستور - Level Up Store" 
+                className="h-12 object-contain"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
-                  e.currentTarget.nextElementSibling.style.display = 'block';
+                  e.currentTarget.nextElementSibling.style.display = 'flex';
                 }}
               />
-              <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent" style={{display: 'none'}}>
-                Level Up Store
-              </h3>
+              <div className="flex flex-col" style={{display: 'none'}}>
+                <h3 className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  لفل اب ستور
+                </h3>
+                <span className="text-sm text-muted-foreground -mt-1">
+                  Level Up Store
+                </span>
+              </div>
             </div>
             <p className="text-muted-foreground">
               {t('companyDescription')}
@@ -105,7 +110,7 @@ const Footer = () => {
         
         <div className="text-center pt-8 border-t border-border">
           <p className="text-muted-foreground">
-            © {currentYear} Level Up Store. {t('allRightsReserved')}
+            © {currentYear} لفل اب ستور - Level Up Store. {t('allRightsReserved')}
           </p>
         </div>
       </div>
