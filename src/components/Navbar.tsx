@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { ShoppingCart, Globe, DollarSign, Menu, X } from 'lucide-react';
+import { ShoppingCart, Globe, DollarSign, Menu, X, Heart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useCart } from '@/contexts/CartContext';
+import { useWishlist } from '@/contexts/WishlistContext';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -19,6 +20,7 @@ const Navbar = () => {
   const { language, setLanguage, t } = useLanguage();
   const { currency, setCurrency } = useCurrency();
   const { getCartCount } = useCart();
+  const { wishlist } = useWishlist();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -111,6 +113,22 @@ const Navbar = () => {
                   <DropdownMenuItem onClick={() => setCurrency('EGP')}>جنيه مصري</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+
+              {/* Wishlist */}
+              <Link to="/wishlist">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="relative"
+                >
+                  <Heart className="h-5 w-5" />
+                  {wishlist.length > 0 && (
+                    <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-red-500">
+                      {wishlist.length}
+                    </Badge>
+                  )}
+                </Button>
+              </Link>
 
               {/* Cart */}
               <Button
