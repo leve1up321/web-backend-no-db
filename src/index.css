@@ -19,11 +19,11 @@ All colors MUST be HSL.
     --popover: 258 50% 15%;
     --popover-foreground: 0 0% 100%;
 
-    /* الأزرار - تدرج من بنفسجي إلى توركواز */
+    /* الأزرار - تدرج من بنفسجي إلى أزرق فاتح */
     --primary: 270 100% 55%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 174 100% 50%;
+    --secondary: 200 100% 60%;
     --secondary-foreground: 0 0% 100%;
 
     /* النصوص والعناصر المساعدة */
