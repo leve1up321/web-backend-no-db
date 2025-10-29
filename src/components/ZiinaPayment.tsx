@@ -1,120 +1,128 @@
 import React, { useState } from 'react';
-import { CreditCard, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/hooks/use-toast';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { useCurrency } from '@/contexts/CurrencyContext';
 import { useCart } from '@/contexts/CartContext';
-import { ziinaPayment, type ZiinaPaymentItem } from '@/lib/ziina';
+import { useCurrency } from '@/contexts/CurrencyContext';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { createZiinaPayment, ZiinaPaymentItem } from '@/lib/ziina';
+import { CreditCard } from 'lucide-react';
 
-interface ZiinaPaymentProps {
-  onSuccess?: () => void;
-  onError?: (error: string) => void;
-}
-
-const ZiinaPayment: React.FC<ZiinaPaymentProps> = ({ onSuccess, onError }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const { cart, getCartTotal, clearCart } = useCart();
+const ZiinaPayment: React.FC = () => {
+  const { cart, getTotalPrice } = useCart();
   const { currency } = useCurrency();
-  const { t, language } = useLanguage();
-  const { toast } = useToast();
+  const { language, t } = useLanguage();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleZiinaPayment = async () => {
+    console.log('Ziina payment button clicked');
+    console.log('Current currency:', currency);
+    console.log('Cart items:', cart);
+    
     if (cart.length === 0) {
-      toast({
-        title: t('emptyCart'),
-        variant: "destructive"
-      });
-      return;
-    }
-
-    // Check if currency is supported by Ziina
-    if (!['AED', 'SAR'].includes(currency.code)) {
-      toast({
-        title: language === 'ar' ? 'عملة غير مدعومة' : 'Unsupported Currency',
-        description: language === 'ar' 
-          ? 'Ziina يدعم فقط الدرهم الإماراتي والريال السعودي' 
-          : 'Ziina only supports AED and SAR currencies',
-        variant: "destructive"
-      });
+      setError(language === 'ar' ? 'السلة فارغة' : 'Cart is empty');
       return;
     }
 
     setIsLoading(true);
+    setError(null);
 
     try {
-      // Prepare payment items
+      // Convert cart items to Ziina format
       const items: ZiinaPaymentItem[] = cart.map(item => ({
-        name: item.title,
+        name: item.name,
         quantity: item.quantity,
-        unit_amount: item.price * currency.rate, // Convert to selected currency
+        unit_amount: Math.round(item.price * 100), // Convert to cents
       }));
 
-      const totalAmount = getCartTotal();
+      console.log('Payment items:', items);
 
-      // Create payment link
-      const paymentResponse = await ziinaPayment.createPaymentLink({
-        amount: totalAmount,
-        currency: currency.code as 'AED' | 'SAR',
-        items,
-        success_url: `${window.location.origin}?payment=success`,
-        cancel_url: `${window.location.origin}?payment=cancelled`,
-      });
+      const totalAmount = Math.round(getTotalPrice() * 100); // Convert to cents
+      console.log('Total amount:', totalAmount);
 
-      // Show success message
-      toast({
-        title: language === 'ar' ? 'جاري تحويلك لصفحة الدفع...' : 'Redirecting to payment page...',
-        description: language === 'ar' ? 'سيتم فتح صفحة Ziina للدفع' : 'Ziina payment page will open',
-      });
+      // Determine payment currency - Ziina supports SAR and AED primarily
+      let paymentCurrency = currency;
+      let convertedAmount = totalAmount;
 
-      // Store payment info for later verification
-      localStorage.setItem('ziina_payment_id', paymentResponse.id);
-      localStorage.setItem('ziina_cart_backup', JSON.stringify(cart));
+      // Handle currency conversion for unsupported currencies
+      if (!['SAR', 'AED'].includes(currency)) {
+        paymentCurrency = 'AED';
+        // Simple conversion rate (you should use real exchange rates)
+        const conversionRate = currency === 'USD' ? 3.67 : 3.67; // USD to AED approximate
+        convertedAmount = Math.round(totalAmount * conversionRate);
+        
+        console.log(`Converting from ${currency} to ${paymentCurrency}, amount: ${totalAmount} -> ${convertedAmount}`);
+      }
 
-      // Redirect to Ziina payment page
-      window.open(paymentResponse.url, '_blank');
+      console.log('Payment currency:', paymentCurrency);
 
-      // Call success callback
-      onSuccess?.();
-
-    } catch (error) {
-      console.error('Ziina payment failed:', error);
+      const currentUrl = window.location.origin;
       
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      
-      toast({
-        title: language === 'ar' ? 'فشل في إنشاء الدفع' : 'Payment Creation Failed',
-        description: language === 'ar' 
-          ? 'حدث خطأ أثناء إنشاء رابط الدفع. يرجى المحاولة مرة أخرى.' 
-          : 'An error occurred while creating the payment link. Please try again.',
-        variant: "destructive"
-      });
+      const paymentData = {
+        amount: convertedAmount,
+        currency: paymentCurrency,
+        items: items,
+        success_url: `${currentUrl}/payment/success`,
+        cancel_url: `${currentUrl}/payment/cancel`,
+        metadata: {
+          original_currency: currency,
+          original_amount: totalAmount,
+        }
+      };
 
-      onError?.(errorMessage);
+      console.log('Creating payment with data:', paymentData);
+
+      const paymentResponse = await createZiinaPayment(paymentData);
+      console.log('Payment response:', paymentResponse);
+
+      if (paymentResponse.checkout_url) {
+        // Redirect to Ziina checkout
+        window.location.href = paymentResponse.checkout_url;
+      } else {
+        throw new Error('No checkout URL received from Ziina');
+      }
+
+    } catch (err) {
+      console.error('Payment error:', err);
+      const errorMessage = err instanceof Error ? err.message : 'Payment failed';
+      setError(language === 'ar' ? `خطأ في الدفع: ${errorMessage}` : `Payment error: ${errorMessage}`);
     } finally {
       setIsLoading(false);
     }
   };
 
+  if (cart.length === 0) {
+    return null;
+  }
+
   return (
-    <Button 
-      className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white" 
-      size="lg"
-      onClick={handleZiinaPayment}
-      disabled={isLoading || cart.length === 0}
-    >
-      {isLoading ? (
-        <>
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          {language === 'ar' ? 'جاري المعالجة...' : 'Processing...'}
-        </>
-      ) : (
-        <>
-          <CreditCard className="mr-2 h-4 w-4" />
-          {language === 'ar' ? 'الدفع عبر Ziina' : 'Pay with Ziina'}
-        </>
+    <div className="space-y-4">
+      {error && (
+        <div className="p-3 bg-red-100 border border-red-300 text-red-700 rounded-md text-sm">
+          {error}
+        </div>
       )}
-    </Button>
+      
+      <Button
+        onClick={handleZiinaPayment}
+        disabled={isLoading}
+        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center gap-2"
+      >
+        <CreditCard className="w-5 h-5" />
+        {isLoading 
+          ? (language === 'ar' ? 'جاري المعالجة...' : 'Processing...') 
+          : (language === 'ar' ? 'إتمام الشراء' : 'Complete Purchase')
+        }
+      </Button>
+      
+      {!['SAR', 'AED'].includes(currency) && (
+        <p className="text-xs text-muted-foreground text-center">
+          {language === 'ar' 
+            ? `سيتم تحويل المبلغ إلى درهم إماراتي (AED) للدفع`
+            : `Amount will be converted to AED for payment`
+          }
+        </p>
+      )}
+    </div>
   );
 };
 

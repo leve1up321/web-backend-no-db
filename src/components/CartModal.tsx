@@ -111,11 +111,7 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
               
               <div className="space-y-3">
                 {/* Ziina Payment Button */}
-                <ZiinaPayment 
-                  onSuccess={() => {
-                    setTimeout(() => onClose(), 1000);
-                  }}
-                />
+                <ZiinaPayment />
                 
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">

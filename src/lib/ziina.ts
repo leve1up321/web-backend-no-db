@@ -1,4 +1,3 @@
-// Ziina Payment Integration
 export interface ZiinaPaymentItem {
   name: string;
   quantity: number;
@@ -7,102 +6,76 @@ export interface ZiinaPaymentItem {
 
 export interface ZiinaPaymentRequest {
   amount: number;
-  currency: 'AED' | 'SAR';
+  currency: string;
   items: ZiinaPaymentItem[];
-  success_url?: string;
-  cancel_url?: string;
-  customer_email?: string;
-  customer_phone?: string;
+  success_url: string;
+  cancel_url: string;
+  metadata?: Record<string, any>;
 }
 
 export interface ZiinaPaymentResponse {
   id: string;
-  url: string;
+  checkout_url: string;
   status: string;
 }
 
-const ZIINA_API_KEY = 'eMVOswjII5H2xNHNwg7JJ9mWNZ504ExkePe6+SOT5G+PC3d2uzrxEM8ZSiRvQMEe';
-const ZIINA_BASE_URL = 'https://api.ziina.com/v1';
+const ZIINA_API_BASE = 'https://api.ziina.com/v1';
+const ZIINA_API_KEY = 'your-ziina-api-key-here'; // Replace with your actual API key
 
-export class ZiinaPayment {
-  private apiKey: string;
+export async function createZiinaPayment(paymentData: ZiinaPaymentRequest): Promise<ZiinaPaymentResponse> {
+  console.log('Creating Ziina payment with data:', paymentData);
+  
+  const requestBody = {
+    amount: paymentData.amount,
+    currency: paymentData.currency,
+    items: paymentData.items,
+    success_url: paymentData.success_url,
+    cancel_url: paymentData.cancel_url,
+    metadata: paymentData.metadata || {}
+  };
 
-  constructor(apiKey: string = ZIINA_API_KEY) {
-    this.apiKey = apiKey;
-  }
+  console.log('Ziina API request body:', requestBody);
 
-  /**
-   * Create a payment link with Ziina
-   */
-  async createPaymentLink(paymentData: ZiinaPaymentRequest): Promise<ZiinaPaymentResponse> {
-    try {
-      const response = await fetch(`${ZIINA_BASE_URL}/payment-links`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: Math.round(paymentData.amount * 100), // Convert to cents
-          currency: paymentData.currency,
-          line_items: paymentData.items.map(item => ({
-            name: item.name,
-            quantity: item.quantity,
-            unit_amount: Math.round(item.unit_amount * 100), // Convert to cents
-          })),
-          success_url: paymentData.success_url || `${window.location.origin}/payment/success`,
-          cancel_url: paymentData.cancel_url || `${window.location.origin}/payment/cancel`,
-          metadata: {
-            source: 'levelup-store',
-            timestamp: new Date().toISOString(),
-          }
-        }),
-      });
+  try {
+    const response = await fetch(`${ZIINA_API_BASE}/checkout/sessions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${ZIINA_API_KEY}`,
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(`Ziina API Error: ${response.status} - ${errorData.message || 'Unknown error'}`);
+    console.log('Ziina API response status:', response.status);
+
+    if (!response.ok) {
+      let errorMessage = `HTTP error! status: ${response.status}`;
+      try {
+        const errorText = await response.text();
+        console.log('Ziina API error response text:', errorText);
+        
+        try {
+          const errorData = JSON.parse(errorText);
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch (parseError) {
+          console.log('Could not parse error response as JSON:', parseError);
+          errorMessage = errorText || errorMessage;
+        }
+      } catch (textError) {
+        console.log('Could not read error response text:', textError);
       }
-
-      const data = await response.json();
-      return {
-        id: data.id,
-        url: data.url,
-        status: data.status,
-      };
-    } catch (error) {
-      console.error('Ziina payment creation failed:', error);
-      throw error;
+      
+      throw new Error(errorMessage);
     }
-  }
 
-  /**
-   * Get payment status
-   */
-  async getPaymentStatus(paymentId: string): Promise<{ status: string; amount: number; currency: string }> {
-    try {
-      const response = await fetch(`${ZIINA_BASE_URL}/payment-links/${paymentId}`, {
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to get payment status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      return {
-        status: data.status,
-        amount: data.amount / 100, // Convert from cents
-        currency: data.currency,
-      };
-    } catch (error) {
-      console.error('Failed to get payment status:', error);
-      throw error;
-    }
+    const data = await response.json();
+    console.log('Ziina API success response:', data);
+    
+    return data;
+  } catch (error) {
+    console.error('Ziina payment creation failed:', error);
+    throw error;
   }
 }
-
-export const ziinaPayment = new ZiinaPayment();
 
