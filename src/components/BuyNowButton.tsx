@@ -32,14 +32,43 @@ const BuyNowButton = ({
   const [isLoading, setIsLoading] = useState(false);
   const { formatPrice } = useCurrency();
 
-  const handlePurchase = () => {
+  const handlePurchase = async () => {
     setIsLoading(true);
     
-    // إضافة تأخير بسيط لتحسين تجربة المستخدم
-    setTimeout(() => {
-      window.open(product.paymentLink, '_blank');
+    try {
+      // إرسال طلب لإنشاء Payment Intent
+      const response = await fetch('/api/payment_intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productName: product.title,
+          amount: product.price * 100, // تحويل إلى fils (1 AED = 100 fils)
+          customerEmail: '' // يمكن إضافة نظام لجمع البريد الإلكتروني لاحقاً
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'خطأ في إنشاء رابط الدفع');
+      }
+
+      const data = await response.json();
+      
+      if (data.success && data.redirect_url) {
+        // فتح رابط الدفع في نافذة جديدة
+        window.open(data.redirect_url, '_blank');
+      } else {
+        throw new Error('لم يتم الحصول على رابط الدفع');
+      }
+      
+    } catch (error) {
+      console.error('Payment error:', error);
+      alert(error instanceof Error ? error.message : 'حدث خطأ أثناء إنشاء رابط الدفع');
+    } finally {
       setIsLoading(false);
-    }, 500);
+    }
   };
 
   return (

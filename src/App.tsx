@@ -9,8 +9,8 @@ import { CartProvider } from "./contexts/CartContext";
 import { WishlistProvider } from "./contexts/WishlistContext";
 import Index from "./pages/Index";
 import ProductDetails from "./pages/ProductDetails";
-import PaymentSuccess from "./components/PaymentSuccess";
-import PaymentCancelled from "./components/PaymentCancelled";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCancel from "./pages/PaymentCancel";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,7 +29,7 @@ const App = () => (
                   <Route path="/" element={<Index />} />
                   <Route path="/product/:id" element={<ProductDetails />} />
                   <Route path="/payment/success" element={<PaymentSuccess />} />
-                  <Route path="/payment/cancel" element={<PaymentCancelled />} />
+                  <Route path="/payment/cancel" element={<PaymentCancel />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
