@@ -7,7 +7,7 @@ import { createZiinaPayment, ZiinaPaymentItem } from '@/lib/ziina';
 import { CreditCard } from 'lucide-react';
 
 const ZiinaPayment: React.FC = () => {
-  const { cart, getTotalPrice } = useCart();
+  const { cart, getCartTotal } = useCart();
   const { currency } = useCurrency();
   const { language, t } = useLanguage();
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +36,7 @@ const ZiinaPayment: React.FC = () => {
 
       console.log('Payment items:', items);
 
-      const totalAmount = Math.round(getTotalPrice() * 100); // Convert to cents
+      const totalAmount = Math.round(getCartTotal() * 100); // Convert to cents
       console.log('Total amount:', totalAmount);
 
       // Determine payment currency - Ziina supports SAR and AED primarily
@@ -127,4 +127,3 @@ const ZiinaPayment: React.FC = () => {
 };
 
 export default ZiinaPayment;
-
