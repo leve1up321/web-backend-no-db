@@ -74,7 +74,7 @@ const Navbar = () => {
                 <button
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
-                  className="text-foreground hover:text-primary transition-colors cursor-pointer"
+                  className="text-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 cursor-pointer"
                 >
                   {link.label}
                 </button>
@@ -161,7 +161,7 @@ const Navbar = () => {
                           handleNavClick(link.href);
                           setIsMobileMenuOpen(false);
                         }}
-                        className="text-lg hover:text-primary transition-colors text-left"
+                        className="text-lg hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 text-left"
                       >
                         {link.label}
                       </button>

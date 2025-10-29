@@ -18,11 +18,11 @@ const Hero = () => {
             </span>
           </h1>
           
-          <h2 className="text-2xl md:text-3xl text-foreground/90">
+          <h2 className="text-2xl md:text-3xl text-foreground/90 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 cursor-default">
             {t('heroSubtitle')}
           </h2>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 cursor-default">
             {t('heroDescription')}
           </p>
           

@@ -36,10 +36,10 @@ const Footer = () => {
               {t('quickLinks')}
             </h4>
             <ul className="space-y-2">
-              <li><a href="#home" className="text-muted-foreground hover:text-primary transition-colors">{t('home')}</a></li>
-              <li><a href="#products" className="text-muted-foreground hover:text-primary transition-colors">{t('products')}</a></li>
-              <li><a href="#reviews" className="text-muted-foreground hover:text-primary transition-colors">{t('reviews')}</a></li>
-              <li><a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">{t('contact')}</a></li>
+              <li><a href="#home" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">{t('home')}</a></li>
+              <li><a href="#products" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">{t('products')}</a></li>
+              <li><a href="#reviews" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">{t('reviews')}</a></li>
+              <li><a href="#contact" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">{t('contact')}</a></li>
             </ul>
           </div>
           
