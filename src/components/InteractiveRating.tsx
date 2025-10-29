@@ -23,6 +23,7 @@ const InteractiveRating: React.FC<InteractiveRatingProps> = ({
   const [rating, setRating] = useState(initialRating);
   const [hoverRating, setHoverRating] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const sizeClasses = {
@@ -80,6 +81,11 @@ const InteractiveRating: React.FC<InteractiveRatingProps> = ({
     
     const newRating = starIndex + 1;
     setRating(newRating);
+    setIsAnimating(true);
+    
+    // إضافة تأثير الاهتزاز
+    setTimeout(() => setIsAnimating(false), 300);
+    
     onRatingChange?.(newRating);
   };
 
@@ -114,10 +120,14 @@ const InteractiveRating: React.FC<InteractiveRatingProps> = ({
               key={index}
               className={`${sizeClasses[size]} transition-all duration-200 ease-out ${
                 isFilled
-                  ? 'fill-yellow-400 text-yellow-400 drop-shadow-sm'
+                  ? 'fill-yellow-400 text-yellow-400 drop-shadow-lg filter brightness-110'
                   : 'text-gray-400 hover:text-yellow-300'
               } ${!readonly ? 'hover:scale-125 hover:rotate-12 cursor-pointer' : ''} ${
                 isDragging && isFilled ? 'animate-pulse' : ''
+              } ${
+                isAnimating && isFilled ? 'animate-bounce' : ''
+              } ${
+                hoverRating > 0 && index < hoverRating ? 'animate-pulse' : ''
               }`}
               onMouseEnter={() => handleMouseEnter(index)}
               onClick={() => handleClick(index)}
