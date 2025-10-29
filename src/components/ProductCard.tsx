@@ -1,19 +1,18 @@
-import { ShoppingCart, Star, Users } from 'lucide-react';
+import { Star, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useCart } from '@/contexts/CartContext';
 import { type Product } from '@/data/products';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import BuyNowButton from '@/components/BuyNowButton';
 
 interface ProductCardProps {
   product: Product;
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const { addToCart } = useCart();
   const { formatPrice } = useCurrency();
   const { t } = useLanguage();
 
@@ -70,13 +69,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
               {t('viewDetails')}
             </Button>
           </Link>
-          <Button
-            size="sm"
-            onClick={() => addToCart(product)}
-            className="bg-gradient-to-r from-primary to-secondary hover:opacity-90"
-          >
-            <ShoppingCart className="h-4 w-4" />
-          </Button>
+          <BuyNowButton product={product} size="sm" />
         </div>
       </CardFooter>
       

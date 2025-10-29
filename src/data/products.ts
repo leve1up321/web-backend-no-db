@@ -22,6 +22,7 @@ export interface Product {
   rating: number;
   reviewsCount: number;
   purchaseCount: number;
+  paymentLink: string; // رابط الدفع المباشر من Ziina
   reviews?: Review[];
   brand?: string;
   tags?: string[];
@@ -65,6 +66,7 @@ export const products: Product[] = [
     readingTime: "30 دقيقة",
     rating: 4.8,
     reviewsCount: 127,
+    paymentLink: "https://pay.ziina.com/levelup1/pxJ_-3UDI",
     purchaseCount: 89,
     reviews: [
       {
@@ -144,6 +146,7 @@ export const products: Product[] = [
     readingTime: "20 دقيقة",
     rating: 4.6,
     reviewsCount: 89,
+    paymentLink: "https://pay.ziina.com/levelup1/UlvoacRli",
     purchaseCount: 67,
     reviews: [
       {
@@ -210,6 +213,7 @@ export const products: Product[] = [
     readingTime: "10 دقائق",
     rating: 4.3,
     reviewsCount: 45,
+    paymentLink: "https://pay.ziina.com/levelup1/7_V6U-vOO",
     purchaseCount: 34,
     reviews: [
       {

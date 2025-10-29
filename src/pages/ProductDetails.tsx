@@ -1,7 +1,6 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, ShoppingCart, Star, CheckCircle, Shield, Heart, Users } from 'lucide-react';
+import { ArrowLeft, Star, CheckCircle, Shield, Heart, Users } from 'lucide-react';
 import { products } from '@/data/products';
-import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -9,13 +8,13 @@ import { sanitizeHtml } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import BuyNowButton from '@/components/BuyNowButton';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { formatPrice } = useCurrency();
   const { t } = useLanguage();
@@ -35,9 +34,7 @@ const ProductDetails = () => {
     );
   }
 
-  const handleAddToCart = () => {
-    addToCart(product);
-  };
+
 
   const handleWishlistToggle = () => {
     if (isInWishlist(product.id)) {
@@ -105,14 +102,11 @@ const ProductDetails = () => {
 
               <div className="space-y-3">
                 <div className="flex gap-3">
-                  <Button
-                    size="lg"
-                    className="flex-1 bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-lg py-6"
-                    onClick={handleAddToCart}
-                  >
-                    <ShoppingCart className="h-5 w-5 mr-2" />
-                    {t('addToCart')}
-                  </Button>
+                  <BuyNowButton 
+                    product={product} 
+                    size="lg" 
+                    className="flex-1 text-lg py-6"
+                  />
                   <Button
                     size="lg"
                     variant="outline"
