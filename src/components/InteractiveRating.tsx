@@ -112,11 +112,13 @@ const InteractiveRating: React.FC<InteractiveRatingProps> = ({
           return (
             <Star
               key={index}
-              className={`${sizeClasses[size]} transition-all duration-150 ${
+              className={`${sizeClasses[size]} transition-all duration-200 ease-out ${
                 isFilled
-                  ? 'fill-yellow-400 text-yellow-400'
-                  : 'text-gray-300 hover:text-yellow-400'
-              } ${!readonly ? 'hover:scale-110' : ''}`}
+                  ? 'fill-yellow-400 text-yellow-400 drop-shadow-sm'
+                  : 'text-gray-400 hover:text-yellow-300'
+              } ${!readonly ? 'hover:scale-125 hover:rotate-12 cursor-pointer' : ''} ${
+                isDragging && isFilled ? 'animate-pulse' : ''
+              }`}
               onMouseEnter={() => handleMouseEnter(index)}
               onClick={() => handleClick(index)}
             />
