@@ -2,6 +2,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Star, CheckCircle, Shield, Heart, Users } from 'lucide-react';
 import { products } from '@/data/products';
 import { useWishlist } from '@/contexts/WishlistContext';
+import InteractiveRating from '@/components/InteractiveRating';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { sanitizeHtml } from '@/lib/utils';
@@ -76,10 +77,15 @@ const ProductDetails = () => {
                 <h1 className="text-4xl font-bold mb-4">{product.title}</h1>
                 
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="flex items-center gap-1">
-                    <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    <span className="font-semibold text-lg">{product.rating}</span>
-                  </div>
+                  <InteractiveRating
+                    initialRating={product.rating}
+                    readonly={false}
+                    size="md"
+                    showValue={true}
+                    onRatingChange={(newRating) => {
+                      console.log(`Product rating changed to: ${newRating}`);
+                    }}
+                  />
                   <span className="text-muted-foreground">
                     ({product.reviewsCount} {t('reviews')})
                   </span>
@@ -187,17 +193,16 @@ const ProductDetails = () => {
                             <span className="text-sm text-muted-foreground">{review.date}</span>
                           </div>
                           
-                          <div className="flex items-center gap-1 mb-3">
-                            {[...Array(5)].map((_, i) => (
-                              <Star 
-                                key={i} 
-                                className={`h-4 w-4 ${
-                                  i < review.rating 
-                                    ? 'fill-yellow-400 text-yellow-400' 
-                                    : 'text-gray-300'
-                                }`} 
-                              />
-                            ))}
+                          <div className="mb-3">
+                            <InteractiveRating
+                              initialRating={review.rating}
+                              readonly={false}
+                              size="sm"
+                              showValue={false}
+                              onRatingChange={(newRating) => {
+                                console.log(`Review rating changed to: ${newRating} for ${review.name}`);
+                              }}
+                            />
                           </div>
                           
                           <p className="text-foreground leading-relaxed">
