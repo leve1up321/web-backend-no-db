@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test</title>
+</head>
+<body>
+    <h1>اختبار التشخيص</h1>
+    <div id="root">Loading...</div>
+    
+    <script>
+        console.log('Debug script loaded');
+        
+        // اختبار أساسي للـ React
+        try {
+            console.log('Testing basic functionality...');
+            document.getElementById('root').innerHTML = '<p>JavaScript يعمل بشكل طبيعي!</p>';
+        } catch (error) {
+            console.error('Error in basic test:', error);
+        }
+        
+        // اختبار الـ API
+        fetch('/api/payment_intent', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                productName: 'Test Product',
+                amount: 100
+            })
+        })
+        .then(response => {
+            console.log('API Response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('API Response data:', data);
+        })
+        .catch(error => {
+            console.error('API Error:', error);
+        });
+    </script>
+</body>
+</html>

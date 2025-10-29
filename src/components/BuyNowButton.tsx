@@ -36,6 +36,8 @@ const BuyNowButton = ({
     setIsLoading(true);
     
     try {
+      console.log('Starting payment process for:', product.title);
+      
       // إرسال طلب لإنشاء Payment Intent
       const response = await fetch('/api/payment_intent', {
         method: 'POST',
@@ -49,15 +51,20 @@ const BuyNowButton = ({
         })
       });
 
+      console.log('API Response status:', response.status);
+
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({ message: 'خطأ في الاتصال بالخادم' }));
+        console.error('API Error:', errorData);
         throw new Error(errorData.message || 'خطأ في إنشاء رابط الدفع');
       }
 
       const data = await response.json();
+      console.log('API Response data:', data);
       
       if (data.success && data.redirect_url) {
         // فتح رابط الدفع في نافذة جديدة
+        console.log('Opening payment URL:', data.redirect_url);
         window.open(data.redirect_url, '_blank');
       } else {
         throw new Error('لم يتم الحصول على رابط الدفع');
@@ -65,7 +72,14 @@ const BuyNowButton = ({
       
     } catch (error) {
       console.error('Payment error:', error);
-      alert(error instanceof Error ? error.message : 'حدث خطأ أثناء إنشاء رابط الدفع');
+      
+      // في حالة فشل الـ API، استخدم الروابط الثابتة كـ fallback
+      if (product.paymentLink) {
+        console.log('Falling back to static payment link');
+        window.open(product.paymentLink, '_blank');
+      } else {
+        alert(error instanceof Error ? error.message : 'حدث خطأ أثناء إنشاء رابط الدفع');
+      }
     } finally {
       setIsLoading(false);
     }
