@@ -20,9 +20,8 @@ export interface ZiinaPaymentResponse {
 }
 
 const ZIINA_API_BASE = 'https://api.ziina.com/v1';
-// TODO: Replace with your actual Ziina API key from your Ziina dashboard
-// Get your API key from: https://dashboard.ziina.com/developers/api-keys
-const ZIINA_API_KEY = 'your-ziina-api-key-here';
+// Ziina API key - configured for production use
+const ZIINA_API_KEY = 'eMVOswjII5H2xNHNwg7JJ9mWNZ504ExkePe6+SOT5G+PC3d2uzrxEM8ZSiRvQMEe';
 
 export async function createZiinaPayment(paymentData: ZiinaPaymentRequest): Promise<ZiinaPaymentResponse> {
   console.log('Creating Ziina payment with data:', paymentData);
@@ -91,4 +90,3 @@ export async function createZiinaPayment(paymentData: ZiinaPaymentRequest): Prom
     throw error;
   }
 }
-

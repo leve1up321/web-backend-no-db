@@ -71,37 +71,17 @@ const ZiinaPayment: React.FC = () => {
 
       console.log('Creating payment with data:', paymentData);
 
-      // For now, simulate the payment process since we need a real Ziina API key
-      // In production, uncomment the lines below and add your real API key
-      
-      /*
+      // Create real Ziina payment with API key
       const paymentResponse = await createZiinaPayment(paymentData);
       console.log('Payment response:', paymentResponse);
 
       if (paymentResponse.checkout_url) {
         // Redirect to Ziina checkout
+        console.log('Redirecting to Ziina checkout:', paymentResponse.checkout_url);
         window.location.href = paymentResponse.checkout_url;
       } else {
         throw new Error('No checkout URL received from Ziina');
       }
-      */
-
-      // Temporary simulation - remove this when you have a real API key
-      console.log('Simulating Ziina payment redirect...');
-      
-      // Show success message
-      const successMessage = language === 'ar' 
-        ? 'تم إنشاء طلب الدفع بنجاح! سيتم توجيهك لبوابة الدفع...'
-        : 'Payment request created successfully! Redirecting to payment gateway...';
-      
-      setError(null);
-      
-      // Simulate redirect delay
-      setTimeout(() => {
-        // For demo purposes, redirect to success page
-        // In production, this should redirect to actual Ziina checkout
-        window.location.href = '/payment/success';
-      }, 2000);
 
     } catch (err) {
       console.error('Payment error:', err);
@@ -131,7 +111,7 @@ const ZiinaPayment: React.FC = () => {
       >
         <CreditCard className="w-5 h-5" />
         {isLoading 
-          ? (language === 'ar' ? 'جاري إنشاء طلب الدفع...' : 'Creating payment request...') 
+          ? (language === 'ar' ? 'جاري التوجيه لبوابة الدفع...' : 'Redirecting to payment gateway...') 
           : (language === 'ar' ? 'إتمام الشراء' : 'Complete Purchase')
         }
       </Button>
