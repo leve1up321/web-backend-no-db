@@ -13,7 +13,7 @@ const Hero = () => {
       <div className="container mx-auto text-center relative z-10">
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-bold">
-            <span className="bg-gradient-to-r from-primary via-secondary to-primary-light bg-clip-text text-transparent animate-gradient">
+            <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient-text">
               {t('heroTitle')}
             </span>
           </h1>
@@ -100,6 +100,16 @@ const Hero = () => {
         .animate-gradient-reverse {
           background-size: 400% 400%;
           animation: gradient-reverse 12s ease infinite;
+        }
+        
+        @keyframes gradient-text {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        
+        .animate-gradient-text {
+          background-size: 300% 300%;
+          animation: gradient-text 4s ease infinite;
         }
       `}</style>
     </section>

@@ -9,20 +9,14 @@ const Contact = () => {
   const contactMethods = [
     {
       icon: <Mail className="h-8 w-8" />,
-      title: language === 'ar' ? 'البريد الإلكتروني' : 'Email',
-      value: 'leve1up999q@gmail.com',
       link: 'mailto:leve1up999q@gmail.com'
     },
     {
       icon: <MessageCircle className="h-8 w-8" />,
-      title: language === 'ar' ? 'واتساب' : 'WhatsApp',
-      value: '+971503492848',
       link: 'https://wa.me/971503492848'
     },
     {
       icon: <Instagram className="h-8 w-8" />,
-      title: language === 'ar' ? 'انستغرام' : 'Instagram',
-      value: '@lvlup3211',
       link: 'https://instagram.com/lvlup3211'
     }
   ];
@@ -51,24 +45,16 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div className="flex justify-center gap-8 mb-16">
           {contactMethods.map((method, index) => (
             <a 
               key={index} 
               href={method.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="block"
+              className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r from-primary to-secondary hover:opacity-90 hover:scale-110 transition-all duration-300 text-primary-foreground shadow-lg hover:shadow-xl hover:shadow-primary/30"
             >
-              <Card className="bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 hover:scale-105 cursor-pointer h-full">
-                <CardContent className="p-8 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-primary to-secondary mb-4 text-primary-foreground">
-                    {method.icon}
-                  </div>
-                  <h3 className="text-xl font-bold mb-2 text-foreground">{method.title}</h3>
-                  <p className="text-primary font-medium">{method.value}</p>
-                </CardContent>
-              </Card>
+              {method.icon}
             </a>
           ))}
         </div>
