@@ -8,6 +8,9 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    hmr: {
+      overlay: true
+    },
     proxy: {
       '/api': {
         target: 'https://levelup-iota.vercel.app',
