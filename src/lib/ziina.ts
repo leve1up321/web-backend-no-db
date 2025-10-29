@@ -20,10 +20,17 @@ export interface ZiinaPaymentResponse {
 }
 
 const ZIINA_API_BASE = 'https://api.ziina.com/v1';
-const ZIINA_API_KEY = 'your-ziina-api-key-here'; // Replace with your actual API key
+// TODO: Replace with your actual Ziina API key from your Ziina dashboard
+// Get your API key from: https://dashboard.ziina.com/developers/api-keys
+const ZIINA_API_KEY = 'your-ziina-api-key-here';
 
 export async function createZiinaPayment(paymentData: ZiinaPaymentRequest): Promise<ZiinaPaymentResponse> {
   console.log('Creating Ziina payment with data:', paymentData);
+  
+  // Check if API key is configured
+  if (ZIINA_API_KEY === 'your-ziina-api-key-here') {
+    throw new Error('Ziina API key not configured. Please add your API key in src/lib/ziina.ts');
+  }
   
   const requestBody = {
     amount: paymentData.amount,
@@ -75,6 +82,12 @@ export async function createZiinaPayment(paymentData: ZiinaPaymentRequest): Prom
     return data;
   } catch (error) {
     console.error('Ziina payment creation failed:', error);
+    
+    // Provide more helpful error messages
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new Error('Network error: Unable to connect to Ziina API. Please check your internet connection.');
+    }
+    
     throw error;
   }
 }
