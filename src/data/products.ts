@@ -65,7 +65,7 @@ export const products: Product[] = [
     pages: "25 صفحة",
     readingTime: "30 دقيقة",
     rating: 4.8,
-    reviewsCount: 127,
+    reviewsCount: 5,
     paymentLink: "https://pay.ziina.com/levelup1/pxJ_-3UDI",
     purchaseCount: 89,
     reviews: [
@@ -145,7 +145,7 @@ export const products: Product[] = [
     pages: "10 صفحات",
     readingTime: "20 دقيقة",
     rating: 4.6,
-    reviewsCount: 89,
+    reviewsCount: 4,
     paymentLink: "https://pay.ziina.com/levelup1/UlvoacRli",
     purchaseCount: 67,
     reviews: [
@@ -212,7 +212,7 @@ export const products: Product[] = [
     pages: "5 صفحات",
     readingTime: "10 دقائق",
     rating: 4.3,
-    reviewsCount: 45,
+    reviewsCount: 3,
     paymentLink: "https://pay.ziina.com/levelup1/7_V6U-vOO",
     purchaseCount: 34,
     reviews: [

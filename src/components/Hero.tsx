@@ -6,8 +6,11 @@ const Hero = () => {
   const { t } = useLanguage();
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-16 px-4">
-      <div className="container mx-auto text-center">
+    <section id="home" className="min-h-screen flex items-center justify-center pt-16 px-4 relative overflow-hidden">
+      {/* خلفية الهيرو بالتدرج */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#8C00FF] via-[#5C00B2] to-background opacity-20 animate-gradient-slow"></div>
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-[#8C00FF]/10 to-[#00FFD1]/10 animate-gradient-reverse"></div>
+      <div className="container mx-auto text-center relative z-10">
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-bold">
             <span className="bg-gradient-to-r from-primary via-secondary to-primary-light bg-clip-text text-transparent animate-gradient">
@@ -77,6 +80,26 @@ const Hero = () => {
         
         .animate-fade-in {
           animation: fade-in 0.8s ease-out;
+        }
+        
+        @keyframes gradient-slow {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        
+        @keyframes gradient-reverse {
+          0%, 100% { background-position: 100% 50%; }
+          50% { background-position: 0% 50%; }
+        }
+        
+        .animate-gradient-slow {
+          background-size: 400% 400%;
+          animation: gradient-slow 8s ease infinite;
+        }
+        
+        .animate-gradient-reverse {
+          background-size: 400% 400%;
+          animation: gradient-reverse 12s ease infinite;
         }
       `}</style>
     </section>
