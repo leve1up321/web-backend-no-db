@@ -6,9 +6,9 @@ const Hero = () => {
   const { t } = useLanguage();
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center pt-16 px-4 relative overflow-hidden gradient-bg">
-      {/* خلفية الهيرو بالتدرج الجديد */}
-      <div className="absolute inset-0 gradient-bg"></div>
+    <section id="home" className="min-h-screen flex items-center justify-center pt-16 px-4 relative overflow-hidden bg-background">
+      {/* خلفية غامقة جداً */}
+      <div className="absolute inset-0 bg-background"></div>
       <div className="container mx-auto text-center relative z-10">
         <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
           <h1 className="text-5xl md:text-7xl font-bold">
