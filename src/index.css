@@ -159,7 +159,7 @@ All colors MUST be HSL.
 
 /* Additional Gradient Classes */
 .gradient-bg {
-  background: linear-gradient(135deg, rgba(140, 0, 255, 0.12), rgba(0, 255, 209, 0.12));
+  background: linear-gradient(135deg, rgba(126, 0, 255, 0.1), rgba(0, 150, 255, 0.1));
 }
 
 .gradient-border {
