@@ -1,0 +1,86 @@
+// API Route لإنشاء Payment Intent مع Ziina
+export default async function handler(req, res) {
+  // التأكد من أن الطلب POST فقط
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    const { amount, currency = 'AED', productId, customerEmail, customerName } = req.body;
+
+    // التحقق من البيانات المطلوبة
+    if (!amount || !productId || !customerEmail) {
+      return res.status(400).json({ 
+        error: 'Missing required fields: amount, productId, customerEmail' 
+      });
+    }
+
+    // إنشاء Payment Intent مع Ziina
+    const paymentIntentData = {
+      amount: Math.round(amount * 100), // تحويل إلى فلوس (cents)
+      currency,
+      customer: {
+        email: customerEmail,
+        name: customerName || 'عميل متجر لفل اب'
+      },
+      metadata: {
+        productId,
+        source: 'levelup-store',
+        timestamp: new Date().toISOString()
+      },
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/cancel`,
+      test: process.env.NODE_ENV !== 'production' // وضع التجربة في التطوير
+    };
+
+    // استدعاء Ziina API
+    const response = await fetch('https://api.ziina.com/v1/payment_intents', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.ZIINA_SECRET_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(paymentIntentData)
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Ziina API Error:', errorData);
+      return res.status(response.status).json({ 
+        error: 'Failed to create payment intent',
+        details: errorData 
+      });
+    }
+
+    const paymentIntent = await response.json();
+
+    // حفظ معلومات الطلب مؤقتاً (سنطورها لاحقاً لقاعدة بيانات)
+    const orderData = {
+      id: paymentIntent.id,
+      productId,
+      amount,
+      currency,
+      customerEmail,
+      customerName,
+      status: 'pending',
+      createdAt: new Date().toISOString()
+    };
+
+    // TODO: حفظ في قاعدة البيانات
+    console.log('Order created:', orderData);
+
+    // إرجاع رابط الدفع
+    res.status(200).json({
+      success: true,
+      paymentUrl: paymentIntent.url,
+      paymentIntentId: paymentIntent.id
+    });
+
+  } catch (error) {
+    console.error('Payment Intent Error:', error);
+    res.status(500).json({ 
+      error: 'Internal server error',
+      message: error.message 
+    });
+  }
+}
