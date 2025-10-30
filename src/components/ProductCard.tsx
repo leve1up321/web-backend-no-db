@@ -31,26 +31,26 @@ const ProductCard = ({ product }: ProductCardProps) => {
   };
 
   return (
-    <Card className="group overflow-hidden border-border hover:border-primary/50 transition-all duration-300 hover:shadow-neon">
+    <Card className="group overflow-hidden border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg rounded-xl">
       <Link to={`/product/${product.id}`}>
         <div className="relative overflow-hidden">
           <img
             src={product.image}
             alt={product.title}
-            className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+            className="w-full h-48 sm:h-56 md:h-64 object-cover group-hover:scale-105 transition-transform duration-300 rounded-t-xl"
           />
-          <Badge className="absolute top-4 right-4 bg-primary/90">
+          <Badge className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-primary/90 text-xs sm:text-sm">
             {product.category}
           </Badge>
           
           {/* Wishlist Heart Button */}
           <button
             onClick={handleWishlistToggle}
-            className="absolute top-4 left-4 p-2 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background transition-all duration-200 hover:scale-110 group/heart"
+            className="absolute top-2 sm:top-4 left-2 sm:left-4 p-1.5 sm:p-2 rounded-full bg-background/80 backdrop-blur-sm hover:bg-background transition-all duration-200 hover:scale-110 group/heart"
             aria-label={isInWishlist(product.id) ? "Remove from wishlist" : "Add to wishlist"}
           >
             <Heart
-              className={`h-5 w-5 transition-all duration-200 ${
+              className={`h-4 w-4 sm:h-5 sm:w-5 transition-all duration-200 ${
                 isInWishlist(product.id)
                   ? 'fill-red-500 text-red-500'
                   : 'text-muted-foreground group-hover/heart:text-red-500'
@@ -60,14 +60,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
       </Link>
       
-      <CardContent className="p-4 space-y-2">
+      <CardContent className="p-3 sm:p-4 space-y-2">
         <Link to={`/product/${product.id}`}>
-          <h3 className="text-lg font-bold group-hover:text-primary transition-colors line-clamp-2">
+          <h3 className="text-base sm:text-lg font-bold group-hover:text-primary transition-colors line-clamp-2 text-center sm:text-left">
             {product.title}
           </h3>
         </Link>
         
-        <div className="flex items-center gap-2 text-sm">
+        <div className="flex items-center justify-center sm:justify-start gap-2 text-sm">
           <InteractiveRating
             initialRating={product.rating}
             readonly={false}
@@ -77,18 +77,20 @@ const ProductCard = ({ product }: ProductCardProps) => {
               console.log(`Product rating changed to: ${newRating} for ${product.title}`);
             }}
           />
-          <span className="text-muted-foreground">
+          <span className="text-muted-foreground text-xs sm:text-sm">
             ({product.reviewsCount})
           </span>
         </div>
       </CardContent>
       
-      <CardFooter className="p-4 pt-0 flex items-center justify-between">
-        <span className="text-xl font-bold text-primary">
+      <CardFooter className="p-3 sm:p-4 pt-0 flex flex-col sm:flex-row items-center gap-3 sm:justify-between">
+        <span className="text-lg sm:text-xl font-bold text-primary text-center">
           {formatPrice(product.price)}
         </span>
         
-        <BuyNowButton product={product} size="sm" />
+        <div className="w-full sm:w-auto">
+          <BuyNowButton product={product} size="sm" className="w-full sm:w-auto rounded-xl shadow-md hover:shadow-lg transition-shadow" />
+        </div>
       </CardFooter>
       
       <style>{`

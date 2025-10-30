@@ -60,20 +60,98 @@ const Navbar = () => {
   return (
     <>
       <nav className="fixed top-0 w-full z-50 bg-background/95 backdrop-blur-md border-b border-border">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-3 sm:px-4">
           <div className="flex items-center justify-between h-16">
-            <Link to="/" className="flex items-center gap-3">
+            {/* Mobile Menu Button */}
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="sm" className="md:hidden">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-80 p-0">
+                <div className="flex flex-col h-full">
+                  <div className="p-6 border-b">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                        Level Up Store
+                      </span>
+                      <Button variant="ghost" size="sm" onClick={() => setIsMobileMenuOpen(false)}>
+                        <X className="h-5 w-5" />
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="flex-1 p-6">
+                    <div className="space-y-4">
+                      {navLinks.map((link) => (
+                        <button
+                          key={link.href}
+                          onClick={() => {
+                            handleNavClick(link.href);
+                            setIsMobileMenuOpen(false);
+                          }}
+                          className="w-full text-left p-3 rounded-xl hover:bg-gradient-to-r hover:from-primary/10 hover:to-secondary/10 transition-all duration-300 text-lg font-medium"
+                        >
+                          {link.label}
+                        </button>
+                      ))}
+                    </div>
+                    
+                    <div className="mt-8 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium">اللغة</span>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="sm" className="gap-2">
+                              <Globe className="h-4 w-4" />
+                              {language === 'ar' ? 'العربية' : 'English'}
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem onClick={() => setLanguage('ar')}>العربية</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setLanguage('en')}>English</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium">العملة</span>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="sm" className="gap-2">
+                              <DollarSign className="h-4 w-4" />
+                              {currency.code}
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent>
+                            <DropdownMenuItem onClick={() => setCurrency('SAR')}>ريال سعودي</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setCurrency('USD')}>US Dollar</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setCurrency('EUR')}>Euro</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setCurrency('AED')}>درهم إماراتي</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setCurrency('EGP')}>جنيه مصري</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+
+            {/* Logo - Centered on Mobile */}
+            <Link to="/" className="flex items-center gap-2 md:gap-3 flex-1 md:flex-none justify-center md:justify-start">
               <img 
                 src="/logo.png" 
                 alt="Level Up Store" 
-                className="h-10 object-contain"
+                className="h-8 md:h-10 object-contain"
                 onError={(e) => {
                   // Fallback to text if image fails to load
                   e.currentTarget.style.display = 'none';
                   e.currentTarget.nextElementSibling.style.display = 'block';
                 }}
               />
-              <span className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent" style={{display: 'none'}}>
+              <span className="text-lg md:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent" style={{display: 'none'}}>
                 Level Up Store
               </span>
             </Link>
@@ -91,61 +169,77 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* Actions */}
-            <div className="flex items-center gap-4">
-              {/* Language Selector */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="gap-2">
-                    <Globe className="h-4 w-4" />
-                    <span className="hidden sm:inline">{language === 'ar' ? 'العربية' : 'English'}</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => setLanguage('ar')}>العربية</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setLanguage('en')}>English</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+            {/* Actions - Mobile Optimized */}
+            <div className="flex items-center gap-1 md:gap-4">
+              {/* Desktop Language & Currency Selectors */}
+              <div className="hidden md:flex items-center gap-4">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="gap-2">
+                      <Globe className="h-4 w-4" />
+                      <span className="hidden sm:inline">{language === 'ar' ? 'العربية' : 'English'}</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => setLanguage('ar')}>العربية</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setLanguage('en')}>English</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
 
-              {/* Currency Selector */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="gap-2">
-                    <DollarSign className="h-4 w-4" />
-                    <span className="hidden sm:inline">{currency.code}</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuItem onClick={() => setCurrency('SAR')}>ريال سعودي</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setCurrency('USD')}>US Dollar</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setCurrency('EUR')}>Euro</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setCurrency('AED')}>درهم إماراتي</DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setCurrency('EGP')}>جنيه مصري</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="gap-2">
+                      <DollarSign className="h-4 w-4" />
+                      <span className="hidden sm:inline">{currency.code}</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => setCurrency('SAR')}>ريال سعودي</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setCurrency('USD')}>US Dollar</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setCurrency('EUR')}>Euro</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setCurrency('AED')}>درهم إماراتي</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setCurrency('EGP')}>جنيه مصري</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
 
               {/* Wishlist */}
               <Link to="/wishlist">
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="relative"
+                  className="relative p-2"
                 >
                   <Heart className="h-5 w-5" />
                   {wishlist.length > 0 && (
-                    <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-red-500">
+                    <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-red-500 text-xs">
                       {wishlist.length}
                     </Badge>
                   )}
                 </Button>
               </Link>
 
+              {/* Cart */}
+              <Button
+                variant="ghost"
+                size="sm"
+                className="relative p-2"
+                onClick={() => setIsCartOpen(true)}
+              >
+                <ShoppingCart className="h-5 w-5" />
+                {getCartCount() > 0 && (
+                  <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-primary text-xs">
+                    {getCartCount()}
+                  </Badge>
+                )}
+              </Button>
+
               {/* User Account */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="gap-2">
+                  <Button variant="ghost" size="sm" className="gap-1 md:gap-2 p-2">
                     <User className="h-5 w-5" />
-                    <span className="hidden sm:inline">
+                    <span className="hidden sm:inline text-sm">
                       {user ? user.name.split(' ')[0] : 'حسابي'}
                     </span>
                   </Button>

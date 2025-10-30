@@ -211,3 +211,29 @@ All colors MUST be HSL.
   border: 1px solid rgba(140, 0, 255, 0.45);
   box-shadow: 0 0 30px rgba(140, 0, 255, 0.3);
 }
+
+/* Smooth Scrolling for Mobile Optimization */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mobile-First Responsive Improvements */
+@media (max-width: 640px) {
+  /* Ensure text is readable on small screens */
+  body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  /* Improve touch targets */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better spacing on mobile */
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
