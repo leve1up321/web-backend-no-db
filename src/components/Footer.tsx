@@ -1,4 +1,5 @@
 import { useLanguage } from '@/contexts/LanguageContext';
+import PaymentMethods from './PaymentMethods';
 
 const Footer = () => {
   const { t, language } = useLanguage();
@@ -104,96 +105,7 @@ const Footer = () => {
         </div>
         
         {/* Payment Methods Section */}
-        <div className="py-8 border-t border-border">
-          <div className="text-center mb-6">
-            <h4 className="text-lg font-semibold mb-4 text-foreground">
-              طرق الدفع المتاحة
-            </h4>
-            <p className="text-sm text-muted-foreground mb-6">
-              ندعم جميع طرق الدفع الآمنة والموثوقة
-            </p>
-          </div>
-          
-          <div className="flex flex-wrap justify-center items-center gap-4 mb-6">
-            {/* Visa */}
-            <div className="group transition-all duration-300 hover:scale-105">
-              <img 
-                src="/payment-methods/visa.svg" 
-                alt="Visa" 
-                className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-            </div>
-            
-            {/* Mastercard */}
-            <div className="group transition-all duration-300 hover:scale-105">
-              <img 
-                src="/payment-methods/mastercard.svg" 
-                alt="Mastercard" 
-                className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-            </div>
-            
-            {/* Apple Pay */}
-            <div className="group transition-all duration-300 hover:scale-105">
-              <img 
-                src="/payment-methods/apple-pay.svg" 
-                alt="Apple Pay" 
-                className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-            </div>
-            
-            {/* Google Pay */}
-            <div className="group transition-all duration-300 hover:scale-105">
-              <img 
-                src="/payment-methods/google-pay.svg" 
-                alt="Google Pay" 
-                className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-            </div>
-            
-            {/* Ziina */}
-            <div className="group transition-all duration-300 hover:scale-105">
-              <img 
-                src="/payment-methods/ziina.svg" 
-                alt="Ziina" 
-                className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-            </div>
-            
-            {/* PayPal */}
-            <div className="group transition-all duration-300 hover:scale-105">
-              <img 
-                src="/payment-methods/paypal.svg" 
-                alt="PayPal" 
-                className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-            </div>
-            
-            {/* Emirates NBD */}
-            <div className="group transition-all duration-300 hover:scale-105">
-              <img 
-                src="/payment-methods/emirates-nbd.svg" 
-                alt="Emirates NBD" 
-                className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-            </div>
-            
-            {/* ADCB */}
-            <div className="group transition-all duration-300 hover:scale-105">
-              <img 
-                src="/payment-methods/adcb.svg" 
-                alt="ADCB" 
-                className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity"
-              />
-            </div>
-          </div>
-          
-          <div className="text-center">
-            <p className="text-xs text-muted-foreground">
-              🔒 جميع المعاملات محمية بتشفير SSL 256-bit
-            </p>
-          </div>
-        </div>
+        <PaymentMethods />
         
         <div className="text-center pt-8 border-t border-border">
           <p className="text-muted-foreground">
