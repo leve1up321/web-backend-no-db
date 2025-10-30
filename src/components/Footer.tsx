@@ -1,4 +1,5 @@
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Link } from 'react-router-dom';
 import PaymentMethods from './PaymentMethods';
 
 const Footer = () => {
@@ -8,7 +9,7 @@ const Footer = () => {
   return (
     <footer className="bg-card/50 border-t border-border py-12 px-4">
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
             <div className="flex items-center gap-3 mb-4">
               <img 
@@ -40,7 +41,20 @@ const Footer = () => {
               <li><a href="#home" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">{t('home')}</a></li>
               <li><a href="#products" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">{t('products')}</a></li>
               <li><a href="#reviews" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">{t('reviews')}</a></li>
+              <li><Link to="/account" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">حسابي</Link></li>
               <li><a href="#contact" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">{t('contact')}</a></li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="text-lg font-semibold mb-4">
+              الشروط والأحكام
+            </h4>
+            <ul className="space-y-2">
+              <li><Link to="/privacy-policy" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">سياسة الاستخدام والخصوصية</Link></li>
+              <li><Link to="/refund-policy" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">سياسة الاستبدال والاسترجاع</Link></li>
+              <li><a href="#warranty" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">الضمان الذهبي</a></li>
+              <li><a href="#support" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">الدعم الفني</a></li>
             </ul>
           </div>
           
