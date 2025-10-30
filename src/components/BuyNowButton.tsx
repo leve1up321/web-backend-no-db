@@ -49,7 +49,7 @@ const BuyNowButton = ({
       console.log('Starting payment process for:', product.title);
       
       // إرسال طلب لإنشاء Payment Intent
-      const response = await fetch('/api/payment_intent', {
+      const response = await fetch('/api/payment/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -57,11 +57,15 @@ const BuyNowButton = ({
         body: JSON.stringify({
           amount: product.price,
           currency: 'AED',
-          productId: product.id,
-          customerEmail: customerInfo.email,
-          customerName: customerInfo.name,
-          customerPhone: customerInfo.phone,
-          customerAddress: customerInfo.address
+          description: product.title,
+          order_id: `order_${product.id}_${Date.now()}`,
+          customer_email: customerInfo.email,
+          customer_name: customerInfo.name,
+          items: [{
+            name: product.title,
+            price: product.price,
+            quantity: 1
+          }]
         })
       });
 
@@ -76,10 +80,10 @@ const BuyNowButton = ({
       const data = await response.json();
       console.log('API Response data:', data);
       
-      if (data.success && data.paymentUrl) {
+      if (data.success && data.data && data.data.payment_url) {
         // فتح رابط الدفع في نافذة جديدة
-        console.log('Opening payment URL:', data.paymentUrl);
-        window.location.href = data.paymentUrl;
+        console.log('Opening payment URL:', data.data.payment_url);
+        window.location.href = data.data.payment_url;
       } else {
         throw new Error('لم يتم الحصول على رابط الدفع');
       }
@@ -181,10 +185,11 @@ const BuyNowButton = ({
         size={size}
         variant="outline"
         onClick={handleAddToCart}
-        className="border-primary text-primary hover:bg-primary hover:text-white"
+        className="border-primary text-primary hover:bg-primary hover:text-white whitespace-nowrap"
       >
-        <Plus className="h-4 w-4 mr-2" />
-        إضافة للسلة
+        <Plus className="h-4 w-4 mr-1" />
+        <span className="hidden sm:inline">إضافة للسلة</span>
+        <span className="sm:hidden">إضافة</span>
       </Button>
     )}
     
