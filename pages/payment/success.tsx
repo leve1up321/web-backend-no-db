@@ -12,26 +12,53 @@ const PaymentSuccess = () => {
 
   useEffect(() => {
     if (session_id) {
-      // TODO: جلب تفاصيل الطلب من API
-      // محاكاة البيانات مؤقتاً
-      setTimeout(() => {
-        setOrderDetails({
-          id: session_id,
-          productName: 'كورس التجارة الإلكترونية الشامل',
-          amount: 299,
-          currency: 'AED',
-          customerEmail: 'customer@example.com',
-          downloadLink: '#', // سيتم توليده لاحقاً
-          orderNumber: `LU-${Date.now().toString().slice(-6)}`
-        });
-        setLoading(false);
-      }, 1500);
+      // جلب تفاصيل الطلب من API
+      fetchOrderDetails(session_id);
     }
   }, [session_id]);
 
+  const fetchOrderDetails = async (sessionId) => {
+    try {
+      const response = await fetch(`/api/order/${sessionId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setOrderDetails(data.order);
+      } else {
+        // في حالة عدم وجود الطلب، استخدام بيانات افتراضية
+        setOrderDetails({
+          id: sessionId,
+          productName: 'منتج رقمي',
+          amount: 0,
+          currency: 'AED',
+          customerEmail: 'customer@example.com',
+          downloadLink: '#',
+          orderNumber: `LU-${sessionId.slice(-6)}`
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching order details:', error);
+      // استخدام بيانات افتراضية في حالة الخطأ
+      setOrderDetails({
+        id: sessionId,
+        productName: 'منتج رقمي',
+        amount: 0,
+        currency: 'AED',
+        customerEmail: 'customer@example.com',
+        downloadLink: '#',
+        orderNumber: `LU-${sessionId.slice(-6)}`
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleDownload = () => {
-    // TODO: تنفيذ تحميل الملف
-    console.log('Downloading product...');
+    if (orderDetails?.downloadLink && orderDetails.downloadLink !== '#') {
+      // فتح رابط التحميل
+      window.open(orderDetails.downloadLink, '_blank');
+    } else {
+      alert('رابط التحميل غير متوفر حالياً. يرجى التحقق من بريدك الإلكتروني.');
+    }
   };
 
   const handleBackToStore = () => {
@@ -41,13 +68,13 @@ const PaymentSuccess = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center relative">
-        {/* Grid Background */}
+        {/* Grid Background - نفس خلفية الموقع */}
         <div className="absolute inset-0 bg-background">
           <div className="absolute inset-0" 
                style={{
                  backgroundImage: `
-                   linear-gradient(rgba(126, 0, 255, 0.1) 1px, transparent 1px),
-                   linear-gradient(90deg, rgba(0, 150, 255, 0.06) 1px, transparent 1px)
+                   linear-gradient(rgba(140, 0, 255, 0.1) 1px, transparent 1px),
+                   linear-gradient(90deg, rgba(0, 255, 209, 0.06) 1px, transparent 1px)
                  `,
                  backgroundSize: '50px 50px',
                  backgroundPosition: 'center center'
@@ -65,13 +92,13 @@ const PaymentSuccess = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4 relative">
-      {/* Grid Background */}
+      {/* Grid Background - نفس خلفية الموقع */}
       <div className="absolute inset-0 bg-background">
         <div className="absolute inset-0" 
              style={{
                backgroundImage: `
-                 linear-gradient(rgba(126, 0, 255, 0.1) 1px, transparent 1px),
-                 linear-gradient(90deg, rgba(0, 150, 255, 0.06) 1px, transparent 1px)
+                 linear-gradient(rgba(140, 0, 255, 0.1) 1px, transparent 1px),
+                 linear-gradient(90deg, rgba(0, 255, 209, 0.06) 1px, transparent 1px)
                `,
                backgroundSize: '50px 50px',
                backgroundPosition: 'center center'

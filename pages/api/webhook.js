@@ -89,28 +89,73 @@ async function handlePaymentSuccess(paymentData) {
     const productId = paymentData.metadata?.productId;
     const customerEmail = paymentData.customer?.email;
     
+    // استيراد الوحدات المطلوبة
+    const { updateOrder, findOrder, upsertCustomer } = await import('@/lib/database');
+    const { sendOrderConfirmationEmail, sendAdminNotificationEmail } = await import('@/lib/email');
+    const { generateSecureDownloadLink } = await import('@/lib/storage');
+    
+    // البحث عن الطلب
+    const orderResult = await findOrder({ id: orderId });
+    if (!orderResult.success) {
+      console.error('Order not found:', orderId);
+      return;
+    }
+    
+    const order = orderResult.order;
+    
+    // إنشاء رابط تحميل آمن (محاكاة - سيتم ربطه بالملف الفعلي لاحقاً)
+    const downloadLinkResult = generateSecureDownloadLink(
+      'https://example-blob-url.com/product-file.zip', // سيتم استبداله بالملف الفعلي
+      orderId,
+      customerEmail,
+      168 // 7 أيام
+    );
+    
     // تحديث حالة الطلب
     const orderUpdate = {
-      id: orderId,
       status: 'completed',
       paidAt: new Date().toISOString(),
-      paymentData: paymentData
+      downloadLink: downloadLinkResult.success ? downloadLinkResult.downloadUrl : null,
+      expiresAt: downloadLinkResult.success ? downloadLinkResult.expiresAt : null
     };
     
-    // TODO: تحديث في قاعدة البيانات
-    console.log('Order completed:', orderUpdate);
+    const updateResult = await updateOrder(orderId, orderUpdate);
+    if (!updateResult.success) {
+      console.error('Failed to update order:', updateResult.error);
+      return;
+    }
+    
+    // تحديث بيانات العميل
+    await upsertCustomer({
+      email: customerEmail,
+      name: paymentData.customer?.name,
+      amount: paymentData.amount / 100
+    });
     
     // إرسال بريد التأكيد
-    if (customerEmail && productId) {
-      await sendConfirmationEmail(customerEmail, orderId, productId);
+    if (customerEmail && downloadLinkResult.success) {
+      await sendOrderConfirmationEmail({
+        customerEmail,
+        customerName: paymentData.customer?.name || order.customerName,
+        orderId,
+        orderNumber: order.orderNumber,
+        productName: order.productName || 'منتج رقمي',
+        amount: paymentData.amount / 100,
+        currency: paymentData.currency,
+        downloadLink: downloadLinkResult.downloadUrl
+      });
     }
     
     // إشعار الإدارة
-    await notifyAdmin('payment_success', {
+    await sendAdminNotificationEmail({
+      type: 'payment_success',
       orderId,
+      orderNumber: order.orderNumber,
+      customerEmail,
+      customerName: paymentData.customer?.name || order.customerName,
       amount: paymentData.amount / 100,
       currency: paymentData.currency,
-      customerEmail
+      productName: order.productName
     });
     
   } catch (error) {
@@ -125,22 +170,43 @@ async function handlePaymentFailed(paymentData) {
     
     const orderId = paymentData.id;
     
+    // استيراد الوحدات المطلوبة
+    const { updateOrder, findOrder } = await import('@/lib/database');
+    const { sendAdminNotificationEmail } = await import('@/lib/email');
+    
+    // البحث عن الطلب
+    const orderResult = await findOrder({ id: orderId });
+    if (!orderResult.success) {
+      console.error('Order not found:', orderId);
+      return;
+    }
+    
+    const order = orderResult.order;
+    
     // تحديث حالة الطلب
     const orderUpdate = {
-      id: orderId,
       status: 'failed',
       failedAt: new Date().toISOString(),
       failureReason: paymentData.failure_reason || 'Unknown'
     };
     
-    // TODO: تحديث في قاعدة البيانات
-    console.log('Order failed:', orderUpdate);
+    const updateResult = await updateOrder(orderId, orderUpdate);
+    if (!updateResult.success) {
+      console.error('Failed to update order:', updateResult.error);
+      return;
+    }
     
     // إشعار الإدارة بالفشل
-    await notifyAdmin('payment_failed', {
+    await sendAdminNotificationEmail({
+      type: 'payment_failed',
       orderId,
-      reason: paymentData.failure_reason,
-      customerEmail: paymentData.customer?.email
+      orderNumber: order.orderNumber,
+      customerEmail: paymentData.customer?.email || order.customerEmail,
+      customerName: paymentData.customer?.name || order.customerName,
+      amount: paymentData.amount / 100,
+      currency: paymentData.currency,
+      productName: order.productName,
+      reason: paymentData.failure_reason
     });
     
   } catch (error) {
@@ -155,42 +221,46 @@ async function handlePaymentCanceled(paymentData) {
     
     const orderId = paymentData.id;
     
+    // استيراد الوحدات المطلوبة
+    const { updateOrder, findOrder } = await import('@/lib/database');
+    const { sendAdminNotificationEmail } = await import('@/lib/email');
+    
+    // البحث عن الطلب
+    const orderResult = await findOrder({ id: orderId });
+    if (!orderResult.success) {
+      console.error('Order not found:', orderId);
+      return;
+    }
+    
+    const order = orderResult.order;
+    
     // تحديث حالة الطلب
     const orderUpdate = {
-      id: orderId,
       status: 'canceled',
       canceledAt: new Date().toISOString()
     };
     
-    // TODO: تحديث في قاعدة البيانات
-    console.log('Order canceled:', orderUpdate);
+    const updateResult = await updateOrder(orderId, orderUpdate);
+    if (!updateResult.success) {
+      console.error('Failed to update order:', updateResult.error);
+      return;
+    }
+    
+    // إشعار الإدارة بالإلغاء
+    await sendAdminNotificationEmail({
+      type: 'payment_canceled',
+      orderId,
+      orderNumber: order.orderNumber,
+      customerEmail: paymentData.customer?.email || order.customerEmail,
+      customerName: paymentData.customer?.name || order.customerName,
+      amount: paymentData.amount / 100,
+      currency: paymentData.currency,
+      productName: order.productName
+    });
     
   } catch (error) {
     console.error('Error handling payment cancellation:', error);
   }
 }
 
-// إرسال بريد التأكيد (سنطوره لاحقاً)
-async function sendConfirmationEmail(email, orderId, productId) {
-  try {
-    console.log(`📧 Sending confirmation email to ${email} for order ${orderId}`);
-    
-    // TODO: تنفيذ إرسال البريد مع Resend
-    // سيتضمن: تفاصيل الطلب، رابط التحميل، رقم الطلب
-    
-  } catch (error) {
-    console.error('Error sending confirmation email:', error);
-  }
-}
 
-// إشعار الإدارة (سنطوره لاحقاً)
-async function notifyAdmin(type, data) {
-  try {
-    console.log(`🔔 Admin notification: ${type}`, data);
-    
-    // TODO: إرسال إشعار للإدارة (بريد/Slack/Telegram)
-    
-  } catch (error) {
-    console.error('Error notifying admin:', error);
-  }
-}

@@ -22,13 +22,13 @@ const PaymentCancel = () => {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4 relative">
-      {/* Grid Background */}
+      {/* Grid Background - نفس خلفية الموقع */}
       <div className="absolute inset-0 bg-background">
         <div className="absolute inset-0" 
              style={{
                backgroundImage: `
-                 linear-gradient(rgba(126, 0, 255, 0.1) 1px, transparent 1px),
-                 linear-gradient(90deg, rgba(0, 150, 255, 0.06) 1px, transparent 1px)
+                 linear-gradient(rgba(140, 0, 255, 0.1) 1px, transparent 1px),
+                 linear-gradient(90deg, rgba(0, 255, 209, 0.06) 1px, transparent 1px)
                `,
                backgroundSize: '50px 50px',
                backgroundPosition: 'center center'

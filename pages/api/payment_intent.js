@@ -54,7 +54,9 @@ export default async function handler(req, res) {
 
     const paymentIntent = await response.json();
 
-    // حفظ معلومات الطلب مؤقتاً (سنطورها لاحقاً لقاعدة بيانات)
+    // حفظ معلومات الطلب في قاعدة البيانات
+    const { createOrder, upsertCustomer } = await import('@/lib/database');
+    
     const orderData = {
       id: paymentIntent.id,
       productId,
@@ -63,11 +65,23 @@ export default async function handler(req, res) {
       customerEmail,
       customerName,
       status: 'pending',
-      createdAt: new Date().toISOString()
+      paymentIntentId: paymentIntent.id
     };
 
-    // TODO: حفظ في قاعدة البيانات
-    console.log('Order created:', orderData);
+    // حفظ الطلب
+    const orderResult = await createOrder(orderData);
+    if (!orderResult.success) {
+      console.error('Failed to save order:', orderResult.error);
+    }
+
+    // حفظ/تحديث بيانات العميل
+    const customerResult = await upsertCustomer({
+      email: customerEmail,
+      name: customerName,
+      amount: 0 // سيتم تحديثه عند اكتمال الدفع
+    });
+    
+    console.log('Order created:', orderResult.success ? orderResult.order.orderNumber : 'Failed');
 
     // إرجاع رابط الدفع
     res.status(200).json({

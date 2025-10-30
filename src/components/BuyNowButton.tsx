@@ -38,6 +38,15 @@ const BuyNowButton = ({
     try {
       console.log('Starting payment process for:', product.title);
       
+      // جمع بيانات العميل (يمكن تحسينها لاحقاً بنموذج)
+      const customerEmail = prompt('يرجى إدخال بريدك الإلكتروني لإرسال رابط التحميل:');
+      if (!customerEmail) {
+        setIsLoading(false);
+        return;
+      }
+      
+      const customerName = prompt('يرجى إدخال اسمك (اختياري):') || '';
+      
       // إرسال طلب لإنشاء Payment Intent
       const response = await fetch('/api/payment_intent', {
         method: 'POST',
@@ -45,9 +54,11 @@ const BuyNowButton = ({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          productName: product.title,
-          amount: product.price * 100, // تحويل إلى fils (1 AED = 100 fils)
-          customerEmail: '' // يمكن إضافة نظام لجمع البريد الإلكتروني لاحقاً
+          amount: product.price,
+          currency: 'AED',
+          productId: product.id,
+          customerEmail: customerEmail.trim(),
+          customerName: customerName.trim()
         })
       });
 
@@ -62,10 +73,10 @@ const BuyNowButton = ({
       const data = await response.json();
       console.log('API Response data:', data);
       
-      if (data.success && data.redirect_url) {
+      if (data.success && data.paymentUrl) {
         // فتح رابط الدفع في نافذة جديدة
-        console.log('Opening payment URL:', data.redirect_url);
-        window.open(data.redirect_url, '_blank');
+        console.log('Opening payment URL:', data.paymentUrl);
+        window.open(data.paymentUrl, '_blank');
       } else {
         throw new Error('لم يتم الحصول على رابط الدفع');
       }
