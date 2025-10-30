@@ -1,8 +1,20 @@
-<svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="80" height="50" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1"/>
-  <circle cx="30" cy="25" r="12" fill="#EB001B"/>
-  <circle cx="50" cy="25" r="12" fill="#F79E1B"/>
-  <path d="M40 15.5C42.5 17.5 44 20.5 44 24C44 27.5 42.5 30.5 40 32.5C37.5 30.5 36 27.5 36 24C36 20.5 37.5 17.5 40 15.5Z" fill="#FF5F00"/>
-  <text x="40" y="42" text-anchor="middle" fill="#000" font-family="Arial, sans-serif" font-size="8" font-weight="bold">mastercard</text>
+<svg width="120" height="75" viewBox="0 0 120 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="75" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2"/>
+  
+  <!-- Mastercard Circles -->
+  <g transform="translate(30, 20)">
+    <!-- Left Circle (Red) -->
+    <circle cx="15" cy="17.5" r="15" fill="#EB001B"/>
+    <!-- Right Circle (Orange) -->
+    <circle cx="45" cy="17.5" r="15" fill="#F79E1B"/>
+    <!-- Intersection -->
+    <path d="M30 7.5C33.5 10.5 35.5 14.5 35.5 17.5C35.5 20.5 33.5 24.5 30 27.5C26.5 24.5 24.5 20.5 24.5 17.5C24.5 14.5 26.5 10.5 30 7.5Z" fill="#FF5F00"/>
+  </g>
+  
+  <!-- Mastercard Text -->
+  <text x="60" y="55" text-anchor="middle" fill="#000" font-family="Arial, sans-serif" font-size="10" font-weight="bold">mastercard</text>
+  
+  <!-- Security features -->
+  <rect x="85" y="55" width="25" height="2" rx="1" fill="#e2e8f0"/>
 </svg>
 

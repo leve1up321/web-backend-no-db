@@ -1,9 +1,25 @@
-<svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="80" height="50" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1"/>
-  <path d="M20 20H24V30H20V20Z" fill="#4285F4"/>
-  <path d="M26 20C28.2 20 30 21.8 30 24V26C30 28.2 28.2 30 26 30H24V20H26ZM26 22H26V28C27.1 28 28 27.1 28 26V24C28 22.9 27.1 22 26 22Z" fill="#34A853"/>
-  <path d="M32 20H36C38.2 20 40 21.8 40 24C40 26.2 38.2 28 36 28H34V30H32V20ZM34 22V26H36C37.1 26 38 25.1 38 24C38 22.9 37.1 22 36 22H34Z" fill="#FBBC04"/>
-  <path d="M42 20H46V22H44V24H46V26H44V28H46V30H42V20Z" fill="#EA4335"/>
-  <text x="40" y="40" text-anchor="middle" fill="#5F6368" font-family="Arial, sans-serif" font-size="8" font-weight="normal">Pay</text>
+<svg width="120" height="75" viewBox="0 0 120 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="75" rx="12" fill="white" stroke="#e2e8f0" stroke-width="2"/>
+  
+  <!-- Google G Logo -->
+  <g transform="translate(20, 25)">
+    <path d="M12.5 12.5C12.5 8.5 15.5 5.5 19.5 5.5C21.5 5.5 23 6.5 24 7.5L22 9.5C21.5 9 20.5 8.5 19.5 8.5C17 8.5 15.5 10.5 15.5 12.5C15.5 14.5 17 16.5 19.5 16.5C20.5 16.5 21.5 16 22 15.5V14H19.5V11H25V16C24 18 21.5 19.5 19.5 19.5C15.5 19.5 12.5 16.5 12.5 12.5Z" fill="#4285F4"/>
+  </g>
+  
+  <!-- Pay Text -->
+  <g transform="translate(45, 25)">
+    <text x="0" y="15" fill="#5F6368" font-family="Google Sans, Roboto, sans-serif" font-size="16" font-weight="500">Pay</text>
+  </g>
+  
+  <!-- Google Colors Accent -->
+  <g transform="translate(85, 20)">
+    <rect x="0" y="0" width="3" height="3" fill="#4285F4"/>
+    <rect x="4" y="0" width="3" height="3" fill="#34A853"/>
+    <rect x="0" y="4" width="3" height="3" fill="#FBBC04"/>
+    <rect x="4" y="4" width="3" height="3" fill="#EA4335"/>
+  </g>
+  
+  <!-- Security Line -->
+  <rect x="20" y="55" width="80" height="1" fill="#e2e8f0"/>
 </svg>
 

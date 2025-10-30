@@ -39,7 +39,7 @@ const PaymentMethods: React.FC = () => {
             <img 
               src={method.logo} 
               alt={method.alt} 
-              className="h-8 w-auto opacity-80 group-hover:opacity-100 transition-opacity"
+              className="h-10 w-auto opacity-90 group-hover:opacity-100 transition-all duration-300 group-hover:scale-105"
               loading="lazy"
             />
           </div>

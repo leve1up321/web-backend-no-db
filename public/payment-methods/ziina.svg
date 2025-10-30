@@ -1,6 +1,25 @@
-<svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="80" height="50" rx="8" fill="#6366F1" stroke="#e5e7eb" stroke-width="1"/>
-  <path d="M20 20L30 20L25 25L35 25L30 30L20 30L25 25L15 25L20 20Z" fill="white"/>
-  <text x="40" y="32" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Ziina</text>
+<svg width="120" height="75" viewBox="0 0 120 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="75" rx="12" fill="#6366F1"/>
+  
+  <!-- Ziina Logo -->
+  <g transform="translate(25, 25)">
+    <!-- Z Shape -->
+    <path d="M5 5L25 5L15 12.5L35 12.5L25 20L5 20L15 12.5L-5 12.5L5 5Z" fill="white"/>
+    
+    <!-- Ziina Text -->
+    <text x="35" y="15" fill="white" font-family="Inter, sans-serif" font-size="14" font-weight="600">Ziina</text>
+  </g>
+  
+  <!-- UAE Badge -->
+  <g transform="translate(20, 50)">
+    <rect x="0" y="0" width="25" height="8" rx="2" fill="rgba(255,255,255,0.2)"/>
+    <text x="12.5" y="5" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="4" font-weight="normal">UAE PAYMENT</text>
+  </g>
+  
+  <!-- Security Icon -->
+  <g transform="translate(85, 20)">
+    <circle cx="5" cy="5" r="4" fill="rgba(255,255,255,0.3)"/>
+    <path d="M3 5L4.5 6.5L7 3.5" stroke="white" stroke-width="1" fill="none"/>
+  </g>
 </svg>
 
