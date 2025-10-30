@@ -53,8 +53,6 @@ const Footer = () => {
             <ul className="space-y-2">
               <li><Link to="/privacy-policy" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">سياسة الاستخدام والخصوصية</Link></li>
               <li><Link to="/refund-policy" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">سياسة الاستبدال والاسترجاع</Link></li>
-              <li><a href="#warranty" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">الضمان الذهبي</a></li>
-              <li><a href="#support" className="text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300">الدعم الفني</a></li>
             </ul>
           </div>
           

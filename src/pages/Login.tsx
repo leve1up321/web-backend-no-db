@@ -49,11 +49,11 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-          <Link to="/" className="hover:text-primary flex items-center gap-1">
+          <Link to="/" className="hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 flex items-center gap-1">
             <Home className="h-4 w-4" />
             الرئيسية
           </Link>
@@ -61,12 +61,12 @@ const Login = () => {
           <span>تسجيل الدخول</span>
         </div>
 
-        <Card className="shadow-xl border-0">
+        <Card className="shadow-xl border border-border bg-card">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold text-gray-900">
+            <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               تسجيل الدخول
             </CardTitle>
-            <CardDescription className="text-gray-600">
+            <CardDescription className="text-muted-foreground">
               أدخل بياناتك للوصول إلى حسابك
             </CardDescription>
           </CardHeader>
@@ -86,7 +86,7 @@ const Login = () => {
                   البريد الإلكتروني
                 </Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="email"
                     name="email"
@@ -106,7 +106,7 @@ const Login = () => {
                   كلمة المرور
                 </Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
                     name="password"
@@ -121,7 +121,7 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors"
                     disabled={isLoading}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -132,7 +132,7 @@ const Login = () => {
               <div className="flex items-center justify-between">
                 <Link
                   to="/forgot-password"
-                  className="text-sm text-primary hover:underline"
+                  className="text-sm text-primary hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300"
                 >
                   نسيت كلمة المرور؟
                 </Link>
@@ -140,7 +140,7 @@ const Login = () => {
 
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white font-semibold"
                 disabled={isLoading}
               >
                 {isLoading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
@@ -148,11 +148,11 @@ const Login = () => {
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-muted-foreground">
                 ليس لديك حساب؟{' '}
                 <Link
                   to="/register"
-                  className="text-primary hover:underline font-medium"
+                  className="text-primary hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 font-medium"
                 >
                   إنشاء حساب جديد
                 </Link>

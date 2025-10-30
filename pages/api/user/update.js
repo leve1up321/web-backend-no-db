@@ -1,5 +1,5 @@
-import { User } from '../../models/User.js';
-import { requireAuth, sanitizeUser, isValidEmail } from '../../lib/auth.js';
+import { User } from '../../../models/User.js';
+import { requireAuth, sanitizeUser, isValidEmail } from '../../../lib/auth.js';
 
 async function handler(req, res) {
   if (req.method !== 'PUT') {

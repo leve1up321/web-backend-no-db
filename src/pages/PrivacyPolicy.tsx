@@ -186,20 +186,9 @@ const PrivacyPolicy: React.FC = () => {
               </div>
               
               <div className="space-y-4">
-                <div className="bg-primary/10 border border-primary/20 rounded-lg p-6">
-                  <h4 className="font-semibold text-primary mb-3">🏆 الضمان الذهبي</h4>
-                  <p className="text-foreground">
-                    جميع الحسابات والأكواد تشمل ضمان ذهبي لمدة <strong>6 أشهر</strong> ضد أي مشكلة في التفعيل أو الوصول.
-                  </p>
-                </div>
                 <div className="bg-secondary/5 border border-secondary/20 rounded-lg p-4">
                   <p className="text-foreground">
                     <strong>طبيعة المنتجات:</strong> لا يمكن استرجاع أو استبدال المنتج بعد التسليم نظرًا لطبيعته الرقمية.
-                  </p>
-                </div>
-                <div className="bg-muted/50 border border-border rounded-lg p-4">
-                  <p className="text-foreground">
-                    <strong>الدعم الفني:</strong> في حال وجود مشكلة حقيقية بالمنتج، يتم مراجعة الحالة من قبل الدعم الفني خلال 24 ساعة.
                   </p>
                 </div>
               </div>

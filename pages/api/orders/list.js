@@ -1,5 +1,5 @@
-import { Order } from '../../models/Order.js';
-import { requireAuth } from '../../lib/auth.js';
+import { Order } from '../../../models/Order.js';
+import { requireAuth } from '../../../lib/auth.js';
 import { ObjectId } from 'mongodb';
 
 async function handler(req, res) {

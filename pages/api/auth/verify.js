@@ -1,5 +1,5 @@
-import { User } from '../../models/User.js';
-import { verifyToken, sanitizeUser } from '../../lib/auth.js';
+import { User } from '../../../models/User.js';
+import { verifyToken, sanitizeUser } from '../../../lib/auth.js';
 
 export default async function handler(req, res) {
   // Only allow GET requests

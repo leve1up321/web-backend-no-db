@@ -66,11 +66,11 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-          <Link to="/" className="hover:text-primary flex items-center gap-1">
+          <Link to="/" className="hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 flex items-center gap-1">
             <Home className="h-4 w-4" />
             الرئيسية
           </Link>
@@ -78,12 +78,12 @@ const Register = () => {
           <span>إنشاء حساب</span>
         </div>
 
-        <Card className="shadow-xl border-0">
+        <Card className="shadow-xl border border-border bg-card">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-bold text-gray-900">
+            <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               إنشاء حساب جديد
             </CardTitle>
-            <CardDescription className="text-gray-600">
+            <CardDescription className="text-muted-foreground">
               أدخل بياناتك لإنشاء حساب جديد
             </CardDescription>
           </CardHeader>
@@ -103,7 +103,7 @@ const Register = () => {
                   الاسم الكامل
                 </Label>
                 <div className="relative">
-                  <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="name"
                     name="name"
@@ -123,7 +123,7 @@ const Register = () => {
                   البريد الإلكتروني
                 </Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="email"
                     name="email"
@@ -143,7 +143,7 @@ const Register = () => {
                   رقم الهاتف (اختياري)
                 </Label>
                 <div className="relative">
-                  <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="phone"
                     name="phone"
@@ -163,7 +163,7 @@ const Register = () => {
                     المدينة (اختياري)
                   </Label>
                   <div className="relative">
-                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="city"
                       name="city"
@@ -198,7 +198,7 @@ const Register = () => {
                   كلمة المرور
                 </Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
                     name="password"
@@ -213,7 +213,7 @@ const Register = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors"
                     disabled={isLoading}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -226,7 +226,7 @@ const Register = () => {
                   تأكيد كلمة المرور
                 </Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="confirmPassword"
                     name="confirmPassword"
@@ -241,7 +241,7 @@ const Register = () => {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition-colors"
                     disabled={isLoading}
                   >
                     {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -251,7 +251,7 @@ const Register = () => {
 
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white font-semibold"
                 disabled={isLoading}
               >
                 {isLoading ? 'جاري إنشاء الحساب...' : 'إنشاء حساب'}
@@ -259,11 +259,11 @@ const Register = () => {
             </form>
 
             <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-muted-foreground">
                 لديك حساب بالفعل؟{' '}
                 <Link
                   to="/login"
-                  className="text-primary hover:underline font-medium"
+                  className="text-primary hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 font-medium"
                 >
                   تسجيل الدخول
                 </Link>
@@ -273,7 +273,7 @@ const Register = () => {
             <div className="mt-4 text-center">
               <Link
                 to="/"
-                className="text-sm text-gray-500 hover:text-primary flex items-center justify-center gap-1"
+                className="text-sm text-muted-foreground hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 flex items-center justify-center gap-1"
               >
                 <Home className="h-4 w-4" />
                 العودة للرئيسية

@@ -1,6 +1,6 @@
-import { User } from '../../models/User.js';
-import { Order } from '../../models/Order.js';
-import { requireAuth, sanitizeUser } from '../../lib/auth.js';
+import { User } from '../../../models/User.js';
+import { Order } from '../../../models/Order.js';
+import { requireAuth, sanitizeUser } from '../../../lib/auth.js';
 
 async function handler(req, res) {
   if (req.method !== 'GET') {

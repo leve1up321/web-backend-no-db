@@ -123,6 +123,14 @@ All colors MUST be HSL.
 
   html {
     overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  /* تحسين أنيميشن السكرول */
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   /* منع التمرير الأفقي للعناصر الطويلة */

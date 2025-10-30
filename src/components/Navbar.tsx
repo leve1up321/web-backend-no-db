@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { ShoppingCart, Globe, DollarSign, Menu, X, Heart } from 'lucide-react';
+import { ShoppingCart, Globe, DollarSign, Menu, X, Heart, User, LogOut, UserPlus } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useCart } from '@/contexts/CartContext';
 import { useWishlist } from '@/contexts/WishlistContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -21,6 +22,7 @@ const Navbar = () => {
   const { currency, setCurrency } = useCurrency();
   const { getCartCount } = useCart();
   const { wishlist } = useWishlist();
+  const { user, logout } = useAuth();
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -31,11 +33,19 @@ const Navbar = () => {
       navigate('/');
       setTimeout(() => {
         const element = document.querySelector(href);
-        element?.scrollIntoView({ behavior: 'smooth' });
+        element?.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
       }, 100);
     } else {
       const element = document.querySelector(href);
-      element?.scrollIntoView({ behavior: 'smooth' });
+      element?.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      });
     }
   };
 
@@ -130,6 +140,52 @@ const Navbar = () => {
                 </Button>
               </Link>
 
+              {/* User Account */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="gap-2">
+                    <User className="h-5 w-5" />
+                    <span className="hidden sm:inline">
+                      {user ? user.name.split(' ')[0] : 'حسابي'}
+                    </span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {user ? (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link to="/account" className="flex items-center gap-2">
+                          <User className="h-4 w-4" />
+                          الملف الشخصي
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem 
+                        onClick={logout}
+                        className="flex items-center gap-2 text-red-600"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        تسجيل الخروج
+                      </DropdownMenuItem>
+                    </>
+                  ) : (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link to="/login" className="flex items-center gap-2">
+                          <User className="h-4 w-4" />
+                          تسجيل الدخول
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to="/register" className="flex items-center gap-2">
+                          <UserPlus className="h-4 w-4" />
+                          إنشاء حساب
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               {/* Cart */}
               <Button
                 variant="ghost"
@@ -166,6 +222,54 @@ const Navbar = () => {
                         {link.label}
                       </button>
                     ))}
+                    
+                    {/* Mobile User Menu */}
+                    <div className="border-t pt-4 mt-4">
+                      {user ? (
+                        <>
+                          <div className="text-sm text-muted-foreground mb-2">
+                            مرحباً، {user.name}
+                          </div>
+                          <Link 
+                            to="/account" 
+                            className="flex items-center gap-2 text-lg hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 mb-2"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            <User className="h-5 w-5" />
+                            الملف الشخصي
+                          </Link>
+                          <button 
+                            onClick={() => {
+                              logout();
+                              setIsMobileMenuOpen(false);
+                            }}
+                            className="flex items-center gap-2 text-lg text-red-600 hover:text-red-700 transition-colors"
+                          >
+                            <LogOut className="h-5 w-5" />
+                            تسجيل الخروج
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <Link 
+                            to="/login" 
+                            className="flex items-center gap-2 text-lg hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300 mb-2"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            <User className="h-5 w-5" />
+                            تسجيل الدخول
+                          </Link>
+                          <Link 
+                            to="/register" 
+                            className="flex items-center gap-2 text-lg hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:bg-clip-text hover:text-transparent transition-all duration-300"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            <UserPlus className="h-5 w-5" />
+                            إنشاء حساب
+                          </Link>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </SheetContent>
               </Sheet>
