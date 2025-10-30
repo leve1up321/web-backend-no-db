@@ -49,29 +49,47 @@ const ZiinaPayment: React.FC = () => {
       
       localStorage.setItem(`order_${orderId}`, JSON.stringify(orderDetails));
 
-      // مؤقتاً: استخدام واتساب مباشرة حتى يتم إعداد الخادم
-      // في المستقبل، ستحتاج لخادم Node.js أو Next.js لاستخدام مفاتيح Ziina بأمان
+      // الدفع المباشر عبر زينة باستخدام الخادم المنفصل
       
-      const orderSummary = cart.map(item => 
-        `${item.title} x${item.quantity} - ${item.price * item.quantity} AED`
-      ).join('\n');
-      
-      const message = language === 'ar' 
-        ? `مرحباً! أريد شراء المنتجات التالية:\n\n${orderSummary}\n\nالمجموع الكلي: ${totalAmount} AED\n\nرقم الطلب: ${orderId}\n\nأريد الدفع عبر زينة (Ziina)`
-        : `Hello! I want to purchase the following products:\n\n${orderSummary}\n\nTotal: ${totalAmount} AED\n\nOrder ID: ${orderId}\n\nI want to pay via Ziina`;
-      
-      const whatsappNumber = '971503492848';
-      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-      
-      // فتح واتساب مباشرة
-      window.open(whatsappUrl, '_blank');
-      
-      // إظهار رسالة للمستخدم
-      alert(language === 'ar' 
-        ? 'تم فتح واتساب لإتمام عملية الشراء. سيتم التواصل معك لترتيب الدفع عبر زينة.'
-        : 'WhatsApp has been opened to complete your purchase. We will contact you to arrange payment via Ziina.');
-      
-      return; // إنهاء الدالة هنا
+      // URL الخادم - يتغير حسب البيئة
+      const serverUrl = process.env.NODE_ENV === 'production' 
+        ? 'https://your-payment-server.com' // ضع رابط الخادم في الإنتاج هنا
+        : 'http://localhost:3001';
+
+      const response = await fetch(`${serverUrl}/api/payment/create`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: totalAmount,
+          currency: 'AED',
+          description: `Level Up Store - ${orderDescription}`,
+          order_id: orderId,
+          items: cart,
+          customer_email: '', // يمكن إضافة نموذج لجمع البريد الإلكتروني
+          customer_name: '', // يمكن إضافة نموذج لجمع الاسم
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Server error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success && data.payment_url) {
+        // فتح صفحة الدفع في نافذة جديدة
+        window.open(data.payment_url, '_blank');
+        
+        // إظهار رسالة للمستخدم
+        alert(language === 'ar' 
+          ? 'تم إنشاء رابط الدفع بنجاح! سيتم فتح زينة في نافذة جديدة.'
+          : 'Payment link created successfully! Ziina will open in a new window.');
+      } else {
+        throw new Error(data.message || 'Failed to create payment');
+      }
 
     } catch (err) {
       console.error('Payment error:', err);
