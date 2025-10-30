@@ -13,7 +13,9 @@ export default defineConfig(({ mode }) => ({
     },
     proxy: {
       '/api': {
-        target: 'https://levelup-iota.vercel.app',
+        target: process.env.NODE_ENV === 'production' 
+          ? 'https://web-backend-no-db.vercel.app'
+          : 'http://localhost:3001',
         changeOrigin: true,
         secure: true,
       }
@@ -23,6 +25,19 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  build: {
+    chunkSizeWarningLimit: 1000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          ui: ['@radix-ui/react-dropdown-menu', '@radix-ui/react-dialog', '@radix-ui/react-alert-dialog'],
+          router: ['react-router-dom'],
+          icons: ['lucide-react'],
+        },
+      },
     },
   },
 }));
