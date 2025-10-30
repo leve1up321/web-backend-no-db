@@ -5,35 +5,35 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-card/50 border-t border-border py-12 px-4">
+    <footer className="bg-card/50 border-t border-border py-8 sm:py-10 md:py-12 px-3 sm:px-4">
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          <div>
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
+          <div className="sm:col-span-2 md:col-span-1">
+            <h3 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-3 sm:mb-4">
               Level Up Store
             </h3>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
               {t('companyDescription')}
             </p>
-            <p className="text-muted-foreground mt-2">
+            <p className="text-muted-foreground mt-2 text-sm sm:text-base leading-relaxed">
               {t('heroSubtitle')}
             </p>
           </div>
           
           <div>
-            <h4 className="text-lg font-semibold mb-4">
+            <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
               {t('quickLinks')}
             </h4>
             <ul className="space-y-2">
-              <li><a href="#home" className="text-muted-foreground hover:text-primary transition-colors">{t('home')}</a></li>
-              <li><a href="#products" className="text-muted-foreground hover:text-primary transition-colors">{t('products')}</a></li>
-              <li><a href="#reviews" className="text-muted-foreground hover:text-primary transition-colors">{t('reviews')}</a></li>
-              <li><a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">{t('contact')}</a></li>
+              <li><a href="#home" className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base">{t('home')}</a></li>
+              <li><a href="#products" className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base">{t('products')}</a></li>
+              <li><a href="#reviews" className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base">{t('reviews')}</a></li>
+              <li><a href="#contact" className="text-muted-foreground hover:text-primary transition-colors text-sm sm:text-base">{t('contact')}</a></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-lg font-semibold mb-4">
+            <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
               {t('contactInfo')}
             </h4>
             <div className="space-y-3">

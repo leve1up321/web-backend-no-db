@@ -60,31 +60,31 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
+      <DialogContent className="max-w-sm sm:max-w-md max-h-[85vh] sm:max-h-[80vh] overflow-y-auto mx-3 sm:mx-auto">
         <DialogHeader>
-          <DialogTitle>{t('cart')}</DialogTitle>
+          <DialogTitle className="text-lg sm:text-xl">{t('cart')}</DialogTitle>
         </DialogHeader>
 
         {cart.length === 0 ? (
-          <div className="text-center py-8 text-muted-foreground">
+          <div className="text-center py-6 sm:py-8 text-muted-foreground text-sm sm:text-base">
             {t('emptyCart')}
           </div>
         ) : (
           <>
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {cart.map((item) => (
-                <div key={item.id} className="flex gap-4 p-4 bg-card rounded-lg border border-border">
+                <div key={item.id} className="flex gap-3 sm:gap-4 p-3 sm:p-4 bg-card rounded-lg border border-border">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-20 h-20 object-cover rounded"
+                    className="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded"
                   />
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold truncate">{item.title}</h4>
-                    <p className="text-sm text-muted-foreground">
+                    <h4 className="font-semibold truncate text-sm sm:text-base leading-tight">{item.title}</h4>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
                       {t('quantity')}: {item.quantity}
                     </p>
-                    <p className="text-primary font-semibold">
+                    <p className="text-primary font-semibold text-sm sm:text-base">
                       {formatPrice(item.price * item.quantity)}
                     </p>
                   </div>
@@ -92,22 +92,23 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
                     variant="ghost"
                     size="sm"
                     onClick={() => removeFromCart(item.id)}
+                    className="p-2"
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Button>
                 </div>
               ))}
             </div>
 
-            <div className="border-t pt-4 mt-4">
-              <div className="flex justify-between items-center mb-4">
-                <span className="text-lg font-semibold">{t('total')}:</span>
-                <span className="text-2xl font-bold text-primary">
+            <div className="border-t pt-3 sm:pt-4 mt-3 sm:mt-4">
+              <div className="flex justify-between items-center mb-3 sm:mb-4">
+                <span className="text-base sm:text-lg font-semibold">{t('total')}:</span>
+                <span className="text-lg sm:text-2xl font-bold text-primary">
                   {formatPrice(getCartTotal())}
                 </span>
               </div>
               <Button 
-                className="w-full" 
+                className="w-full text-sm sm:text-base" 
                 size="lg"
                 onClick={handleCheckout}
               >

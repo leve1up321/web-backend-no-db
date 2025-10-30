@@ -50,76 +50,76 @@ const ProductDetails = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-24 pb-12 px-4">
+      <main className="flex-1 pt-16 sm:pt-20 md:pt-24 pb-8 sm:pb-12 px-3 sm:px-4">
         <div className="container mx-auto max-w-6xl">
           <Button
             variant="ghost"
             onClick={() => navigate('/')}
-            className="mb-8"
+            className="mb-4 sm:mb-6 md:mb-8 text-sm sm:text-base"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
+            <ArrowLeft className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
             {t('backToHome')}
           </Button>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12">
             {/* Product Image */}
             <div>
               <img
                 src={product.image}
                 alt={product.title}
-                className="w-full rounded-2xl shadow-2xl border border-border"
+                className="w-full rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl border border-border"
               />
             </div>
 
             {/* Product Info */}
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <div>
-                <Badge className="mb-4">{product.category}</Badge>
-                <h1 className="text-4xl font-bold mb-4">{product.title}</h1>
+                <Badge className="mb-3 sm:mb-4 text-xs sm:text-sm">{product.category}</Badge>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 leading-tight">{product.title}</h1>
                 
-                <div className="flex items-center gap-4 mb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 mb-3 sm:mb-4">
                   <div className="flex items-center gap-1">
-                    <Star className="h-5 w-5 fill-yellow-400 text-yellow-400" />
-                    <span className="font-semibold text-lg">{product.rating}</span>
+                    <Star className="h-4 w-4 sm:h-5 sm:w-5 fill-yellow-400 text-yellow-400" />
+                    <span className="font-semibold text-base sm:text-lg">{product.rating}</span>
                   </div>
-                  <span className="text-muted-foreground">
+                  <span className="text-muted-foreground text-sm sm:text-base">
                     ({product.reviewsCount} {t('reviews')})
                   </span>
                   <div className="flex items-center gap-1 text-muted-foreground">
-                    <Users className="h-4 w-4" />
-                    <span className="text-sm">{product.purchaseCount} مشترٍ</span>
+                    <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="text-xs sm:text-sm">{product.purchaseCount} مشترٍ</span>
                   </div>
                 </div>
 
-                <p className="text-lg text-muted-foreground leading-relaxed">
+                <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
                   {product.description}
                 </p>
               </div>
 
               <div className="flex items-baseline gap-4">
-                <span className="text-5xl font-bold text-primary">
+                <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary">
                   {formatPrice(product.price)}
                 </span>
               </div>
 
               <div className="space-y-3">
-                <div className="flex gap-3">
+                <div className="flex gap-2 sm:gap-3">
                   <Button
                     size="lg"
-                    className="flex-1 bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-lg py-6"
+                    className="flex-1 bg-gradient-to-r from-primary to-secondary hover:opacity-90 text-sm sm:text-base md:text-lg py-4 sm:py-6"
                     onClick={handleAddToCart}
                   >
-                    <ShoppingCart className="h-5 w-5 mr-2" />
+                    <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                     {t('addToCart')}
                   </Button>
                   <Button
                     size="lg"
                     variant="outline"
-                    className="px-6 py-6 border-primary/50 hover:bg-primary/10"
+                    className="px-4 sm:px-6 py-4 sm:py-6 border-primary/50 hover:bg-primary/10"
                     onClick={handleWishlistToggle}
                   >
                     <Heart 
-                      className={`h-5 w-5 ${
+                      className={`h-4 w-4 sm:h-5 sm:w-5 ${
                         isInWishlist(product.id) 
                           ? 'fill-red-500 text-red-500' 
                           : 'text-muted-foreground'

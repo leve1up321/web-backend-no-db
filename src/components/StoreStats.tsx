@@ -110,30 +110,30 @@ const StoreStats = () => {
   ];
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-r from-primary/10 to-secondary/10">
+    <section className="py-10 sm:py-12 md:py-16 px-3 sm:px-4 bg-gradient-to-r from-primary/10 to-secondary/10">
       <div className="container mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
             <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               إحصائيات متجر Level Up
             </span>
           </h2>
-          <p className="text-lg text-muted-foreground">
+          <p className="text-base sm:text-lg text-muted-foreground px-2">
             أرقام حقيقية تتحدث عن نفسها
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto">
           {statsData.map((stat, index) => (
             <Card key={index} className="bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/20">
-              <CardContent className="p-8 text-center">
-                <div className="flex justify-center mb-4">
-                  <stat.icon className={`h-12 w-12 ${stat.color}`} />
+              <CardContent className="p-4 sm:p-6 md:p-8 text-center">
+                <div className="flex justify-center mb-3 sm:mb-4">
+                  <stat.icon className={`h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 ${stat.color}`} />
                 </div>
-                <div className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                   {stat.value.toLocaleString()}{stat.suffix}
                 </div>
-                <div className="text-lg font-semibold text-muted-foreground">
+                <div className="text-sm sm:text-base md:text-lg font-semibold text-muted-foreground">
                   {stat.label}
                 </div>
               </CardContent>

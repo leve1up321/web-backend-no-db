@@ -199,48 +199,48 @@ const CustomerReviews = () => {
   const currentReviewData = reviews[currentReview];
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-r from-secondary/10 to-primary/10">
+    <section className="py-10 sm:py-12 md:py-16 px-3 sm:px-4 bg-gradient-to-r from-secondary/10 to-primary/10">
       <div className="container mx-auto max-w-4xl">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4">
             <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               ماذا يقول عملاؤنا؟
             </span>
           </h2>
-          <p className="text-lg text-muted-foreground mb-6">
+          <p className="text-base sm:text-lg text-muted-foreground mb-4 sm:mb-6 px-2">
             أكثر من 300 شخص جرّبوا الدليل وبدأوا مشاريعهم الرقمية 💡
           </p>
         </div>
 
         <Card className="bg-card/50 backdrop-blur-sm border-primary/20 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/20">
-          <CardContent className="p-8">
+          <CardContent className="p-4 sm:p-6 md:p-8">
             <div className="text-center">
-              <div className="flex justify-center mb-4">
+              <div className="flex justify-center mb-3 sm:mb-4">
                 {[...Array(5)].map((_, i) => (
                   <Star 
                     key={i} 
-                    className="h-6 w-6 fill-yellow-400 text-yellow-400" 
+                    className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 fill-yellow-400 text-yellow-400" 
                   />
                 ))}
               </div>
               
-              <blockquote className="text-lg md:text-xl text-foreground leading-relaxed mb-6 italic">
+              <blockquote className="text-sm sm:text-base md:text-lg lg:text-xl text-foreground leading-relaxed mb-4 sm:mb-6 italic px-2">
                 "{currentReviewData.comment}"
               </blockquote>
               
-              <div className="text-primary font-bold text-lg">
+              <div className="text-primary font-bold text-base sm:text-lg">
                 - {currentReviewData.name}
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <div className="flex justify-center mt-8 space-x-2">
+        <div className="flex justify-center mt-6 sm:mt-8 space-x-2">
           {reviews.slice(0, 10).map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentReview(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300 ${
                 index === currentReview % 10
                   ? 'bg-primary scale-125'
                   : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'

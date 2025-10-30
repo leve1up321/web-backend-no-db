@@ -33,18 +33,18 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 px-4 bg-background">
+    <section id="contact" className="py-12 sm:py-16 md:py-20 px-3 sm:px-4 bg-background">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
             <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               {t('contact')}
             </span>
           </h2>
-          <p className="text-xl text-muted-foreground mb-2">
+          <p className="text-lg sm:text-xl text-muted-foreground mb-2">
             {language === 'ar' ? 'نحب أن نسمع منك!' : 'We\'d Love to Hear From You!'}
           </p>
-          <p className="text-foreground/80 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-foreground/80 max-w-2xl mx-auto leading-relaxed px-2">
             {language === 'ar' 
               ? 'لا تتردد في التواصل معنا عبر أي من الطرق التالية. فريق الدعم جاهز لمساعدتك في كل خطوة من رحلتك الرقمية'
               : 'Feel free to contact us through any of the following methods. Our support team is ready to help you at every step of your digital journey'}
