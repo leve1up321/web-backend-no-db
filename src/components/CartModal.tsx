@@ -22,7 +22,7 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
   const { t, language } = useLanguage();
   const { toast } = useToast();
 
-  const handleCheckout = () => {
+  const handleCheckout = async () => {
     if (cart.length === 0) {
       toast({
         title: t('emptyCart'),
@@ -31,31 +31,97 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
       return;
     }
     
-    // Create order summary
-    const orderSummary = cart.map(item => 
-      `${item.title} x${item.quantity} - ${formatPrice(item.price * item.quantity)}`
-    ).join('\n');
-    
-    const totalAmount = getCartTotal();
-    const message = language === 'ar' 
-      ? `مرحباً! أريد شراء المنتجات التالية:\n\n${orderSummary}\n\nالمجموع الكلي: ${formatPrice(totalAmount)}`
-      : `Hello! I want to purchase the following products:\n\n${orderSummary}\n\nTotal: ${formatPrice(totalAmount)}`;
-    
-    // WhatsApp link
-    const whatsappNumber = '971503492848';
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-    
-    toast({
-      title: language === 'ar' ? 'جاري تحويلك للواتساب...' : 'Redirecting to WhatsApp...',
-    });
-    
-    // Open WhatsApp in new tab
-    window.open(whatsappUrl, '_blank');
-    
-    // Close modal after a short delay
-    setTimeout(() => {
-      onClose();
-    }, 1000);
+    try {
+      // إنشاء رقم طلب فريد
+      const orderId = `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      
+      // إنشاء وصف الطلب
+      const orderDescription = cart.map(item => 
+        `${item.title} x${item.quantity}`
+      ).join(', ');
+      
+      const totalAmount = getCartTotal();
+      
+      // حفظ تفاصيل الطلب في localStorage
+      const orderDetails = {
+        id: orderId,
+        items: cart,
+        total: totalAmount,
+        currency: 'AED',
+        created_at: new Date().toISOString(),
+        status: 'pending'
+      };
+      
+      localStorage.setItem(`order_${orderId}`, JSON.stringify(orderDetails));
+      
+      toast({
+        title: language === 'ar' ? 'جاري إنشاء رابط الدفع...' : 'Creating payment link...',
+      });
+
+      // إنشاء الدفعة عبر API
+      const response = await fetch('/api/payment/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: totalAmount,
+          currency: 'AED',
+          description: `Level Up Store - ${orderDescription}`,
+          order_id: orderId,
+          items: cart,
+          customer_email: '', // يمكن إضافة نموذج لجمع البريد الإلكتروني
+          customer_name: '', // يمكن إضافة نموذج لجمع الاسم
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.payment_url) {
+        toast({
+          title: language === 'ar' ? 'جاري تحويلك لصفحة الدفع...' : 'Redirecting to payment page...',
+        });
+        
+        // فتح صفحة الدفع في نافذة جديدة
+        window.open(data.payment_url, '_blank');
+        
+        // إغلاق النافذة بعد تأخير قصير
+        setTimeout(() => {
+          onClose();
+        }, 1000);
+        
+      } else {
+        throw new Error(data.message || 'Failed to create payment');
+      }
+      
+    } catch (error) {
+      console.error('Checkout error:', error);
+      
+      toast({
+        title: language === 'ar' ? 'خطأ في إنشاء الدفعة' : 'Payment creation error',
+        description: language === 'ar' 
+          ? 'حدث خطأ أثناء إنشاء رابط الدفع. يرجى المحاولة مرة أخرى أو التواصل معنا.'
+          : 'An error occurred while creating the payment link. Please try again or contact us.',
+        variant: "destructive"
+      });
+      
+      // كخيار احتياطي، فتح واتساب
+      const orderSummary = cart.map(item => 
+        `${item.title} x${item.quantity} - ${formatPrice(item.price * item.quantity)}`
+      ).join('\n');
+      
+      const totalAmount = getCartTotal();
+      const message = language === 'ar' 
+        ? `مرحباً! أريد شراء المنتجات التالية:\n\n${orderSummary}\n\nالمجموع الكلي: ${formatPrice(totalAmount)}\n\nملاحظة: واجهت مشكلة في نظام الدفع الإلكتروني`
+        : `Hello! I want to purchase the following products:\n\n${orderSummary}\n\nTotal: ${formatPrice(totalAmount)}\n\nNote: I encountered an issue with the online payment system`;
+      
+      const whatsappNumber = '971503492848';
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+      
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank');
+      }, 2000);
+    }
   };
 
   return (
