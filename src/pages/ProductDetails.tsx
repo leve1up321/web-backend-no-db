@@ -49,59 +49,55 @@ const ProductDetails = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      <main className="flex-1 pt-24 pb-12 px-4">
+      <main className="flex-1 pt-20 pb-8 px-4">
         <div className="container mx-auto max-w-6xl">
           <Button
             variant="ghost"
             onClick={() => navigate('/')}
-            className="mb-8"
+            className="mb-4 lg:mb-8"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             {t('backToHome')}
           </Button>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Product Image */}
             <div>
               <img
                 src={product.image}
                 alt={product.title}
-                className="w-full rounded-2xl shadow-2xl border border-border"
+                className="w-full rounded-xl shadow-lg border border-border"
               />
             </div>
 
             {/* Product Info */}
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div>
-                <Badge className="mb-4">{product.category}</Badge>
-                <h1 className="text-4xl font-bold mb-4">{product.title}</h1>
+                <Badge className="mb-3">{product.category}</Badge>
+                <h1 className="text-2xl lg:text-4xl font-bold mb-3">{product.title}</h1>
                 
-                <div className="flex items-center gap-4 mb-4">
+                <div className="flex items-center gap-2 mb-4 flex-wrap">
                   <InteractiveRating
                     initialRating={product.rating}
                     readonly={false}
-                    size="md"
+                    size="sm"
                     showValue={true}
                     onRatingChange={(newRating) => {
                       console.log(`Product rating changed to: ${newRating}`);
                     }}
                   />
-                  <span className="text-muted-foreground">
-                    ({product.reviewsCount} {t('reviews')})
+                  <span className="text-muted-foreground text-sm">
+                    ({product.reviewsCount})
                   </span>
-                  <div className="flex items-center gap-1 text-muted-foreground">
-                    <Users className="h-4 w-4" />
-                    <span className="text-sm">{product.purchaseCount} مشترٍ</span>
-                  </div>
                 </div>
 
-                <p className="text-lg text-muted-foreground leading-relaxed">
+                <p className="text-base text-muted-foreground leading-relaxed">
                   {product.description}
                 </p>
               </div>
 
               <div className="flex items-baseline gap-4">
-                <span className="text-5xl font-bold text-primary">
+                <span className="text-3xl lg:text-5xl font-bold text-primary">
                   {formatPrice(product.price)}
                 </span>
               </div>
@@ -111,12 +107,12 @@ const ProductDetails = () => {
                   <BuyNowButton 
                     product={product} 
                     size="lg" 
-                    className="flex-1 text-lg py-6"
+                    className="flex-1 text-base lg:text-lg py-4 lg:py-6"
                   />
                   <Button
                     size="lg"
                     variant="outline"
-                    className="px-6 py-6 border-primary/50 hover:bg-primary/10"
+                    className="px-4 lg:px-6 py-4 lg:py-6 border-primary/50 hover:bg-primary/10"
                     onClick={handleWishlistToggle}
                   >
                     <Heart 
@@ -132,13 +128,13 @@ const ProductDetails = () => {
 
               {/* Features */}
               <Card className="bg-card/50">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold mb-4">{t('features')}</h3>
-                  <div className="grid grid-cols-1 gap-3">
+                <CardContent className="p-4 lg:p-6">
+                  <h3 className="text-lg lg:text-xl font-bold mb-3 lg:mb-4">{t('features')}</h3>
+                  <div className="grid grid-cols-1 gap-2 lg:gap-3">
                     {product.features.map((feature, index) => (
                       <div key={index} className="flex items-center gap-2">
-                        <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
-                        <span>{feature}</span>
+                        <CheckCircle className="h-4 w-4 lg:h-5 lg:w-5 text-primary flex-shrink-0" />
+                        <span className="text-sm lg:text-base">{feature}</span>
                       </div>
                     ))}
                   </div>
@@ -156,14 +152,14 @@ const ProductDetails = () => {
           </div>
 
           {/* Full Description */}
-          <div className="mt-12">
+          <div className="mt-8 lg:mt-12">
             <Card className="bg-card/50">
-              <CardContent className="p-8">
-                <h2 className="text-3xl font-bold mb-6">
+              <CardContent className="p-4 lg:p-8">
+                <h2 className="text-xl lg:text-3xl font-bold mb-4 lg:mb-6">
                   {t('productDescription')}
                 </h2>
                 <div
-                  className="prose prose-invert max-w-none"
+                  className="prose prose-invert max-w-none text-sm lg:text-base"
                   dangerouslySetInnerHTML={{ __html: sanitizeHtml(product.fullDescription) }}
                 />
               </CardContent>
@@ -172,14 +168,14 @@ const ProductDetails = () => {
 
           {/* Product Reviews */}
           {product.reviews && product.reviews.length > 0 && (
-            <div className="mt-12">
+            <div className="mt-8 lg:mt-12">
               <Card className="bg-card/50">
-                <CardContent className="p-8">
-                  <h2 className="text-3xl font-bold mb-6">
+                <CardContent className="p-4 lg:p-8">
+                  <h2 className="text-xl lg:text-3xl font-bold mb-4 lg:mb-6">
                     تقييمات العملاء ({product.reviews.length})
                   </h2>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                     {product.reviews.map((review) => (
                       <Card key={review.id} className="bg-background/50 border-primary/20">
                         <CardContent className="p-6">

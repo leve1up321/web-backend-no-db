@@ -60,16 +60,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
         </div>
       </Link>
       
-      <CardContent className="p-6 space-y-3">
+      <CardContent className="p-4 space-y-2">
         <Link to={`/product/${product.id}`}>
-          <h3 className="text-xl font-bold group-hover:text-primary transition-colors line-clamp-2">
+          <h3 className="text-lg font-bold group-hover:text-primary transition-colors line-clamp-2">
             {product.title}
           </h3>
         </Link>
-        
-        <p className="text-muted-foreground text-sm line-clamp-2">
-          {product.shortDescription}
-        </p>
         
         <div className="flex items-center gap-2 text-sm">
           <InteractiveRating
@@ -82,29 +78,17 @@ const ProductCard = ({ product }: ProductCardProps) => {
             }}
           />
           <span className="text-muted-foreground">
-            ({product.reviewsCount} {t('reviews')})
+            ({product.reviewsCount})
           </span>
-        </div>
-        
-        <div className="flex items-center gap-1 text-sm text-muted-foreground">
-          <Users className="h-4 w-4" />
-          <span>{product.purchaseCount} مشترٍ</span>
         </div>
       </CardContent>
       
-      <CardFooter className="p-6 pt-0 flex items-center justify-between">
-        <span className="text-2xl font-bold text-primary">
+      <CardFooter className="p-4 pt-0 flex items-center justify-between">
+        <span className="text-xl font-bold text-primary">
           {formatPrice(product.price)}
         </span>
         
-        <div className="flex gap-2">
-          <Link to={`/product/${product.id}`}>
-            <Button variant="outline" size="sm">
-              {t('viewDetails')}
-            </Button>
-          </Link>
-          <BuyNowButton product={product} size="sm" />
-        </div>
+        <BuyNowButton product={product} size="sm" />
       </CardFooter>
       
       <style>{`
