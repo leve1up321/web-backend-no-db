@@ -1,197 +1,176 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Eye, EyeOff, Mail, Lock, ArrowRight } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useAuth } from '@/contexts/AuthContext';
-import { LoginCredentials } from '@/types/auth';
-
-const loginSchema = z.object({
-  email: z.string().email('البريد الإلكتروني غير صحيح'),
-  password: z.string().min(6, 'كلمة المرور يجب أن تكون 6 أحرف على الأقل'),
-  rememberMe: z.boolean().optional(),
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
+import { Eye, EyeOff, Mail, Lock, ArrowRight, Home } from 'lucide-react';
+import { toast } from 'sonner';
 
 const Login = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
   const [showPassword, setShowPassword] = useState(false);
-  const { login, isLoading, error, clearError } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { login, error, clearError } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Get the intended destination or default to home
   const from = location.state?.from?.pathname || '/';
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-      rememberMe: false,
-    },
-  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    if (error) clearError();
+  };
 
-  const rememberMe = watch('rememberMe');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
 
-  const onSubmit = async (data: LoginFormData) => {
-    clearError();
     try {
-      await login(data as LoginCredentials);
+      await login(formData);
+      toast.success('تم تسجيل الدخول بنجاح!');
       navigate(from, { replace: true });
     } catch (error) {
-      // Error is handled in the context
+      // Error is handled by the AuthContext
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Demo credentials helper
-  const fillDemoCredentials = () => {
-    setValue('email', 'ahmed@example.com');
-    setValue('password', 'password123');
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1 text-center">
-          <CardTitle className="text-2xl font-bold">تسجيل الدخول</CardTitle>
-          <CardDescription>
-            أدخل بياناتك للوصول إلى حسابك
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {error && (
-            <Alert variant="destructive" className="mb-4">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Breadcrumb */}
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
+          <Link to="/" className="hover:text-primary flex items-center gap-1">
+            <Home className="h-4 w-4" />
+            الرئيسية
+          </Link>
+          <ArrowRight className="h-4 w-4" />
+          <span>تسجيل الدخول</span>
+        </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">البريد الإلكتروني</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="أدخل بريدك الإلكتروني"
-                  className="pl-10"
-                  {...register('email')}
-                />
-              </div>
-              {errors.email && (
-                <p className="text-sm text-red-600">{errors.email.message}</p>
-              )}
-            </div>
+        <Card className="shadow-xl border-0">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-bold text-gray-900">
+              تسجيل الدخول
+            </CardTitle>
+            <CardDescription className="text-gray-600">
+              أدخل بياناتك للوصول إلى حسابك
+            </CardDescription>
+          </CardHeader>
+          
+          <CardContent>
+            {error && (
+              <Alert className="mb-4 border-red-200 bg-red-50">
+                <AlertDescription className="text-red-800">
+                  {error}
+                </AlertDescription>
+              </Alert>
+            )}
 
-            <div className="space-y-2">
-              <Label htmlFor="password">كلمة المرور</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="أدخل كلمة المرور"
-                  className="pl-10 pr-10"
-                  {...register('password')}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-sm text-red-600">{errors.password.message}</p>
-              )}
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-2 space-x-reverse">
-                <Checkbox
-                  id="rememberMe"
-                  checked={rememberMe}
-                  onCheckedChange={(checked) => setValue('rememberMe', !!checked)}
-                />
-                <Label htmlFor="rememberMe" className="text-sm">
-                  تذكرني
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-right">
+                  البريد الإلكتروني
                 </Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="أدخل بريدك الإلكتروني"
+                    className="pl-10"
+                    required
+                    disabled={isLoading}
+                  />
+                </div>
               </div>
-              <Link
-                to="/forgot-password"
-                className="text-sm text-blue-600 hover:text-blue-800"
+
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-right">
+                  كلمة المرور
+                </Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="password"
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="أدخل كلمة المرور"
+                    className="pl-10 pr-10"
+                    required
+                    disabled={isLoading}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                    disabled={isLoading}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <Link
+                  to="/forgot-password"
+                  className="text-sm text-primary hover:underline"
+                >
+                  نسيت كلمة المرور؟
+                </Link>
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading}
               >
-                نسيت كلمة المرور؟
-              </Link>
+                {isLoading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
+              </Button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <p className="text-sm text-gray-600">
+                ليس لديك حساب؟{' '}
+                <Link
+                  to="/register"
+                  className="text-primary hover:underline font-medium"
+                >
+                  إنشاء حساب جديد
+                </Link>
+              </p>
             </div>
 
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <div className="flex items-center space-x-2 space-x-reverse">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  <span>جاري تسجيل الدخول...</span>
-                </div>
-              ) : (
-                <div className="flex items-center space-x-2 space-x-reverse">
-                  <span>تسجيل الدخول</span>
-                  <ArrowRight className="h-4 w-4" />
-                </div>
-              )}
-            </Button>
-
-            {/* Demo credentials button */}
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={fillDemoCredentials}
-            >
-              استخدام بيانات تجريبية
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              ليس لديك حساب؟{' '}
+            <div className="mt-4 text-center">
               <Link
-                to="/register"
-                className="text-blue-600 hover:text-blue-800 font-medium"
+                to="/"
+                className="text-sm text-gray-500 hover:text-primary flex items-center justify-center gap-1"
               >
-                إنشاء حساب جديد
+                <Home className="h-4 w-4" />
+                العودة للرئيسية
               </Link>
-            </p>
-          </div>
-
-          {/* Demo users info */}
-          <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-            <p className="text-xs text-gray-600 mb-2">حسابات تجريبية متاحة:</p>
-            <div className="text-xs space-y-1">
-              <p>• ahmed@example.com (عضو ذهبي - 1250 نقطة)</p>
-              <p>• fatima@example.com (عضو فضي - 750 نقطة)</p>
-              <p>• omar@example.com (عضو بلاتيني - 2100 نقطة)</p>
-              <p className="text-gray-500">كلمة المرور: أي كلمة مرور (6+ أحرف)</p>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
