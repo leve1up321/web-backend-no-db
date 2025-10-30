@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { createZiinaPayment, ZiinaPaymentItem } from '@/lib/ziina';
+import { ziinaGateway, ZiinaPaymentRequest } from '@/lib/ziina';
 import { CreditCard } from 'lucide-react';
 
 const ZiinaPayment: React.FC = () => {
@@ -27,66 +27,75 @@ const ZiinaPayment: React.FC = () => {
     setError(null);
 
     try {
-      // Convert cart items to Ziina format
-      const items: ZiinaPaymentItem[] = cart.map(item => ({
-        name: item.name,
-        quantity: item.quantity,
-        unit_amount: Math.round(item.price * 100), // Convert to cents
-      }));
-
-      console.log('Payment items:', items);
-
-      const totalAmount = Math.round(getCartTotal() * 100); // Convert to cents
-      console.log('Total amount:', totalAmount);
-
-      // Determine payment currency - Ziina supports SAR and AED primarily
-      let paymentCurrency = currency;
-      let convertedAmount = totalAmount;
-
-      // Handle currency conversion for unsupported currencies
-      if (!['SAR', 'AED'].includes(currency)) {
-        paymentCurrency = 'AED';
-        // Simple conversion rate (you should use real exchange rates)
-        const conversionRate = currency === 'USD' ? 3.67 : 3.67; // USD to AED approximate
-        convertedAmount = Math.round(totalAmount * conversionRate);
-        
-        console.log(`Converting from ${currency} to ${paymentCurrency}, amount: ${totalAmount} -> ${convertedAmount}`);
-      }
-
-      console.log('Payment currency:', paymentCurrency);
-
-      const currentUrl = window.location.origin;
+      // إنشاء رقم طلب فريد
+      const orderId = `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       
-      const paymentData = {
-        amount: convertedAmount,
-        currency: paymentCurrency,
-        items: items,
-        success_url: `${currentUrl}/payment/success`,
-        cancel_url: `${currentUrl}/payment/cancel`,
-        metadata: {
-          original_currency: currency,
-          original_amount: totalAmount,
-        }
+      // إنشاء وصف الطلب
+      const orderDescription = cart.map(item => 
+        `${item.title} x${item.quantity}`
+      ).join(', ');
+      
+      const totalAmount = getCartTotal();
+      
+      // حفظ تفاصيل الطلب في localStorage
+      const orderDetails = {
+        id: orderId,
+        items: cart,
+        total: totalAmount,
+        currency: 'AED',
+        created_at: new Date().toISOString(),
+        status: 'pending'
       };
+      
+      localStorage.setItem(`order_${orderId}`, JSON.stringify(orderDetails));
 
-      console.log('Creating payment with data:', paymentData);
+      // إنشاء الدفعة عبر API
+      const response = await fetch('/api/payment/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: totalAmount,
+          currency: 'AED',
+          description: `Level Up Store - ${orderDescription}`,
+          order_id: orderId,
+          items: cart,
+          customer_email: '', // يمكن إضافة نموذج لجمع البريد الإلكتروني
+          customer_name: '', // يمكن إضافة نموذج لجمع الاسم
+        }),
+      });
 
-      // Create real Ziina payment with API key
-      const paymentResponse = await createZiinaPayment(paymentData);
-      console.log('Payment response:', paymentResponse);
+      const data = await response.json();
 
-      if (paymentResponse.checkout_url) {
-        // Redirect to Ziina checkout
-        console.log('Redirecting to Ziina checkout:', paymentResponse.checkout_url);
-        window.location.href = paymentResponse.checkout_url;
+      if (data.success && data.payment_url) {
+        // فتح صفحة الدفع في نافذة جديدة
+        window.open(data.payment_url, '_blank');
       } else {
-        throw new Error('No checkout URL received from Ziina');
+        throw new Error(data.message || 'Failed to create payment');
       }
 
     } catch (err) {
       console.error('Payment error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Payment failed';
       setError(language === 'ar' ? `خطأ في الدفع: ${errorMessage}` : `Payment error: ${errorMessage}`);
+      
+      // كخيار احتياطي، فتح واتساب
+      const orderSummary = cart.map(item => 
+        `${item.title} x${item.quantity} - ${item.price * item.quantity} AED`
+      ).join('\n');
+      
+      const totalAmount = getCartTotal();
+      const message = language === 'ar' 
+        ? `مرحباً! أريد شراء المنتجات التالية:\n\n${orderSummary}\n\nالمجموع الكلي: ${totalAmount} AED\n\nملاحظة: واجهت مشكلة في نظام الدفع الإلكتروني`
+        : `Hello! I want to purchase the following products:\n\n${orderSummary}\n\nTotal: ${totalAmount} AED\n\nNote: I encountered an issue with the online payment system`;
+      
+      const whatsappNumber = '971503492848';
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+      
+      setTimeout(() => {
+        window.open(whatsappUrl, '_blank');
+      }, 2000);
     } finally {
       setIsLoading(false);
     }
