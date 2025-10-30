@@ -66,12 +66,8 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
         description: language === 'ar' ? 'يرجى الانتظار...' : 'Please wait...',
       });
 
-      // URL الخادم - يتغير حسب البيئة
-      const serverUrl = process.env.NODE_ENV === 'production' 
-        ? 'https://your-payment-server.com' // ضع رابط الخادم في الإنتاج هنا
-        : 'http://localhost:3002';
-
-      const response = await fetch(`${serverUrl}/api/payment/create`, {
+      // استخدام API routes الداخلية في Next.js
+      const response = await fetch('/api/payment/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
