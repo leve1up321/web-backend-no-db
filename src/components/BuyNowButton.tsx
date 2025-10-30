@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { ShoppingBag, ExternalLink, Shield, CreditCard } from 'lucide-react';
+import { ShoppingBag, ExternalLink, Shield, CreditCard, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useCart } from '@/contexts/CartContext';
+import CustomerInfoModal from '@/components/CustomerInfoModal';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,31 +23,30 @@ interface BuyNowButtonProps {
   size?: 'sm' | 'lg';
   variant?: 'default' | 'outline';
   className?: string;
+  showAddToCart?: boolean;
 }
 
 const BuyNowButton = ({ 
   product, 
   size = 'sm', 
   variant = 'default',
-  className = '' 
+  className = '',
+  showAddToCart = true
 }: BuyNowButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showCustomerInfo, setShowCustomerInfo] = useState(false);
   const { formatPrice } = useCurrency();
+  const { addToCart } = useCart();
 
-  const handlePurchase = async () => {
+  const handlePurchase = () => {
+    setShowCustomerInfo(true);
+  };
+
+  const handleCustomerInfoSubmit = async (customerInfo: any) => {
     setIsLoading(true);
     
     try {
       console.log('Starting payment process for:', product.title);
-      
-      // جمع بيانات العميل (يمكن تحسينها لاحقاً بنموذج)
-      const customerEmail = prompt('يرجى إدخال بريدك الإلكتروني لإرسال رابط التحميل:');
-      if (!customerEmail) {
-        setIsLoading(false);
-        return;
-      }
-      
-      const customerName = prompt('يرجى إدخال اسمك (اختياري):') || '';
       
       // إرسال طلب لإنشاء Payment Intent
       const response = await fetch('/api/payment_intent', {
@@ -57,8 +58,10 @@ const BuyNowButton = ({
           amount: product.price,
           currency: 'AED',
           productId: product.id,
-          customerEmail: customerEmail.trim(),
-          customerName: customerName.trim()
+          customerEmail: customerInfo.email,
+          customerName: customerInfo.name,
+          customerPhone: customerInfo.phone,
+          customerAddress: customerInfo.address
         })
       });
 
@@ -76,7 +79,7 @@ const BuyNowButton = ({
       if (data.success && data.paymentUrl) {
         // فتح رابط الدفع في نافذة جديدة
         console.log('Opening payment URL:', data.paymentUrl);
-        window.open(data.paymentUrl, '_blank');
+        window.location.href = data.paymentUrl;
       } else {
         throw new Error('لم يتم الحصول على رابط الدفع');
       }
@@ -93,16 +96,22 @@ const BuyNowButton = ({
       }
     } finally {
       setIsLoading(false);
+      setShowCustomerInfo(false);
     }
   };
 
+  const handleAddToCart = () => {
+    addToCart(product);
+  };
+
   return (
+    <div className={`flex gap-2 ${className}`}>
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
           size={size}
           variant={variant}
-          className={`bg-gradient-to-r from-primary to-secondary hover:opacity-90 ${className}`}
+          className="bg-gradient-to-r from-primary to-secondary hover:opacity-90"
           disabled={isLoading}
         >
           {isLoading ? (
@@ -166,6 +175,27 @@ const BuyNowButton = ({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
+
+    {showAddToCart && (
+      <Button
+        size={size}
+        variant="outline"
+        onClick={handleAddToCart}
+        className="border-primary text-primary hover:bg-primary hover:text-white"
+      >
+        <Plus className="h-4 w-4 mr-2" />
+        إضافة للسلة
+      </Button>
+    )}
+    
+    {/* نموذج بيانات العميل */}
+    <CustomerInfoModal
+      isOpen={showCustomerInfo}
+      onClose={() => setShowCustomerInfo(false)}
+      onSubmit={handleCustomerInfoSubmit}
+      isLoading={isLoading}
+    />
+    </div>
   );
 };
 

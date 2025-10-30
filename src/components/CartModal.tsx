@@ -1,4 +1,5 @@
-import { X, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { X, Trash2, Plus, Minus } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -6,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Separator } from '@/components/ui/separator';
 import ZiinaPayment from '@/components/ZiinaPayment';
+import CustomerInfoModal from '@/components/CustomerInfoModal';
 import {
   Dialog,
   DialogContent,
@@ -19,10 +21,12 @@ interface CartModalProps {
 }
 
 const CartModal = ({ isOpen, onClose }: CartModalProps) => {
-  const { cart, removeFromCart, getCartTotal } = useCart();
+  const { cart, removeFromCart, updateQuantity, getCartTotal } = useCart();
   const { formatPrice } = useCurrency();
   const { t, language } = useLanguage();
   const { toast } = useToast();
+  const [showCustomerInfo, setShowCustomerInfo] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleCheckout = () => {
     if (cart.length === 0) {
@@ -33,31 +37,54 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
       return;
     }
     
-    // Create order summary
-    const orderSummary = cart.map(item => 
-      `${item.title} x${item.quantity} - ${formatPrice(item.price * item.quantity)}`
-    ).join('\n');
+    // فتح نموذج بيانات العميل
+    setShowCustomerInfo(true);
+  };
+
+  const handleCustomerInfoSubmit = async (customerInfo: any) => {
+    setIsProcessing(true);
     
-    const totalAmount = getCartTotal();
-    const message = language === 'ar' 
-      ? `مرحباً! أريد شراء المنتجات التالية:\n\n${orderSummary}\n\nالمجموع الكلي: ${formatPrice(totalAmount)}`
-      : `Hello! I want to purchase the following products:\n\n${orderSummary}\n\nTotal: ${formatPrice(totalAmount)}`;
-    
-    // WhatsApp link
-    const whatsappNumber = '971503492848';
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-    
-    toast({
-      title: language === 'ar' ? 'جاري تحويلك للواتساب...' : 'Redirecting to WhatsApp...',
-    });
-    
-    // Open WhatsApp in new tab
-    window.open(whatsappUrl, '_blank');
-    
-    // Close modal after a short delay
-    setTimeout(() => {
-      onClose();
-    }, 1000);
+    try {
+      // إنشاء Payment Intent مع بيانات السلة
+      const response = await fetch('/api/payment_intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items: cart.map(item => ({
+            id: item.id,
+            title: item.title,
+            price: item.price,
+            quantity: item.quantity
+          })),
+          totalAmount: getCartTotal(),
+          customerName: customerInfo.name,
+          customerEmail: customerInfo.email,
+          customerPhone: customerInfo.phone,
+          customerAddress: customerInfo.address
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.paymentUrl) {
+        // توجيه المستخدم لصفحة الدفع
+        window.location.href = data.paymentUrl;
+      } else {
+        throw new Error(data.error || 'Failed to create payment');
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+      toast({
+        title: language === 'ar' ? 'خطأ في الدفع' : 'Payment Error',
+        description: language === 'ar' ? 'حدث خطأ أثناء إنشاء الدفع' : 'An error occurred while creating payment',
+        variant: "destructive"
+      });
+    } finally {
+      setIsProcessing(false);
+      setShowCustomerInfo(false);
+    }
   };
 
   return (
@@ -83,9 +110,33 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
                   />
                   <div className="flex-1 min-w-0">
                     <h4 className="font-semibold truncate">{item.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {t('quantity')}: {item.quantity}
+                    <p className="text-sm text-muted-foreground mb-2">
+                      {formatPrice(item.price)} × {item.quantity}
                     </p>
+                    
+                    {/* أزرار تحديث الكمية */}
+                    <div className="flex items-center gap-2 mb-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        className="h-8 w-8 p-0"
+                      >
+                        <Minus className="h-3 w-3" />
+                      </Button>
+                      <span className="min-w-[2rem] text-center font-medium">
+                        {item.quantity}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        className="h-8 w-8 p-0"
+                      >
+                        <Plus className="h-3 w-3" />
+                      </Button>
+                    </div>
+                    
                     <p className="text-primary font-semibold">
                       {formatPrice(item.price * item.quantity)}
                     </p>
@@ -94,6 +145,7 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
                     variant="ghost"
                     size="sm"
                     onClick={() => removeFromCart(item.id)}
+                    className="text-destructive hover:text-destructive"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -138,6 +190,14 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
           </>
         )}
       </DialogContent>
+      
+      {/* نموذج بيانات العميل */}
+      <CustomerInfoModal
+        isOpen={showCustomerInfo}
+        onClose={() => setShowCustomerInfo(false)}
+        onSubmit={handleCustomerInfoSubmit}
+        isLoading={isProcessing}
+      />
     </Dialog>
   );
 };
