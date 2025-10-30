@@ -143,7 +143,7 @@ vercel
 ```typescript
 const serverUrl = process.env.NODE_ENV === 'production' 
   ? 'https://your-payment-server.com'
-  : 'http://localhost:3001';
+  : 'http://localhost:3002';
 
 const response = await fetch(`${serverUrl}/api/payment/create`, {
   method: 'POST',

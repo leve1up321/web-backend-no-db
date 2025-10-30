@@ -132,7 +132,7 @@ app.post('/api/payment/create', async (req, res) => {
       customer_name: customer_name || 'عميل Level Up',
       success_url: `${baseUrl}/payment/success?order_id=${order_id}`,
       cancel_url: `${baseUrl}/payment/cancel?order_id=${order_id}`,
-      webhook_url: `${process.env.BACKEND_URL || 'http://localhost:3001'}/api/payment/webhook`,
+      webhook_url: `${process.env.BACKEND_URL || 'http://localhost:3002'}/api/payment/webhook`,
     };
 
     const paymentResponse = await ziinaGateway.createPayment(paymentData);
@@ -177,7 +177,7 @@ app.listen(PORT, () => {
 ZIINA_SECRET_KEY=eMVOswjII5H2xNHNwg7JJ9mWNZ504ExkePe6+SOT5G+PC3d2uzrxEM8ZSiRvQMEe
 ZIINA_WEBHOOK_SECRET=fc4ab72d02d64e8498f33c8d5b9e2f45
 FRONTEND_URL=http://localhost:8081
-BACKEND_URL=http://localhost:3001
+BACKEND_URL=http://localhost:3002
 PORT=3001
 ```
 
@@ -224,7 +224,7 @@ npm install next react react-dom
 
 ```typescript
 // استبدال الكود المؤقت بهذا:
-const response = await fetch('http://localhost:3001/api/payment/create', {
+const response = await fetch('http://localhost:3002/api/payment/create', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',

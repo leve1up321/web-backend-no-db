@@ -69,7 +69,7 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
       // URL الخادم - يتغير حسب البيئة
       const serverUrl = process.env.NODE_ENV === 'production' 
         ? 'https://your-payment-server.com' // ضع رابط الخادم في الإنتاج هنا
-        : 'http://localhost:3001';
+        : 'http://localhost:3002';
 
       const response = await fetch(`${serverUrl}/api/payment/create`, {
         method: 'POST',
