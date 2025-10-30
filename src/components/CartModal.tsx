@@ -60,45 +60,34 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
       
       localStorage.setItem(`order_${orderId}`, JSON.stringify(orderDetails));
       
+      // مؤقتاً: استخدام واتساب مباشرة حتى يتم إعداد خادم منفصل
+      // لاستخدام مفاتيح Ziina بأمان، تحتاج لخادم Node.js أو Next.js
+      
+      const orderSummary = cart.map(item => 
+        `${item.title} x${item.quantity} - ${formatPrice(item.price * item.quantity)}`
+      ).join('\n');
+      
+      const message = language === 'ar' 
+        ? `مرحباً! أريد شراء المنتجات التالية:\n\n${orderSummary}\n\nالمجموع الكلي: ${formatPrice(totalAmount)}\n\nرقم الطلب: ${orderId}\n\nأريد الدفع عبر زينة (Ziina)`
+        : `Hello! I want to purchase the following products:\n\n${orderSummary}\n\nTotal: ${formatPrice(totalAmount)}\n\nOrder ID: ${orderId}\n\nI want to pay via Ziina`;
+      
+      const whatsappNumber = '971503492848';
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+      
       toast({
-        title: language === 'ar' ? 'جاري إنشاء رابط الدفع...' : 'Creating payment link...',
+        title: language === 'ar' ? 'جاري فتح واتساب...' : 'Opening WhatsApp...',
+        description: language === 'ar' 
+          ? 'سيتم التواصل معك لترتيب الدفع عبر زينة'
+          : 'We will contact you to arrange payment via Ziina',
       });
-
-      // إنشاء الدفعة عبر API
-      const response = await fetch('/api/payment/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: totalAmount,
-          currency: 'AED',
-          description: `Level Up Store - ${orderDescription}`,
-          order_id: orderId,
-          items: cart,
-          customer_email: '', // يمكن إضافة نموذج لجمع البريد الإلكتروني
-          customer_name: '', // يمكن إضافة نموذج لجمع الاسم
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success && data.payment_url) {
-        toast({
-          title: language === 'ar' ? 'جاري تحويلك لصفحة الدفع...' : 'Redirecting to payment page...',
-        });
-        
-        // فتح صفحة الدفع في نافذة جديدة
-        window.open(data.payment_url, '_blank');
-        
-        // إغلاق النافذة بعد تأخير قصير
-        setTimeout(() => {
-          onClose();
-        }, 1000);
-        
-      } else {
-        throw new Error(data.message || 'Failed to create payment');
-      }
+      
+      // فتح واتساب
+      window.open(whatsappUrl, '_blank');
+      
+      // إغلاق النافذة
+      setTimeout(() => {
+        onClose();
+      }, 1000);
       
     } catch (error) {
       console.error('Checkout error:', error);
