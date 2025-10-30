@@ -1,0 +1,8 @@
+<svg width="80" height="50" viewBox="0 0 80 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="80" height="50" rx="8" fill="white" stroke="#e5e7eb" stroke-width="1"/>
+  <path d="M32.5 15L28.2 35H24.8L22.6 22.5C22.5 21.9 22.2 21.4 21.7 21.2C20.5 20.6 19.1 20.1 17.5 19.8V19H25.8C26.7 19 27.4 19.6 27.6 20.5L29.1 28.5L32.8 19H36.2L32.5 35H29.1L32.5 15Z" fill="#1A1F71"/>
+  <path d="M47.5 15L43.2 35H39.8L37.6 22.5C37.5 21.9 37.2 21.4 36.7 21.2C35.5 20.6 34.1 20.1 32.5 19.8V19H40.8C41.7 19 42.4 19.6 42.6 20.5L44.1 28.5L47.8 19H51.2L47.5 35H44.1L47.5 15Z" fill="#1A1F71"/>
+  <path d="M62.5 15L58.2 35H54.8L52.6 22.5C52.5 21.9 52.2 21.4 51.7 21.2C50.5 20.6 49.1 20.1 47.5 19.8V19H55.8C56.7 19 57.4 19.6 57.6 20.5L59.1 28.5L62.8 19H66.2L62.5 35H59.1L62.5 15Z" fill="#1A1F71"/>
+  <text x="40" y="32" text-anchor="middle" fill="#1A1F71" font-family="Arial, sans-serif" font-size="12" font-weight="bold">VISA</text>
+</svg>
+
