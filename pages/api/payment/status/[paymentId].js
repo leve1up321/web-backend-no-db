@@ -1,7 +1,7 @@
 const ZiinaPaymentGateway = require('../../../../src/lib/ziina');
 
 /**
- * API Route للتحقق من حالة الدفعة
+ * Vercel Function للتحقق من حالة الدفعة
  * Check payment status
  * 
  * Method: GET
@@ -18,7 +18,7 @@ const ZiinaPaymentGateway = require('../../../../src/lib/ziina');
  *   }
  * }
  */
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // السماح فقط بـ GET requests
   if (req.method !== 'GET') {
     return res.status(405).json({

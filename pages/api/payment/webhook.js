@@ -1,7 +1,7 @@
 const ZiinaPaymentGateway = require('../../../src/lib/ziina');
 
 /**
- * API Route لاستقبال webhooks من زينة
+ * Vercel Function لاستقبال webhooks من زينة
  * Receive webhooks from Ziina
  * 
  * Method: POST
@@ -18,7 +18,7 @@ const ZiinaPaymentGateway = require('../../../src/lib/ziina');
  *   }
  * }
  */
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // السماح فقط بـ POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({
@@ -101,11 +101,5 @@ export default async function handler(req, res) {
   }
 }
 
-// تكوين Next.js لمعالجة raw body (مطلوب للتحقق من التوقيع)
-export const config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '1mb',
-    },
-  },
-}
+// تكوين Vercel Function
+// لا حاجة لتكوين إضافي في Vercel Functions
