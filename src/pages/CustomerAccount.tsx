@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { User, Package, Settings, CreditCard, Star, Clock, CheckCircle, XCircle, Eye, Download, MessageSquare } from 'lucide-react';
+import { User, Package, Settings, CreditCard, Star, Clock, CheckCircle, XCircle, Eye, Download, MessageSquare, ArrowRight, Home } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface Order {
   id: string;
@@ -152,6 +153,36 @@ const CustomerAccount: React.FC = () => {
 
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-6xl mx-auto">
+          {/* Navigation */}
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Link to="/" className="hover:text-primary transition-colors">الرئيسية</Link>
+              <ArrowRight className="h-4 w-4" />
+              <span>حسابي</span>
+            </div>
+            <Link to="/">
+              <button className="flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                <Home className="h-4 w-4" />
+                العودة للرئيسية
+              </button>
+            </Link>
+          </div>
+
+          {/* Demo Data Notice */}
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+            <div className="flex items-center gap-3">
+              <div className="bg-amber-500 text-white rounded-full p-2">
+                <MessageSquare className="h-4 w-4" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-amber-800">📊 بيانات تجريبية للعرض</h3>
+                <p className="text-sm text-amber-700">
+                  البيانات المعروضة هنا هي أمثلة توضيحية. لجعل الصفحة تعمل بشكل فعلي، تحتاج إلى نظام تسجيل دخول وقاعدة بيانات.
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Profile Summary */}
           <div className="bg-card rounded-lg shadow-lg p-6 mb-8">
             <div className="flex items-center gap-6">
@@ -443,6 +474,55 @@ const CustomerAccount: React.FC = () => {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+
+          {/* How to Make it Real Section */}
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6 mt-8">
+            <h3 className="text-xl font-bold text-blue-800 mb-4">🔧 كيفية جعل هذه الصفحة تعمل بشكل فعلي:</h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-semibold text-blue-700 mb-2">🔐 نظام المصادقة (Authentication):</h4>
+                <ul className="text-sm text-blue-600 space-y-1">
+                  <li>• تسجيل دخول وإنشاء حساب</li>
+                  <li>• التحقق من الهوية</li>
+                  <li>• إدارة الجلسات</li>
+                  <li>• استرجاع كلمة المرور</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-blue-700 mb-2">🗄️ قاعدة البيانات:</h4>
+                <ul className="text-sm text-blue-600 space-y-1">
+                  <li>• حفظ بيانات المستخدمين</li>
+                  <li>• تخزين الطلبات والمشتريات</li>
+                  <li>• حفظ التقييمات والمراجعات</li>
+                  <li>• إدارة المنتجات</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-blue-700 mb-2">🛒 نظام الطلبات:</h4>
+                <ul className="text-sm text-blue-600 space-y-1">
+                  <li>• ربط مع نظام الدفع</li>
+                  <li>• تتبع حالة الطلبات</li>
+                  <li>• إشعارات الطلبات</li>
+                  <li>• تاريخ المشتريات</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold text-blue-700 mb-2">📱 API والخادم:</h4>
+                <ul className="text-sm text-blue-600 space-y-1">
+                  <li>• خادم Backend (Node.js/PHP)</li>
+                  <li>• APIs للتواصل</li>
+                  <li>• أمان البيانات</li>
+                  <li>• النسخ الاحتياطي</li>
+                </ul>
+              </div>
+            </div>
+            <div className="mt-4 p-4 bg-blue-100 rounded-lg">
+              <p className="text-sm text-blue-700">
+                <strong>💡 ملاحظة:</strong> الصفحة الحالية تعرض كيف ستبدو واجهة المستخدم عند وجود هذه الأنظمة. 
+                البيانات المعروضة (أحمد، 2000 درهم، الطلبات) هي أمثلة توضيحية فقط.
+              </p>
             </div>
           </div>
         </div>
