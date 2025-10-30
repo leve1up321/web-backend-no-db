@@ -1,92 +1,170 @@
-export interface ZiinaPaymentItem {
-  name: string;
-  quantity: number;
-  unit_amount: number;
-}
+/**
+ * Ziina Payment Gateway Integration
+ * مكتبة تكامل بوابة الدفع زينة
+ */
 
 export interface ZiinaPaymentRequest {
-  amount: number;
-  currency: string;
-  items: ZiinaPaymentItem[];
-  success_url: string;
-  cancel_url: string;
-  metadata?: Record<string, any>;
+  amount: number; // المبلغ بالدرهم الإماراتي
+  currency: string; // العملة (AED)
+  description: string; // وصف الدفعة
+  customer_email?: string; // بريد العميل الإلكتروني
+  customer_name?: string; // اسم العميل
+  order_id: string; // رقم الطلب الفريد
+  success_url: string; // رابط النجاح
+  cancel_url: string; // رابط الإلغاء
+  webhook_url?: string; // رابط الـ webhook
 }
 
 export interface ZiinaPaymentResponse {
   id: string;
-  checkout_url: string;
-  status: string;
+  status: 'pending' | 'completed' | 'failed' | 'cancelled';
+  amount: number;
+  currency: string;
+  payment_url: string;
+  created_at: string;
 }
 
-const ZIINA_API_BASE = 'https://api.ziina.com/v1';
-// Ziina API key - configured for production use
-const ZIINA_API_KEY = 'eMVOswjII5H2xNHNwg7JJ9mWNZ504ExkePe6+SOT5G+PC3d2uzrxEM8ZSiRvQMEe';
+export class ZiinaPaymentGateway {
+  private secretKey: string;
+  private baseUrl: string;
 
-export async function createZiinaPayment(paymentData: ZiinaPaymentRequest): Promise<ZiinaPaymentResponse> {
-  console.log('Creating Ziina payment with data:', paymentData);
-  
-  // Check if API key is configured
-  if (ZIINA_API_KEY === 'your-ziina-api-key-here') {
-    throw new Error('Ziina API key not configured. Please add your API key in src/lib/ziina.ts');
+  constructor() {
+    this.secretKey = process.env.ZIINA_SECRET_KEY || '';
+    this.baseUrl = 'https://api.ziina.com/v1'; // Ziina API Base URL
+    
+    if (!this.secretKey) {
+      throw new Error('ZIINA_SECRET_KEY is required');
+    }
   }
-  
-  const requestBody = {
-    amount: paymentData.amount,
-    currency: paymentData.currency,
-    items: paymentData.items,
-    success_url: paymentData.success_url,
-    cancel_url: paymentData.cancel_url,
-    metadata: paymentData.metadata || {}
-  };
 
-  console.log('Ziina API request body:', requestBody);
+  /**
+   * إنشاء رابط دفع جديد
+   * Create new payment link
+   */
+  async createPayment(paymentData: ZiinaPaymentRequest): Promise<ZiinaPaymentResponse> {
+    try {
+      const response = await fetch(`${this.baseUrl}/payments`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.secretKey}`,
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: Math.round(paymentData.amount * 100), // تحويل إلى فلس
+          currency: paymentData.currency,
+          description: paymentData.description,
+          customer: {
+            email: paymentData.customer_email,
+            name: paymentData.customer_name,
+          },
+          metadata: {
+            order_id: paymentData.order_id,
+          },
+          success_url: paymentData.success_url,
+          cancel_url: paymentData.cancel_url,
+          webhook_url: paymentData.webhook_url,
+        }),
+      });
 
-  try {
-    const response = await fetch(`${ZIINA_API_BASE}/checkout/sessions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${ZIINA_API_KEY}`,
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    });
-
-    console.log('Ziina API response status:', response.status);
-
-    if (!response.ok) {
-      let errorMessage = `HTTP error! status: ${response.status}`;
-      try {
-        const errorText = await response.text();
-        console.log('Ziina API error response text:', errorText);
-        
-        try {
-          const errorData = JSON.parse(errorText);
-          errorMessage = errorData.message || errorData.error || errorMessage;
-        } catch (parseError) {
-          console.log('Could not parse error response as JSON:', parseError);
-          errorMessage = errorText || errorMessage;
-        }
-      } catch (textError) {
-        console.log('Could not read error response text:', textError);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Ziina API Error: ${errorData.message || 'Unknown error'}`);
       }
-      
-      throw new Error(errorMessage);
-    }
 
-    const data = await response.json();
-    console.log('Ziina API success response:', data);
-    
-    return data;
-  } catch (error) {
-    console.error('Ziina payment creation failed:', error);
-    
-    // Provide more helpful error messages
-    if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new Error('Network error: Unable to connect to Ziina API. Please check your internet connection.');
+      const data = await response.json();
+      
+      return {
+        id: data.id,
+        status: data.status,
+        amount: data.amount / 100, // تحويل من فلس إلى درهم
+        currency: data.currency,
+        payment_url: data.payment_url || data.checkout_url,
+        created_at: data.created_at,
+      };
+    } catch (error) {
+      console.error('Ziina Payment Creation Error:', error);
+      throw error;
     }
-    
-    throw error;
+  }
+
+  /**
+   * التحقق من حالة الدفعة
+   * Check payment status
+   */
+  async getPaymentStatus(paymentId: string): Promise<ZiinaPaymentResponse> {
+    try {
+      const response = await fetch(`${this.baseUrl}/payments/${paymentId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${this.secretKey}`,
+          'Accept': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Ziina API Error: ${errorData.message || 'Unknown error'}`);
+      }
+
+      const data = await response.json();
+      
+      return {
+        id: data.id,
+        status: data.status,
+        amount: data.amount / 100,
+        currency: data.currency,
+        payment_url: data.payment_url || data.checkout_url,
+        created_at: data.created_at,
+      };
+    } catch (error) {
+      console.error('Ziina Payment Status Error:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * التحقق من صحة webhook
+   * Verify webhook signature
+   */
+  verifyWebhook(payload: string, signature: string): boolean {
+    try {
+      const crypto = require('crypto');
+      const webhookSecret = process.env.ZIINA_WEBHOOK_SECRET || '';
+      
+      if (!webhookSecret) {
+        console.error('ZIINA_WEBHOOK_SECRET is not configured');
+        return false;
+      }
+
+      const expectedSignature = crypto
+        .createHmac('sha256', webhookSecret)
+        .update(payload)
+        .digest('hex');
+
+      return crypto.timingSafeEqual(
+        Buffer.from(signature),
+        Buffer.from(expectedSignature)
+      );
+    } catch (error) {
+      console.error('Webhook verification error:', error);
+      return false;
+    }
+  }
+
+  /**
+   * تنسيق المبلغ للعرض
+   * Format amount for display
+   */
+  static formatAmount(amount: number, currency: string = 'AED'): string {
+    return new Intl.NumberFormat('ar-AE', {
+      style: 'currency',
+      currency: currency,
+      minimumFractionDigits: 2,
+    }).format(amount);
   }
 }
+
+// إنشاء instance واحد للاستخدام في التطبيق
+export const ziinaGateway = new ZiinaPaymentGateway();
+
