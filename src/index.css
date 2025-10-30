@@ -139,7 +139,6 @@ All colors MUST be HSL.
   [dir="ltr"] {
     direction: ltr;
   }
-}
 
 /* Hide scrollbar for reviews carousel */
 .scrollbar-hide::-webkit-scrollbar {
