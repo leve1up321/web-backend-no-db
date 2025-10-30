@@ -15,7 +15,7 @@ app.use(helmet());
 // إعداد CORS
 const corsOptions = {
   origin: [
-    'http://localhost:8081',
+    'http://localhost:8080',
     'http://localhost:3000',
     'https://levelup-iota.vercel.app',
     process.env.FRONTEND_URL,

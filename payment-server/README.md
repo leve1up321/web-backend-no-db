@@ -38,7 +38,7 @@ PORT=3001
 NODE_ENV=development
 
 # Frontend URLs
-FRONTEND_URL=http://localhost:8081
+FRONTEND_URL=http://localhost:8080
 FRONTEND_PROD_URL=https://your-frontend-domain.com
 ```
 
@@ -188,4 +188,3 @@ MIT License - يمكن استخدامه بحرية للمشاريع التجار
 ---
 
 **Level Up Store** - متجر إلكتروني متطور مع نظام دفع آمن 🛒✨
-
