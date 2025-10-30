@@ -134,17 +134,17 @@ const PrivacyPolicy: React.FC = () => {
               </div>
               
               <div className="space-y-4">
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                   <p className="text-foreground">
                     <strong>مسؤولية المستخدم:</strong> يتحمل المستخدم مسؤولية الحفاظ على سرية بيانات حسابه وكلمة المرور.
                   </p>
                 </div>
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="bg-destructive/5 border border-destructive/20 rounded-lg p-4">
                   <p className="text-foreground">
                     <strong>إخلاء المسؤولية:</strong> لا يتحمل المتجر أي أضرار ناتجة عن سوء استخدام الحساب أو مشاركته مع الآخرين.
                   </p>
                 </div>
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="bg-secondary/5 border border-secondary/20 rounded-lg p-4">
                   <p className="text-foreground">
                     <strong>البيانات الخاطئة:</strong> في حال ثبوت تقديم بيانات غير صحيحة، يحق للمتجر تعليق أو إلغاء الحساب دون إشعار مسبق.
                   </p>
@@ -160,17 +160,17 @@ const PrivacyPolicy: React.FC = () => {
               </div>
               
               <div className="grid gap-4">
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                   <p className="text-foreground">
                     <strong>طرق الدفع:</strong> تتم عمليات الدفع إلكترونيًا عبر الوسائل المتاحة في المتجر.
                   </p>
                 </div>
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="bg-secondary/5 border border-secondary/20 rounded-lg p-4">
                   <p className="text-foreground">
                     <strong>مدة التسليم:</strong> بعد إتمام الدفع يتم تسليم المنتج خلال مدة تتراوح بين 5 دقائق إلى 6 ساعات كحد أقصى.
                   </p>
                 </div>
-                <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                <div className="bg-muted/50 border border-border rounded-lg p-4">
                   <p className="text-foreground">
                     <strong>الأسعار:</strong> جميع الأسعار معروضة بالعملة المحلية، وقد تتغير حسب العرض أو الضريبة.
                   </p>
@@ -192,12 +192,12 @@ const PrivacyPolicy: React.FC = () => {
                     جميع الحسابات والأكواد تشمل ضمان ذهبي لمدة <strong>6 أشهر</strong> ضد أي مشكلة في التفعيل أو الوصول.
                   </p>
                 </div>
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                <div className="bg-secondary/5 border border-secondary/20 rounded-lg p-4">
                   <p className="text-foreground">
                     <strong>طبيعة المنتجات:</strong> لا يمكن استرجاع أو استبدال المنتج بعد التسليم نظرًا لطبيعته الرقمية.
                   </p>
                 </div>
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <div className="bg-muted/50 border border-border rounded-lg p-4">
                   <p className="text-foreground">
                     <strong>الدعم الفني:</strong> في حال وجود مشكلة حقيقية بالمنتج، يتم مراجعة الحالة من قبل الدعم الفني خلال 24 ساعة.
                   </p>

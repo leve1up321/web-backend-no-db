@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, ShoppingCart, Trash2 } from 'lucide-react';
+import { Heart, ShoppingCart, Trash2, ArrowRight, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useWishlist } from '@/contexts/WishlistContext';
 import { useCart } from '@/contexts/CartContext';
@@ -56,6 +56,13 @@ const Wishlist: React.FC = () => {
   return (
     <div className="min-h-screen bg-background pt-20">
       <div className="container mx-auto px-4 py-12">
+        {/* Navigation */}
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
+          <Link to="/" className="hover:text-primary transition-colors">الرئيسية</Link>
+          <ArrowRight className="h-4 w-4" />
+          <span>قائمة الأمنيات</span>
+        </div>
+
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
@@ -68,16 +75,25 @@ const Wishlist: React.FC = () => {
             </div>
           </div>
           
-          {wishlist.length > 0 && (
-            <Button
-              variant="outline"
-              onClick={clearWishlist}
-              className="gap-2 text-destructive hover:text-destructive"
-            >
-              <Trash2 className="h-4 w-4" />
-              مسح الكل
-            </Button>
-          )}
+          <div className="flex items-center gap-3">
+            <Link to="/">
+              <Button variant="outline" className="gap-2">
+                <Home className="h-4 w-4" />
+                العودة للرئيسية
+              </Button>
+            </Link>
+          
+            {wishlist.length > 0 && (
+              <Button
+                variant="outline"
+                onClick={clearWishlist}
+                className="gap-2 text-destructive hover:text-destructive"
+              >
+                <Trash2 className="h-4 w-4" />
+                مسح الكل
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Wishlist Grid */}
@@ -161,6 +177,25 @@ const Wishlist: React.FC = () => {
               `}</style>
             </Card>
           ))}
+        </div>
+
+        {/* Continue Shopping Section */}
+        <div className="mt-12 text-center">
+          <div className="bg-card rounded-lg shadow-lg p-8">
+            <h2 className="text-2xl font-bold text-foreground mb-4">
+              🛍️ استمر في التسوق
+            </h2>
+            <p className="text-muted-foreground mb-6">
+              اكتشف المزيد من المنتجات المميزة وأضفها إلى قائمة أمنياتك
+            </p>
+            <Link to="/">
+              <Button size="lg" className="gap-2">
+                <ShoppingCart className="h-5 w-5" />
+                تصفح جميع المنتجات
+                <ArrowRight className="h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

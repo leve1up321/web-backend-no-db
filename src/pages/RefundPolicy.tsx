@@ -76,9 +76,9 @@ const RefundPolicy: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-6">
+                  <div className="bg-secondary/10 border border-secondary/20 rounded-lg p-6">
                     <div className="flex items-start gap-3">
-                      <div className="bg-amber-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
+                      <div className="bg-secondary text-secondary-foreground rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
                         2
                       </div>
                       <div>
@@ -86,7 +86,7 @@ const RefundPolicy: React.FC = () => {
                           المدة الزمنية المحددة
                         </h4>
                         <p className="text-muted-foreground leading-relaxed">
-                          يُرجى التأكد من عدم تجاوز تاريخ الشراء <strong className="text-amber-600">(1 يوم)</strong>، 
+                          يُرجى التأكد من عدم تجاوز تاريخ الشراء <strong className="text-secondary">(1 يوم)</strong>، 
                           حيث لن يتم قبول أي طلبات استرداد أو استبدال بعد هذه المدة.
                         </p>
                       </div>
