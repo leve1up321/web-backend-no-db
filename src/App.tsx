@@ -7,6 +7,7 @@ import { LanguageProvider } from "./contexts/LanguageContext";
 import { CurrencyProvider } from "./contexts/CurrencyContext";
 import { CartProvider } from "./contexts/CartContext";
 import { WishlistProvider } from "./contexts/WishlistContext";
+import { AuthProvider } from "./contexts/AuthContext";
 import Index from "./pages/Index";
 import ProductDetails from "./pages/ProductDetails";
 import Wishlist from "./pages/Wishlist";
@@ -16,6 +17,8 @@ import RefundPolicy from "./pages/RefundPolicy";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CustomerAccount from "./pages/CustomerAccount";
 import Contact from "./pages/Contact";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,8 +28,9 @@ const App = () => (
     <TooltipProvider>
       <LanguageProvider>
         <CurrencyProvider>
-          <CartProvider>
-            <WishlistProvider>
+          <AuthProvider>
+            <CartProvider>
+              <WishlistProvider>
               <Toaster />
               <Sonner />
               <BrowserRouter>
@@ -40,12 +44,15 @@ const App = () => (
                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   <Route path="/account" element={<CustomerAccount />} />
                   <Route path="/contact" element={<Contact />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </BrowserRouter>
-            </WishlistProvider>
-          </CartProvider>
+              </WishlistProvider>
+            </CartProvider>
+          </AuthProvider>
         </CurrencyProvider>
       </LanguageProvider>
     </TooltipProvider>
