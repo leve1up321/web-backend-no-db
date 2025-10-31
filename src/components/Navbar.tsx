@@ -120,16 +120,31 @@ const Navbar = () => {
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="outline" size="sm" className="gap-2">
-                              <DollarSign className="h-4 w-4" />
+                              <span className="text-lg">{currency.icon}</span>
                               {currency.code}
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuItem onClick={() => setCurrency('SAR')}>ريال سعودي</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setCurrency('USD')}>US Dollar</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setCurrency('EUR')}>Euro</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setCurrency('AED')}>درهم إماراتي</DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setCurrency('EGP')}>جنيه مصري</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setCurrency('SAR')} className="gap-2">
+                              <span className="text-lg">🇸🇦</span>
+                              <span>الريال السعودي</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setCurrency('USD')} className="gap-2">
+                              <span className="text-lg">🇺🇸</span>
+                              <span>الدولار الأمريكي</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setCurrency('EUR')} className="gap-2">
+                              <span className="text-lg">🇪🇺</span>
+                              <span>اليورو</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setCurrency('AED')} className="gap-2">
+                              <span className="text-lg">🇦🇪</span>
+                              <span>الدرهم الإماراتي</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => setCurrency('EGP')} className="gap-2">
+                              <span className="text-lg">🇪🇬</span>
+                              <span>الجنيه المصري</span>
+                            </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
@@ -189,16 +204,31 @@ const Navbar = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="gap-2">
-                      <DollarSign className="h-4 w-4" />
+                      <span className="text-lg">{currency.icon}</span>
                       <span className="hidden sm:inline">{currency.code}</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => setCurrency('SAR')}>ريال سعودي</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setCurrency('USD')}>US Dollar</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setCurrency('EUR')}>Euro</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setCurrency('AED')}>درهم إماراتي</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setCurrency('EGP')}>جنيه مصري</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setCurrency('SAR')} className="gap-2">
+                      <span className="text-lg">🇸🇦</span>
+                      <span>الريال السعودي</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setCurrency('USD')} className="gap-2">
+                      <span className="text-lg">🇺🇸</span>
+                      <span>الدولار الأمريكي</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setCurrency('EUR')} className="gap-2">
+                      <span className="text-lg">🇪🇺</span>
+                      <span>اليورو</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setCurrency('AED')} className="gap-2">
+                      <span className="text-lg">🇦🇪</span>
+                      <span>الدرهم الإماراتي</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setCurrency('EGP')} className="gap-2">
+                      <span className="text-lg">🇪🇬</span>
+                      <span>الجنيه المصري</span>
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>

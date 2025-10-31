@@ -84,8 +84,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </CardContent>
       
       <CardFooter className="p-3 sm:p-4 pt-0 flex flex-col sm:flex-row items-center gap-3 sm:justify-between">
-        <span className="text-lg sm:text-xl font-bold text-primary text-center">
-          {formatPrice(product.price)}
+        <span className="text-lg sm:text-xl font-bold text-primary text-center flex items-center gap-1 justify-center">
+          {formatPrice(product.price, true)}
         </span>
         
         <div className="w-full sm:w-auto">

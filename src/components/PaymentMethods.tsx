@@ -46,6 +46,35 @@ const PaymentMethods: React.FC = () => {
         ))}
       </div>
       
+      {/* Supported Currencies */}
+      <div className="text-center mb-6">
+        <h5 className="text-sm font-medium mb-3 text-foreground">
+          العملات المدعومة
+        </h5>
+        <div className="flex justify-center items-center gap-4 flex-wrap">
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card/50 border border-border/50">
+            <span className="text-lg">🇸🇦</span>
+            <span className="text-sm font-medium">ر.س</span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card/50 border border-border/50">
+            <span className="text-lg">🇦🇪</span>
+            <span className="text-sm font-medium">د.إ</span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card/50 border border-border/50">
+            <span className="text-lg">🇺🇸</span>
+            <span className="text-sm font-medium">$</span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card/50 border border-border/50">
+            <span className="text-lg">🇪🇺</span>
+            <span className="text-sm font-medium">€</span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card/50 border border-border/50">
+            <span className="text-lg">🇪🇬</span>
+            <span className="text-sm font-medium">ج.م</span>
+          </div>
+        </div>
+      </div>
+      
       <div className="text-center">
         <p className="text-xs text-muted-foreground">
           🔒 جميع المعاملات محمية بتشفير SSL 256-bit

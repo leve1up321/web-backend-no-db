@@ -6,6 +6,8 @@ interface Currency {
   code: CurrencyCode;
   symbol: string;
   rate: number;
+  icon: string;
+  name: string;
 }
 
 interface CurrencyContextType {
@@ -17,11 +19,41 @@ interface CurrencyContextType {
 
 // Fallback rates in case API fails
 const fallbackCurrencies: Record<CurrencyCode, Currency> = {
-  SAR: { code: 'SAR', symbol: 'ر.س', rate: 1 },
-  USD: { code: 'USD', symbol: '$', rate: 0.27 },
-  EUR: { code: 'EUR', symbol: '€', rate: 0.24 },
-  AED: { code: 'AED', symbol: 'د.إ', rate: 0.98 },
-  EGP: { code: 'EGP', symbol: 'ج.م', rate: 8.25 },
+  SAR: { 
+    code: 'SAR', 
+    symbol: 'ر.س', 
+    rate: 1, 
+    icon: '🇸🇦',
+    name: 'الريال السعودي'
+  },
+  USD: { 
+    code: 'USD', 
+    symbol: '$', 
+    rate: 0.27, 
+    icon: '🇺🇸',
+    name: 'الدولار الأمريكي'
+  },
+  EUR: { 
+    code: 'EUR', 
+    symbol: '€', 
+    rate: 0.24, 
+    icon: '🇪🇺',
+    name: 'اليورو'
+  },
+  AED: { 
+    code: 'AED', 
+    symbol: 'د.إ', 
+    rate: 0.98, 
+    icon: '🇦🇪',
+    name: 'الدرهم الإماراتي'
+  },
+  EGP: { 
+    code: 'EGP', 
+    symbol: 'ج.م', 
+    rate: 8.25, 
+    icon: '🇪🇬',
+    name: 'الجنيه المصري'
+  },
 };
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined);
@@ -82,14 +114,19 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const newCurrency: Currency = {
       code,
       symbol: fallbackCurrencies[code].symbol,
-      rate: baseRate
+      rate: baseRate,
+      icon: fallbackCurrencies[code].icon,
+      name: fallbackCurrencies[code].name
     };
     setCurrencyState(newCurrency);
     localStorage.setItem('levelup-currency', code);
   };
 
-  const formatPrice = (price: number): string => {
+  const formatPrice = (price: number, showIcon: boolean = false): string => {
     const convertedPrice = (price * currency.rate).toFixed(2);
+    if (showIcon) {
+      return `${currency.icon} ${convertedPrice} ${currency.symbol}`;
+    }
     return `${convertedPrice} ${currency.symbol}`;
   };
 
