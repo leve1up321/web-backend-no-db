@@ -310,20 +310,7 @@ const Navbar = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Cart */}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="relative"
-                onClick={() => setIsCartOpen(true)}
-              >
-                <ShoppingCart className="h-5 w-5" />
-                {getCartCount() > 0 && (
-                  <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0">
-                    {getCartCount()}
-                  </Badge>
-                )}
-              </Button>
+
 
               {/* Mobile Menu */}
               <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>

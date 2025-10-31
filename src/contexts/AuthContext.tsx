@@ -137,10 +137,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const response = await fetch(url, config);
-    const data = await response.json();
+    
+    // Check if response has content before parsing JSON
+    const contentType = response.headers.get('content-type');
+    let data = null;
+    
+    if (contentType && contentType.includes('application/json')) {
+      const text = await response.text();
+      if (text) {
+        try {
+          data = JSON.parse(text);
+        } catch (error) {
+          console.error('Failed to parse JSON:', error);
+          throw new Error('خطأ في تحليل استجابة الخادم');
+        }
+      }
+    }
 
     if (!response.ok) {
-      throw new Error(data.message || 'Something went wrong');
+      throw new Error(data?.message || `خطأ في الخادم: ${response.status}`);
     }
 
     return data;

@@ -168,20 +168,7 @@ const CustomerAccount: React.FC = () => {
             </Link>
           </div>
 
-          {/* Demo Data Notice */}
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-            <div className="flex items-center gap-3">
-              <div className="bg-amber-500 text-white rounded-full p-2">
-                <MessageSquare className="h-4 w-4" />
-              </div>
-              <div>
-                <h3 className="font-semibold text-amber-800">📊 بيانات تجريبية للعرض</h3>
-                <p className="text-sm text-amber-700">
-                  البيانات المعروضة هنا هي أمثلة توضيحية. لجعل الصفحة تعمل بشكل فعلي، تحتاج إلى نظام تسجيل دخول وقاعدة بيانات.
-                </p>
-              </div>
-            </div>
-          </div>
+
 
           {/* Profile Summary */}
           <div className="bg-card rounded-lg shadow-lg p-6 mb-8">

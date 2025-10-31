@@ -9,13 +9,8 @@ interface PaymentMethod {
 const PaymentMethods: React.FC = () => {
   const paymentMethods: PaymentMethod[] = [
     { name: 'Visa', logo: '/payment-methods/visa.svg', alt: 'Visa' },
-    { name: 'Mastercard', logo: '/payment-methods/mastercard.svg', alt: 'Mastercard' },
-    { name: 'Apple Pay', logo: '/payment-methods/apple-pay.svg', alt: 'Apple Pay' },
     { name: 'Google Pay', logo: '/payment-methods/google-pay.svg', alt: 'Google Pay' },
-    { name: 'Ziina', logo: '/payment-methods/ziina.svg', alt: 'Ziina' },
     { name: 'PayPal', logo: '/payment-methods/paypal.svg', alt: 'PayPal' },
-    { name: 'Emirates NBD', logo: '/payment-methods/emirates-nbd.svg', alt: 'Emirates NBD' },
-    { name: 'ADCB', logo: '/payment-methods/adcb.svg', alt: 'ADCB' },
   ];
 
   return (
@@ -45,35 +40,7 @@ const PaymentMethods: React.FC = () => {
           </div>
         ))}
       </div>
-      
-      {/* Supported Currencies */}
-      <div className="text-center mb-6">
-        <h5 className="text-sm font-medium mb-3 text-foreground">
-          العملات المدعومة
-        </h5>
-        <div className="flex justify-center items-center gap-4 flex-wrap">
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card/50 border border-border/50">
-            <span className="text-lg">🇸🇦</span>
-            <span className="text-sm font-medium">ر.س</span>
-          </div>
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card/50 border border-border/50">
-            <span className="text-lg">🇦🇪</span>
-            <span className="text-sm font-medium">د.إ</span>
-          </div>
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card/50 border border-border/50">
-            <span className="text-lg">🇺🇸</span>
-            <span className="text-sm font-medium">$</span>
-          </div>
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card/50 border border-border/50">
-            <span className="text-lg">🇪🇺</span>
-            <span className="text-sm font-medium">€</span>
-          </div>
-          <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-card/50 border border-border/50">
-            <span className="text-lg">🇪🇬</span>
-            <span className="text-sm font-medium">ج.م</span>
-          </div>
-        </div>
-      </div>
+
       
       <div className="text-center">
         <p className="text-xs text-muted-foreground">
