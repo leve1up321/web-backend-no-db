@@ -8,6 +8,7 @@ interface PaymentMethod {
 
 const PaymentMethods: React.FC = () => {
   const paymentMethods: PaymentMethod[] = [
+    { name: 'Mastercard', logo: '/payment-methods/mastercard.svg', alt: 'Mastercard' },
     { name: 'Visa', logo: '/payment-methods/visa.svg', alt: 'Visa' },
     { name: 'Google Pay', logo: '/payment-methods/google-pay.svg', alt: 'Google Pay' },
     { name: 'PayPal', logo: '/payment-methods/paypal.svg', alt: 'PayPal' },

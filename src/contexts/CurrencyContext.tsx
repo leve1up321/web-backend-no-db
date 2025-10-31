@@ -14,7 +14,7 @@ interface Currency {
 interface CurrencyContextType {
   currency: Currency;
   setCurrency: (code: CurrencyCode) => void;
-  formatPrice: (price: number) => string;
+  formatPrice: (price: number, showIcon?: boolean) => string | JSX.Element;
   isLoading: boolean;
 }
 
@@ -105,10 +105,15 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     localStorage.setItem('levelup-currency', code);
   };
 
-  const formatPrice = (price: number, showIcon: boolean = false): string => {
+  const formatPrice = (price: number, showIcon: boolean = false): string | JSX.Element => {
     const convertedPrice = (price * currency.rate).toFixed(2);
     if (showIcon) {
-      return `${currency.icon} ${convertedPrice} ${currency.symbol}`;
+      return (
+        <span className="flex items-center gap-1">
+          <img src={currency.image} alt={currency.name} className="w-5 h-5" />
+          <span>{convertedPrice} {currency.symbol}</span>
+        </span>
+      );
     }
     return `${convertedPrice} ${currency.symbol}`;
   };
