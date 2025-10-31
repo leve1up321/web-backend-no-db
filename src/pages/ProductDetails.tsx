@@ -49,7 +49,7 @@ const ProductDetails = () => {
     <div className="min-h-screen flex flex-col overflow-x-hidden">
       <Navbar />
       
-      <main className="flex-1 pt-4 pb-8 px-4">
+      <main className="flex-1 pt-24 pb-8 px-4">
         <div className="container mx-auto max-w-6xl">
           <Button
             variant="ghost"

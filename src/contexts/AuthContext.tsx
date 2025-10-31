@@ -157,11 +157,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!response.ok) {
       // Handle specific HTTP status codes
       if (response.status === 405) {
-        throw new Error('الطريقة غير مدعومة - يرجى المحاولة مرة أخرى');
+        throw new Error('خطأ في الطريقة المستخدمة - يرجى إعادة المحاولة أو التواصل مع الدعم الفني');
       } else if (response.status === 404) {
-        throw new Error('الخدمة غير متوفرة حالياً');
+        throw new Error('الخدمة غير متوفرة حالياً - يرجى المحاولة لاحقاً');
       } else if (response.status === 500) {
-        throw new Error('خطأ في الخادم - يرجى المحاولة لاحقاً');
+        throw new Error('خطأ في الخادم - يرجى المحاولة بعد قليل');
+      } else if (response.status === 400) {
+        throw new Error('بيانات غير صحيحة - يرجى التحقق من المعلومات المدخلة');
+      } else if (response.status === 401) {
+        throw new Error('غير مصرح لك بالوصول - يرجى تسجيل الدخول مرة أخرى');
+      } else if (response.status === 403) {
+        throw new Error('ليس لديك صلاحية للقيام بهذا الإجراء');
       }
       
       throw new Error(data?.message || `خطأ في الخادم: ${response.status}`);

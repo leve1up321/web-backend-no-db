@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-type CurrencyCode = 'SAR' | 'USD' | 'EUR' | 'AED' | 'EGP';
+type CurrencyCode = 'SAR' | 'AED';
 
 interface Currency {
   code: CurrencyCode;
@@ -26,33 +26,12 @@ const fallbackCurrencies: Record<CurrencyCode, Currency> = {
     icon: '🇸🇦',
     name: 'الريال السعودي'
   },
-  USD: { 
-    code: 'USD', 
-    symbol: '$', 
-    rate: 0.27, 
-    icon: '🇺🇸',
-    name: 'الدولار الأمريكي'
-  },
-  EUR: { 
-    code: 'EUR', 
-    symbol: '€', 
-    rate: 0.24, 
-    icon: '🇪🇺',
-    name: 'اليورو'
-  },
   AED: { 
     code: 'AED', 
-    symbol: 'د.إ', 
+    symbol: 'D', 
     rate: 0.98, 
     icon: '🇦🇪',
     name: 'الدرهم الإماراتي'
-  },
-  EGP: { 
-    code: 'EGP', 
-    symbol: 'ج.م', 
-    rate: 8.25, 
-    icon: '🇪🇬',
-    name: 'الجنيه المصري'
   },
 };
 
