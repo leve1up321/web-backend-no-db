@@ -120,30 +120,18 @@ const Navbar = () => {
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="outline" size="sm" className="gap-2">
-                              <span className="text-lg">{currency.icon}</span>
+                              <img src={currency.image} alt={currency.name} className="w-5 h-5" />
                               {currency.code}
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
                             <DropdownMenuItem onClick={() => setCurrency('SAR')} className="gap-2">
-                              <span className="text-lg">🇸🇦</span>
+                              <img src="/currencies/sar.svg" alt="الريال السعودي" className="w-5 h-5" />
                               <span>الريال السعودي</span>
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setCurrency('USD')} className="gap-2">
-                              <span className="text-lg">🇺🇸</span>
-                              <span>الدولار الأمريكي</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setCurrency('EUR')} className="gap-2">
-                              <span className="text-lg">🇪🇺</span>
-                              <span>اليورو</span>
-                            </DropdownMenuItem>
                             <DropdownMenuItem onClick={() => setCurrency('AED')} className="gap-2">
-                              <span className="text-lg">🇦🇪</span>
+                              <img src="/currencies/aed.svg" alt="الدرهم الإماراتي" className="w-5 h-5" />
                               <span>الدرهم الإماراتي</span>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => setCurrency('EGP')} className="gap-2">
-                              <span className="text-lg">🇪🇬</span>
-                              <span>الجنيه المصري</span>
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -204,30 +192,18 @@ const Navbar = () => {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="gap-2">
-                      <span className="text-lg">{currency.icon}</span>
+                      <img src={currency.image} alt={currency.name} className="w-5 h-5" />
                       <span className="hidden sm:inline">{currency.code}</span>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuItem onClick={() => setCurrency('SAR')} className="gap-2">
-                      <span className="text-lg">🇸🇦</span>
+                      <img src="/currencies/sar.svg" alt="الريال السعودي" className="w-5 h-5" />
                       <span>الريال السعودي</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setCurrency('USD')} className="gap-2">
-                      <span className="text-lg">🇺🇸</span>
-                      <span>الدولار الأمريكي</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setCurrency('EUR')} className="gap-2">
-                      <span className="text-lg">🇪🇺</span>
-                      <span>اليورو</span>
-                    </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setCurrency('AED')} className="gap-2">
-                      <span className="text-lg">🇦🇪</span>
+                      <img src="/currencies/aed.svg" alt="الدرهم الإماراتي" className="w-5 h-5" />
                       <span>الدرهم الإماراتي</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => setCurrency('EGP')} className="gap-2">
-                      <span className="text-lg">🇪🇬</span>
-                      <span>الجنيه المصري</span>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

@@ -7,6 +7,7 @@ interface Currency {
   symbol: string;
   rate: number;
   icon: string;
+  image: string;
   name: string;
 }
 
@@ -24,6 +25,7 @@ const fallbackCurrencies: Record<CurrencyCode, Currency> = {
     symbol: 'ر.س', 
     rate: 1, 
     icon: '🇸🇦',
+    image: '/currencies/sar.svg',
     name: 'الريال السعودي'
   },
   AED: { 
@@ -31,6 +33,7 @@ const fallbackCurrencies: Record<CurrencyCode, Currency> = {
     symbol: 'D', 
     rate: 0.98, 
     icon: '🇦🇪',
+    image: '/currencies/aed.svg',
     name: 'الدرهم الإماراتي'
   },
 };
@@ -95,6 +98,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       symbol: fallbackCurrencies[code].symbol,
       rate: baseRate,
       icon: fallbackCurrencies[code].icon,
+      image: fallbackCurrencies[code].image,
       name: fallbackCurrencies[code].name
     };
     setCurrencyState(newCurrency);
