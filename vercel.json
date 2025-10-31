@@ -2,16 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "functions": {
-    "pages/api/index.js": {
-      "runtime": "vercel-nodejs@20.0.0"
-    }
-  },
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/pages/api"
-    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
