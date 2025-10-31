@@ -155,6 +155,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
 
     if (!response.ok) {
+      // Handle specific HTTP status codes
+      if (response.status === 405) {
+        throw new Error('الطريقة غير مدعومة - يرجى المحاولة مرة أخرى');
+      } else if (response.status === 404) {
+        throw new Error('الخدمة غير متوفرة حالياً');
+      } else if (response.status === 500) {
+        throw new Error('خطأ في الخادم - يرجى المحاولة لاحقاً');
+      }
+      
       throw new Error(data?.message || `خطأ في الخادم: ${response.status}`);
     }
 
