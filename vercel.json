@@ -4,10 +4,10 @@
   "framework": "vite",
   "functions": {
     "api/**/*.js": {
-      "runtime": "@vercel/node"
+      "runtime": "@vercel/node@18.x"
     },
     "pages/api/**/*.js": {
-      "runtime": "@vercel/node"
+      "runtime": "@vercel/node@18.x"
     }
   },
   "rewrites": [
