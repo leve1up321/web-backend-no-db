@@ -1,11 +1,11 @@
-# تجاهل مجلد ziina-payment-integration أثناء البناء
-# هذا مشروع منفصل وليس جزءاً من المشروع الرئيسي
-ziina-payment-integration/
-
-# تجاهل أي ملفات Next.js قد تسبب التباساً
-next.config.*
-.next/
-pages/
+# تجاهل الملفات القديمة من Vite
+src/
+api/
+index.html
+vite.config.ts
+tsconfig.app.json
+tsconfig.node.json
+dist/
 
 # تجاهل ملفات التطوير
 *.log
@@ -13,6 +13,8 @@ pages/
 .env.development.local
 .env.test.local
 .env.production.local
+debug.html
+dev-server.js
 
 # تجاهل مجلدات node_modules الفرعية
 **/node_modules/
@@ -20,7 +22,6 @@ pages/
 # تجاهل ملفات البناء المؤقتة
 .next/
 .vercel/
-dist/
 build/
 
 # تجاهل ملفات IDE
