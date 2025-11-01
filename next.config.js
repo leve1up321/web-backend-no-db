@@ -1,16 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverComponentsExternalPackages: ['mongodb', 'bcryptjs', 'jsonwebtoken']
-  },
+  serverExternalPackages: ['mongodb', 'bcryptjs', 'jsonwebtoken'],
   env: {
     ZIINA_SECRET_KEY: process.env.ZIINA_SECRET_KEY,
     ZIINA_WEBHOOK_SECRET: process.env.ZIINA_WEBHOOK_SECRET,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     BLOB_READ_WRITE_TOKEN: process.env.BLOB_READ_WRITE_TOKEN,
     JWT_SECRET: process.env.JWT_SECRET,
-    DATABASE_URL: process.env.DATABASE_URL,
-    NODE_ENV: process.env.NODE_ENV
+    DATABASE_URL: process.env.DATABASE_URL
   },
   async headers() {
     return [
