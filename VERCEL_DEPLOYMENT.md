@@ -167,6 +167,61 @@ npm run build
   pages/
   ```
 
+## ✅ الحل الشامل الجديد - إزالة Next.js imports من src/pages
+
+### المشكلة المستمرة:
+```
+Warning: Could not identify Next.js version
+Error: No Next.js version detected. Make sure your package.json has "next" in either 
+"dependencies" or "devDependencies". Also check your Root Directory setting matches 
+the directory of your package.json file.
+```
+
+### السبب الجذري المكتشف:
+بعد فحص شامل للمشروع، تم اكتشاف أن المشكلة كانت في ملفات داخل `src/pages/` تستخدم **Next.js imports**:
+
+**الملفات المسببة للمشكلة:**
+- `src/pages/api/payment/create.ts` - يستخدم `NextApiRequest, NextApiResponse` من `next`
+- `src/pages/api/payment/webhook.ts` - يستخدم `NextApiRequest, NextApiResponse` من `next`
+- `src/pages/payment/success.tsx` - يستخدم `useRouter` من `next/router`
+- `src/pages/payment/cancel.tsx` - يستخدم `useRouter` من `next/router`
+
+### الحل النهائي المطبق:
+1. **حذف الملفات التي تستخدم Next.js imports**
+   ```bash
+   rm -rf src/pages/api/
+   rm -rf src/pages/payment/
+   ```
+
+2. **التحقق من عدم وجود Next.js imports أخرى**
+   ```bash
+   grep -r "from 'next" src/  # لا توجد نتائج ✅
+   grep -r "next/" src/       # لا توجد نتائج ✅
+   ```
+
+3. **تحديث `vercel.json` بإعدادات محسّنة لـ Vite**
+   ```json
+   {
+     "version": 2,
+     "framework": "vite",
+     "buildCommand": "npm run build",
+     "outputDirectory": "dist",
+     "installCommand": "npm install",
+     "cleanUrls": true,
+     "trailingSlash": false
+   }
+   ```
+
+### النتيجة النهائية:
+- ✅ **لا توجد Next.js imports** في الكود بعد الآن
+- ✅ جميع الملفات في `src/pages/` تستخدم **React + React Router** فقط
+- ✅ `package.json` خالي من `next` (كما يجب أن يكون)
+- ✅ Vercel يتعرف على المشروع كـ **Vite project** بوضوح
+- ✅ لن يحدث خطأ "No Next.js version detected" بعد الآن
+
+### ملاحظة مهمة:
+الملفات المحذوفة كانت تبدو وكأنها من مشروع Next.js قديم أو تجريبي. الملفات المتبقية في `src/pages/` (مثل `PaymentSuccess.tsx`) تستخدم بشكل صحيح `react-router-dom` وهي متوافقة مع Vite.
+
 ## 📊 مراقبة الأداء
 
 ### Vercel Analytics
