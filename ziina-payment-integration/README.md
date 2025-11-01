@@ -71,16 +71,23 @@ NEXT_PUBLIC_API_URL=https://your-backend-domain.railway.app
 
 1. Create a new Railway project
 2. Connect your GitHub repository
-3. Select the `backend` folder as root
-4. Add environment variables in Railway dashboard
+3. Set root directory to `ziina-payment-integration/backend`
+4. Add environment variables in Railway dashboard:
+   - `ZIINA_SECRET_KEY`
+   - `ZIINA_WEBHOOK_SECRET`
+   - `FRONTEND_URL`
+   - `NODE_ENV=production`
 5. Deploy automatically
 
 ### Deploy Frontend to Vercel
 
 1. Connect your GitHub repository to Vercel
-2. Set root directory to `frontend`
-3. Add environment variables in Vercel dashboard
+2. Set root directory to `ziina-payment-integration/frontend`
+3. Add environment variables in Vercel dashboard:
+   - `NEXT_PUBLIC_API_URL` (your Railway backend URL)
 4. Deploy automatically
+
+**Important:** Make sure to update the `NEXT_PUBLIC_API_URL` in your frontend environment variables with your actual Railway backend URL after deployment.
 
 ## 🔒 Security Features
 
