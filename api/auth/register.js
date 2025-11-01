@@ -1,8 +1,5 @@
-import { v4 as uuidv4 } from 'uuid';
-import bcrypt from 'bcryptjs';
-
-// In-memory user storage (في التطبيق الحقيقي، استخدم قاعدة بيانات)
-const users = new Map();
+import { hashPassword, generateToken, isValidEmail, isValidPassword, sanitizeUser } from '../../lib/auth.js';
+import { connectDB } from '../../lib/mongodb.js';
 
 export default async function handler(req, res) {
   // Set CORS headers
@@ -24,7 +21,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { name, email, password, phone } = req.body;
+    const { name, email, password, phone, address, city } = req.body;
 
     // Validate required fields
     if (!name || !email || !password) {
@@ -35,16 +32,30 @@ export default async function handler(req, res) {
     }
 
     // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!isValidEmail(email)) {
       return res.status(400).json({
         success: false,
         message: 'صيغة البريد الإلكتروني غير صحيحة'
       });
     }
 
+    // Validate password strength
+    if (!isValidPassword(password)) {
+      return res.status(400).json({
+        success: false,
+        message: 'كلمة المرور يجب أن تكون 8 أحرف على الأقل وتحتوي على حرف كبير وحرف صغير ورقم'
+      });
+    }
+
+    // Connect to database
+    const { db } = await connectDB();
+    const usersCollection = db.collection('users');
+
     // Check if user already exists
-    const existingUser = Array.from(users.values()).find(user => user.email === email);
+    const existingUser = await usersCollection.findOne({ 
+      email: email.toLowerCase().trim() 
+    });
+    
     if (existingUser) {
       return res.status(409).json({
         success: false,
@@ -53,39 +64,55 @@ export default async function handler(req, res) {
     }
 
     // Hash password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const hashedPassword = await hashPassword(password);
 
-    // Create new user
-    const userId = uuidv4();
-    const newUser = {
-      id: userId,
-      name,
-      email,
-      phone: phone || null,
+    // Create user data
+    const userData = {
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
       password: hashedPassword,
-      createdAt: new Date().toISOString(),
-      isActive: true
+      phone: phone?.trim() || '',
+      address: address?.trim() || '',
+      city: city?.trim() || '',
+      country: 'UAE',
+      isEmailVerified: false,
+      isActive: true,
+      stats: {
+        totalOrders: 0,
+        totalSpent: 0,
+        totalReviews: 0,
+        averageRating: 0
+      },
+      preferences: {
+        language: 'ar',
+        currency: 'AED',
+        notifications: {
+          email: true,
+          sms: false,
+          push: false
+        }
+      },
+      createdAt: new Date(),
+      updatedAt: new Date()
     };
 
-    // Store user (في التطبيق الحقيقي، احفظ في قاعدة البيانات)
-    users.set(userId, newUser);
+    // Insert user into database
+    const result = await usersCollection.insertOne(userData);
+    const newUser = { ...userData, _id: result.insertedId };
 
-    // Generate simple token (في التطبيق الحقيقي، استخدم JWT)
-    const token = Buffer.from(`${userId}:${Date.now()}`).toString('base64');
+    // Generate JWT token
+    const token = generateToken({
+      userId: newUser._id.toString(),
+      email: newUser.email,
+      name: newUser.name
+    });
 
     // Return success response
     return res.status(201).json({
       success: true,
       message: 'تم إنشاء الحساب بنجاح',
       data: {
-        user: {
-          id: newUser.id,
-          name: newUser.name,
-          email: newUser.email,
-          phone: newUser.phone,
-          createdAt: newUser.createdAt
-        },
+        user: sanitizeUser(newUser),
         token
       }
     });
