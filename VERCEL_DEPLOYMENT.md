@@ -222,6 +222,46 @@ the directory of your package.json file.
 ### ملاحظة مهمة:
 الملفات المحذوفة كانت تبدو وكأنها من مشروع Next.js قديم أو تجريبي. الملفات المتبقية في `src/pages/` (مثل `PaymentSuccess.tsx`) تستخدم بشكل صحيح `react-router-dom` وهي متوافقة مع Vite.
 
+## ✅ الحل الإضافي - تحويل API functions من Next.js pattern
+
+### المشكلة المكتشفة حديثاً:
+رغم حل مشكلة `src/pages/`، ما زال هناك تحذير:
+```
+WARN! When using Next.js, it is recommended to place JavaScript Functions inside of the `pages/api` (provided by Next.js) directory instead of `api` (provided by Vercel).
+```
+
+### السبب الإضافي:
+ملفات في مجلد `api/` الجذر تستخدم **Next.js handler pattern**:
+```javascript
+// Next.js pattern (يسبب التحذير):
+export default async function handler(req, res) {
+```
+
+### الحل الإضافي المطبق:
+تحويل جميع ملفات API إلى **Vercel Serverless Function pattern**:
+
+**الملفات المحولة:**
+- ✅ `api/payment_intent.js` - من `handler` إلى anonymous function
+- ✅ `api/webhook.js` - من `handler` إلى anonymous function  
+- ✅ `api/auth/login.js` - من `handler` إلى anonymous function
+- ✅ `api/auth/register.js` - من `handler` إلى anonymous function
+
+**التحويل:**
+```javascript
+// من:
+export default async function handler(req, res) {
+
+// إلى:
+export default async function (req, res) {
+```
+
+### النتيجة النهائية المحدثة:
+- ✅ **لا توجد Next.js imports** في الكود
+- ✅ **لا توجد Next.js handler patterns** في API functions
+- ✅ جميع API functions تستخدم **Vercel Serverless Function pattern**
+- ✅ Vercel سيتعرف على المشروع كـ **Vite + Vercel Functions** بوضوح
+- ✅ **لن يحدث أي تحذيرات Next.js** بعد الآن
+
 ## 📊 مراقبة الأداء
 
 ### Vercel Analytics

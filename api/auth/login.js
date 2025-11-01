@@ -2,7 +2,7 @@ import { verifyPassword, generateToken, isValidEmail, sanitizeUser } from '../..
 import { connectDB } from '../../lib/mongodb.js';
 import { MongoClient, ObjectId } from 'mongodb';
 
-export default async function handler(req, res) {
+export default async function (req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');

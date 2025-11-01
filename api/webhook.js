@@ -2,7 +2,7 @@ import { verifyWebhookSignature } from '../lib/ziina.js';
 import { updateOrder, findOrder } from '../lib/database.js';
 import { sendOrderConfirmationEmail } from '../lib/email.js';
 
-export default async function handler(req, res) {
+export default async function (req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
