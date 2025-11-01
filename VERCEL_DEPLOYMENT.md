@@ -153,13 +153,18 @@ npm run build
 # تحقق من إضافتها جميعاً في Vercel
 ```
 
-### المشكلة: خطأ "Cannot find module 'autoprefixer'"
+### المشكلة: خطأ "Cannot find module 'autoprefixer'" أو "No Next.js version detected"
 **الحل:**
-- هذا يحدث عندما يحاول Vercel بناء مجلد `ziina-payment-integration/frontend/`
-- تم إضافة `.vercelignore` لتجاهل هذا المجلد
+- هذا يحدث عندما يحاول Vercel بناء مجلد `ziina-payment-integration/frontend/` أو يكتشف ملفات Next.js
+- تم حذف مجلد `pages/` من الجذر الذي كان يسبب التباساً
+- تم إضافة `.vercelignore` لتجاهل المجلدات غير المطلوبة
+- تم تحديث `vercel.json` لتوضيح أن هذا مشروع Vite وليس Next.js
 - إذا استمر الخطأ، تأكد من أن `.vercelignore` يحتوي على:
   ```
   ziina-payment-integration/
+  next.config.*
+  .next/
+  pages/
   ```
 
 ## 📊 مراقبة الأداء

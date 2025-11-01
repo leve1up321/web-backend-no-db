@@ -2,6 +2,11 @@
 # هذا مشروع منفصل وليس جزءاً من المشروع الرئيسي
 ziina-payment-integration/
 
+# تجاهل أي ملفات Next.js قد تسبب التباساً
+next.config.*
+.next/
+pages/
+
 # تجاهل ملفات التطوير
 *.log
 .env.local
@@ -27,4 +32,3 @@ build/
 # تجاهل ملفات النظام
 .DS_Store
 Thumbs.db
-
