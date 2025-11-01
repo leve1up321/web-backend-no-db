@@ -1,0 +1,30 @@
+# تجاهل مجلد ziina-payment-integration أثناء البناء
+# هذا مشروع منفصل وليس جزءاً من المشروع الرئيسي
+ziina-payment-integration/
+
+# تجاهل ملفات التطوير
+*.log
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# تجاهل مجلدات node_modules الفرعية
+**/node_modules/
+
+# تجاهل ملفات البناء المؤقتة
+.next/
+.vercel/
+dist/
+build/
+
+# تجاهل ملفات IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# تجاهل ملفات النظام
+.DS_Store
+Thumbs.db
+

@@ -153,6 +153,15 @@ npm run build
 # تحقق من إضافتها جميعاً في Vercel
 ```
 
+### المشكلة: خطأ "Cannot find module 'autoprefixer'"
+**الحل:**
+- هذا يحدث عندما يحاول Vercel بناء مجلد `ziina-payment-integration/frontend/`
+- تم إضافة `.vercelignore` لتجاهل هذا المجلد
+- إذا استمر الخطأ، تأكد من أن `.vercelignore` يحتوي على:
+  ```
+  ziina-payment-integration/
+  ```
+
 ## 📊 مراقبة الأداء
 
 ### Vercel Analytics
