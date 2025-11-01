@@ -1,17 +1,22 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "levelup-store-nextjs",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "engines": {
     "node": "22.x"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "node scripts/test-webhook.js",
+    "test:webhook": "bash scripts/test-webhook.sh",
+    "test:webhook:windows": "powershell -ExecutionPolicy Bypass -File scripts/test-webhook-windows.ps1",
+    "check-webhook": "echo 'Testing webhook...' && curl -X POST http://localhost:3000/api/webhook -H 'Content-Type: application/json' -H 'x-ziina-signature: test-signature' -d '{\"event_type\":\"payment_intent.succeeded\",\"data\":{\"id\":\"test-123\"}}'",
+    "clean": "rm -rf .next out dist",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -60,10 +65,11 @@
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.462.0",
     "mongodb": "^6.20.0",
+    "next": "^16.0.1",
     "next-themes": "^0.3.0",
-    "react": "^18.3.1",
+    "react": "^19.2.0",
     "react-day-picker": "^8.10.1",
-    "react-dom": "^18.3.1",
+    "react-dom": "^19.2.0",
     "react-hook-form": "^7.61.1",
     "react-resizable-panels": "^2.1.9",
     "react-router-dom": "^6.30.1",
