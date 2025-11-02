@@ -1,0 +1,16 @@
+<svg width="120" height="75" viewBox="0 0 120 75" xmlns="http://www.w3.org/2000/svg">
+  <rect width="120" height="75" rx="8" fill="white" stroke="#ddd" stroke-width="1"/>
+  
+  <!-- Mastercard Logo -->
+  <g transform="translate(20, 15)">
+    <!-- Left Circle (Red) -->
+    <circle cx="20" cy="22.5" r="18" fill="#EB001B"/>
+    <!-- Right Circle (Orange/Yellow) -->
+    <circle cx="60" cy="22.5" r="18" fill="#F79E1B"/>
+    <!-- Intersection Area -->
+    <path d="M40 8.5C44.5 12.5 47 17.2 47 22.5C47 27.8 44.5 32.5 40 36.5C35.5 32.5 33 27.8 33 22.5C33 17.2 35.5 12.5 40 8.5Z" fill="#FF5F00"/>
+  </g>
+  
+  <!-- Mastercard Text -->
+  <text x="60" y="62" text-anchor="middle" fill="#000" font-family="Arial, sans-serif" font-size="9" font-weight="bold">mastercard</text>
+</svg>

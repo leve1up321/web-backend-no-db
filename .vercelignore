@@ -1,0 +1,35 @@
+# تجاهل الملفات القديمة من Vite
+src/
+api/
+index.html
+vite.config.ts
+tsconfig.app.json
+tsconfig.node.json
+dist/
+
+# تجاهل ملفات التطوير
+*.log
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+debug.html
+dev-server.js
+
+# تجاهل مجلدات node_modules الفرعية
+**/node_modules/
+
+# تجاهل ملفات البناء المؤقتة
+.next/
+.vercel/
+build/
+
+# تجاهل ملفات IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# تجاهل ملفات النظام
+.DS_Store
+Thumbs.db
