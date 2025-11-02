@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+"use client"
+
+import Link from "next/link";
 
 export const Footer = () => {
   return (
@@ -22,9 +24,9 @@ export const Footer = () => {
           <div>
             <h3 className="font-bold mb-4">روابط سريعة</h3>
             <ul className="space-y-2">
-              <li><Link to="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">الرئيسية</Link></li>
-              <li><Link to="/products" className="text-sm text-muted-foreground hover:text-primary transition-colors">المنتجات</Link></li>
-              <li><Link to="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">الأسئلة الشائعة</Link></li>
+              <li><Link href="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">الرئيسية</Link></li>
+              <li><Link href="/products" className="text-sm text-muted-foreground hover:text-primary transition-colors">المنتجات</Link></li>
+              <li><Link href="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">الأسئلة الشائعة</Link></li>
             </ul>
           </div>
 
@@ -32,7 +34,7 @@ export const Footer = () => {
           <div>
             <h3 className="font-bold mb-4">الدعم</h3>
             <ul className="space-y-2">
-              <li><Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">اتصل بنا</Link></li>
+              <li><Link href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">اتصل بنا</Link></li>
               <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">الشروط والأحكام</a></li>
               <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">سياسة الخصوصية</a></li>
             </ul>
