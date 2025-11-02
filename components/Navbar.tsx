@@ -1,96 +1,78 @@
-"use client"
+import { ShoppingCart, Heart, User, Globe } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
-import Link from 'next/link'
-import { ShoppingCart, Menu, X } from 'lucide-react'
-import { useState } from 'react'
-
-export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-
+export const Navbar = () => {
   return (
-    <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 space-x-reverse">
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Level Up
+          <Link to="/" className="flex items-center gap-2">
+            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+              <span className="text-2xl">🚀</span>
+            </div>
+            <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              متجر لفل اب
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6 space-x-reverse">
-            <Link href="/" className="text-sm font-medium hover:text-primary transition-colors">
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center gap-8">
+            <Link to="/" className="text-foreground hover:text-primary transition-colors">
               الرئيسية
             </Link>
-            <Link href="/products" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link to="/products" className="text-foreground hover:text-primary transition-colors">
               المنتجات
             </Link>
-            <Link href="/about" className="text-sm font-medium hover:text-primary transition-colors">
-              من نحن
+            <Link to="/reviews" className="text-foreground hover:text-primary transition-colors">
+              الشبكات
             </Link>
-            <Link href="/contact" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link to="/faq" className="text-foreground hover:text-primary transition-colors">
+              الأسئلة الشائعة
+            </Link>
+            <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
               اتصل بنا
             </Link>
           </div>
 
-          {/* Cart Icon */}
-          <div className="flex items-center space-x-4 space-x-reverse">
-            <Link 
-              href="/cart" 
-              className="relative p-2 hover:bg-accent rounded-md transition-colors"
+          {/* Actions */}
+          <div className="flex items-center gap-2">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full"
+              onClick={() => alert('تسجيل الدخول')}
             >
-              <ShoppingCart className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                0
-              </span>
-            </Link>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2 hover:bg-accent rounded-md transition-colors"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              <User className="w-5 h-5" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full"
+              onClick={() => alert('المفضلة')}
             >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+              <Heart className="w-5 h-5" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="rounded-full"
+              onClick={() => alert('السلة فارغة')}
+            >
+              <ShoppingCart className="w-5 h-5" />
+            </Button>
+            <Button variant="ghost" size="sm" className="gap-2">
+              <Globe className="w-4 h-4" />
+              <span className="hidden sm:inline">العربية</span>
+            </Button>
+            <Button variant="ghost" size="sm" className="gap-2 bg-muted/50">
+              <span>SAR</span>
+              <span className="text-xs">🇸🇦</span>
+            </Button>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 space-y-4">
-            <Link 
-              href="/" 
-              className="block py-2 text-sm font-medium hover:text-primary transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              الرئيسية
-            </Link>
-            <Link 
-              href="/products" 
-              className="block py-2 text-sm font-medium hover:text-primary transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              المنتجات
-            </Link>
-            <Link 
-              href="/about" 
-              className="block py-2 text-sm font-medium hover:text-primary transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              من نحن
-            </Link>
-            <Link 
-              href="/contact" 
-              className="block py-2 text-sm font-medium hover:text-primary transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              اتصل بنا
-            </Link>
-          </div>
-        )}
       </div>
     </nav>
-  )
-}
-
+  );
+};
