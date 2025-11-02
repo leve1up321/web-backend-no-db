@@ -11,7 +11,11 @@ export const metadata: Metadata = {
   description: 'متجر إلكتروني متطور للمنتجات الرقمية والخدمات',
   keywords: 'متجر إلكتروني, منتجات رقمية, خدمات, لفل اب',
   authors: [{ name: 'Level Up Team' }],
-  viewport: 'width=device-width, initial-scale=1',
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({
@@ -35,4 +39,3 @@ export default function RootLayout({
     </html>
   )
 }
-
