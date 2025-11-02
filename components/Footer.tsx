@@ -1,112 +1,66 @@
-"use client"
+import { Link } from "react-router-dom";
 
-import Link from 'next/link'
-import { Facebook, Twitter, Instagram, Mail, Phone } from 'lucide-react'
-
-export function Footer() {
+export const Footer = () => {
   return (
-    <footer className="border-t bg-background">
+    <footer className="border-t border-border bg-card/30 backdrop-blur-sm">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* About Section */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          {/* Logo & Description */}
           <div className="space-y-4">
-            <h3 className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Level Up Store
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              متجرك الموثوق للمنتجات الرقمية والخدمات عالية الجودة
-            </p>
-            <div className="flex space-x-4 space-x-reverse">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                <Instagram className="h-5 w-5" />
-              </a>
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                <span className="text-2xl">🚀</span>
+              </div>
+              <span className="text-xl font-bold">متجر لفل اب</span>
             </div>
+            <p className="text-sm text-muted-foreground">
+              منصتك الموثوقة للربح من المنتجات الرقمية
+            </p>
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">روابط سريعة</h3>
+          <div>
+            <h3 className="font-bold mb-4">روابط سريعة</h3>
             <ul className="space-y-2">
-              <li>
-                <Link href="/products" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  المنتجات
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  من نحن
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  اتصل بنا
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  الأسئلة الشائعة
-                </Link>
-              </li>
+              <li><Link to="/" className="text-sm text-muted-foreground hover:text-primary transition-colors">الرئيسية</Link></li>
+              <li><Link to="/products" className="text-sm text-muted-foreground hover:text-primary transition-colors">المنتجات</Link></li>
+              <li><Link to="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">الأسئلة الشائعة</Link></li>
             </ul>
           </div>
 
-          {/* Customer Service */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">خدمة العملاء</h3>
+          {/* Support */}
+          <div>
+            <h3 className="font-bold mb-4">الدعم</h3>
             <ul className="space-y-2">
-              <li>
-                <Link href="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  الشروط والأحكام
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  سياسة الخصوصية
-                </Link>
-              </li>
-              <li>
-                <Link href="/refund" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  سياسة الاسترجاع
-                </Link>
-              </li>
-              <li>
-                <Link href="/support" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  الدعم الفني
-                </Link>
-              </li>
+              <li><Link to="/contact" className="text-sm text-muted-foreground hover:text-primary transition-colors">اتصل بنا</Link></li>
+              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">الشروط والأحكام</a></li>
+              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">سياسة الخصوصية</a></li>
             </ul>
           </div>
 
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">تواصل معنا</h3>
-            <ul className="space-y-2">
-              <li className="flex items-center space-x-2 space-x-reverse text-sm text-muted-foreground">
-                <Mail className="h-4 w-4" />
-                <span>info@levelupstore.com</span>
-              </li>
-              <li className="flex items-center space-x-2 space-x-reverse text-sm text-muted-foreground">
-                <Phone className="h-4 w-4" />
-                <span>+966 XX XXX XXXX</span>
-              </li>
-            </ul>
+          {/* Social Media */}
+          <div>
+            <h3 className="font-bold mb-4">تابعنا</h3>
+            <div className="flex gap-3">
+              <a href="#" className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors">
+                <span>📱</span>
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors">
+                <span>🐦</span>
+              </a>
+              <a href="#" className="w-10 h-10 rounded-full bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors">
+                <span>📘</span>
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="mt-12 pt-8 border-t text-center">
+        <div className="border-t border-border pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} Level Up Store. جميع الحقوق محفوظة.
+            © 2024 متجر لفل اب. جميع الحقوق محفوظة.
           </p>
         </div>
       </div>
     </footer>
-  )
-}
-
+  );
+};
