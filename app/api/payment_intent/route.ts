@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createPaymentIntent } from '@/lib/ziina'
+import ziinaGateway from '@/lib/ziina'
 import { createOrder } from '@/lib/database'
 
 export async function POST(request: NextRequest) {
@@ -40,14 +40,14 @@ export async function POST(request: NextRequest) {
     let description = 'منتج من متجر لفل اب'
     if (items && items.length > 0) {
       description = items
-        .map((item: any) => `${item.title} x${item.quantity}`)
+        .map((item: { title: string; quantity: number }) => `${item.title} x${item.quantity}`)
         .join(', ')
     } else if (productName) {
       description = productName
     }
 
     // Create payment intent with Ziina
-    const paymentResult = await createPaymentIntent({
+    const paymentResult = await ziinaGateway.createPaymentIntent({
       amount: finalAmount,
       currency: 'AED',
       description,
@@ -113,4 +113,3 @@ export async function POST(request: NextRequest) {
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200 })
 }
-

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { verifyWebhookSignature } from '@/lib/ziina'
+import ziinaGateway from '@/lib/ziina'
 import { updateOrder, findOrder } from '@/lib/database'
 import { sendOrderConfirmationEmail } from '@/lib/email'
 import crypto from 'crypto'
@@ -231,4 +231,3 @@ export async function POST(request: NextRequest) {
     }, { status: 500 })
   }
 }
-
