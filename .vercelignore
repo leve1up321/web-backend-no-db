@@ -1,6 +1,5 @@
 # تجاهل الملفات القديمة من Vite
 src/
-api/
 index.html
 vite.config.ts
 tsconfig.app.json
