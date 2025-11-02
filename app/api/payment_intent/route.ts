@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     let description = 'منتج من متجر لفل اب'
     if (items && items.length > 0) {
       description = items
-        .map((item: any) => `${item.title} x${item.quantity}`)
+        .map((item: { title: string; quantity: number }) => `${item.title} x${item.quantity}`)
         .join(', ')
     } else if (productName) {
       description = productName
@@ -113,4 +113,3 @@ export async function POST(request: NextRequest) {
 export async function OPTIONS() {
   return new NextResponse(null, { status: 200 })
 }
-
