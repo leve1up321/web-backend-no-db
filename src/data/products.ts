@@ -53,7 +53,7 @@ export const products: Product[] = [
       </ul>
     `,
     price: 57,
-    image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&h=500&fit=crop",
+    image: "/product-1.png",
     category: "كتب رقمية",
     features: ["PDF تفاعلي", "تحميل فوري", "15+ فكرة مشروع", "خطة عملية"],
     pages: "25 صفحة",
@@ -132,7 +132,7 @@ export const products: Product[] = [
       <p>التعلم من تجربة واقعية وتجنب الأخطاء المكلفة!</p>
     `,
     price: 39,
-    image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=500&h=500&fit=crop",
+    image: "/product-2.png",
     category: "كتب رقمية",
     features: ["PDF احترافي", "تحميل فوري", "خبرة حقيقية", "دخل سلبي"],
     pages: "10 صفحات",
@@ -198,7 +198,7 @@ export const products: Product[] = [
       <p>استثمر ٤ ريال فقط وخذ أول خطوة في طريقك للربح من الإنترنت 💡</p>
     `,
     price: 4,
-    image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=500&h=500&fit=crop",
+    image: "/product-3.png",
     category: "كتب رقمية",
     features: ["دليل للمبتدئين", "أساسيات مهمة", "سعر مناسب", "خطوة أولى"],
     pages: "5 صفحات",
